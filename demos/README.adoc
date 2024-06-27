@@ -1,0 +1,24 @@
+
+= Demos for the Micro-PET family
+
+There are two categories of demos:
+
+* Colour-PET compatible
+* Native Micro-PET
+
+As the Colour-PET is an established platform (that is re-created by the Micro-PET),
+some games have been ported to the Colour-PET, and can run on the Micro-PET.
+
+Demos are notoriously timing-sensitive, especially the newer ones, so the Colour-PET demos may or may not
+work on the Micro-PET
+
+== Micro-PET demos
+
+== Colour-PET demos
+
+* https://milasoft64.itch.io/petopia The Petopia demo with colour.
+* 
+
+
+
+

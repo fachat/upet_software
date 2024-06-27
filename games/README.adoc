@@ -1,0 +1,31 @@
+
+= Games for the Micro-PET family
+
+There are two categories of games:
+
+* Colour-PET compatible
+* Native Micro-PET
+
+As the Colour-PET is an established platform (that is re-created by the Micro-PET),
+some games have been ported to the Colour-PET, and can run on the Micro-PET.
+
+NOTE:: none of these games have been tested yet. Compatibility is based on schematics and feature comparison.
+
+== Colour-PET games
+
+* https://milasoft64.itch.io/colour-commodore-pet-space-invaders-v1 Colour Space Invadors by milasoft (untested on upet)
+* https://milasoft64.itch.io/gridrunner Jeff Minter's Gridrunner (tested & works - also joystick-enabled) 
+
+== Joystick-enabled games
+
+These games use the *stupid PET tricks* userport extension (which is actually older than that name for it),
+that is also included in the *Ulti-PET* (but not the others!)
+
+* https://milasoft64.itch.io/stupid-pet-tricks-easter-fun-pack
+* https://milasoft64.itch.io/stupid-pet-tricks-game-pack-20
+* https://milasoft64.itch.io/stupid-pet-tricks-game-pack-v1
+
+== Micro-PET games
+
+
+

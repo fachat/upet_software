@@ -1,0 +1,11 @@
+= Benchmarks
+
+
+Benchmark display::
+	The *bench* program - as created by running *make* - measures the system speed,
+	and displays it on the screen.
+
+Comparison with other machines::
+	The sub-repository link:../cbm-benchmarks[*cbm-benchmarks*] contains a set of benchmarks that have been
+	run on different machines as well, and allow a comparison with the Micro-PET family of machines.
+

@@ -1,0 +1,25 @@
+
+= Software for the Micro-PET family!
+
+A collection of software for the *Micro-PET*, *Ultra-CPU*, and *Ulti-PET* machines.
+
+Note: this can be used stand-alone, but is also a part of a larger set of repositories, with https://github.com/fachat/upet_family[upet_family] as the main repository.
+
+== Games
+
+The games listed in this section are mostly for the Colour-PET, as this is an established platform and 
+already emulated in the VICE emulator.
+
+You can find infos on games in the link:games/README.adoc[games section].
+
+== Benchmarks
+
+The benchmarks show off the performance of the Micro-PET platform.
+
+You can find benchmark in the link:benchmarks/README.adoc[benchmarks section].
+
+== Tests
+
+The programs in the link:tests/README.adoc[tests section] allow testing the machine 
+during the build process.
+
