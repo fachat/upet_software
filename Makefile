@@ -1,4 +1,6 @@
 
+BASE=$(shell git remote -v | cut -f 2- | sed -e "s%fachat/.*%fachat%g" | uniq )
+
 all: 
 
 ########################################################
@@ -17,5 +19,5 @@ update: $(REPOS)
 ########################################################
 
 cbm-benchmarks:
-	git clone https://github.com/fachat/cbm-benchmarks.git
+	git clone $(BASE)/cbm-benchmarks.git
 
