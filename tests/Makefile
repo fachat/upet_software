@@ -1,6 +1,6 @@
 
-ASM=map 8296screen virtpet
-BASIC=readflash rtcc batmem sdcard
+ASM=map 8296screen virtpet i2c
+BASIC=readflash rtcc batmem sdcard showcols
 
 all: ${ASM} ${BASIC}
 
@@ -8,7 +8,7 @@ clean:
 	rm -f ${ASM} ${BASIC}
 
 ${ASM}: %: %.a65
-	xa -w -M $< -o $@
+	xa -w -XMASM $< -o $@
 
 ${BASIC}: %: %.lst
 	petcat -w40 -o $@ $<
