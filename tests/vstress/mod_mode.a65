@@ -1,0 +1,217 @@
+
+	;---------------------------------------
+	; mode detection
+	lda #0
+	sta mode
+
+	; ------------------------
+	; CS/A detection
+	.(
+	lda #0
+	sta SYSPORT
+	eor SYSPORT
+	and #%00111110
+	bne nocsa
+	lda #SYS_IRQEN + SYS_LED
+	sta SYSPORT
+	eor SYSPORT
+	and #%00111110
+	bne nocsa
+
+	lda #0
+	sta SYSPORT
+
+	lda mode
+	ora #MODE_CSA
+	sta mode
+
+	; CS/A speed = 40/80 col detection
+
+	lda mode		; defaults to 40 cols
+	ora #MODE_40COL
+	sta mode
+
+          lda #SYS_IRQEN
+          sta SYSPORT
+gf1       lda SYSPORT
+          bpl gf1
+          sta SYSPORT
+          bit SYSPORT
+          bmi gf1
+          lda #0
+          tay
+          tax
+gf2       bit SYSPORT
+          bmi gfe
+          clc
+          adc #1
+          bne gf2
+          inx
+          bne gf2
+          iny
+          bne gf2
+gfe       cpx #8    ; more than 2 MHZ
+          bcc endfrq
+          lda #MODE_2MHZ
+	ora mode
+	and #255-MODE_40COL
+	sta mode
+	; disable interrupt again
+endfrq	lda #0
+        sta SYSPORT
+	.)
+nocsa
+
+	;---------------------------------------
+	; check for 8x96
+
+	.(
+	; save the interrupt/reset vectors
+	ldx #$05
+l116e	lda $fffa,x
+	sta intvect,x	; la73,x
+	dex
+	bpl l116e
+
+	; enable 8x96 memory mapping
+	lda #$80
+	sta $fff0
+
+	; compare interrupt/reset vectors
+	ldx #$05
+l117e	lda intvect,x	; la73,x
+	eor $fffa,x
+	bne is8296
+	dex
+	bpl l117e
+	bmi no8296
+	
+is8296 	; we have 8x96
+	lda mode
+	ora #MODE_8296
+	sta mode
+no8296	
+	lda #0		; disable 8296 mapping
+	sta $fff0
+	.)
+
+	;---------------------------------------
+	; check for the Micro-PET
+	;
+	; we check for the write-protect bit for $9xxx
+	; also, disable write protect in $9xxx for
+	; test code to be executed there
+	.(
+	lda #$f0	; enable write protect
+	sta $e801
+	ldx $9000
+	inc $9000
+	cpx $9000
+	bne noupet	; switch even though write protect is on
+	lda #$e0
+	sta $e801	; disable write protect
+	inc $9000
+	cpx $9000
+	beq noupet	; stays the same even though write potect is off
+
+	lda #UPET_RUNSPEED
+	sta $e803	; default to 12 MHz
+
+	lda mode
+	ora #MODE_UPET
+	sta mode
+	and #MODE_8296
+	beq ckultr
+	; we have upet in 8296 mode
+	lda #$e8	; re-enable 8296 mode
+	sta $e801
+
+ckultr
+	; check for Ultra-PET, i.e. colour capability
+	; we do this by checking the mapping of the upper 2k
+	; of the $8xxx video memory window.
+	; in Micro-PET this is immediately behind the first half
+	; in bank 8 (video bank), in the Ultra-PET it is 
+	; in the mapped to 16k behind the character memory in bank 8.
+	
+	lda #$20
+	sta $e802	; standard video mapping
+
+	ldy $8800	; save original value
+
+	; prime test 
+	lda #$55
+	sta $08d000
+	; check
+	asl
+	sta $8800
+	cmp $08d000
+	bne noultra
+
+	; set colour bit
+	lda mode
+	ora #MODE_ULTRACOL
+	sta mode
+
+noultra	sty $8800
+noupet	stx $9000
+	.)
+
+	;---------------------------------------
+	; check for 40/80 column PET
+	; note - 40 col mode in 1MHz CS/A is already set above
+	.(
+	ldx $8400
+	lda mode
+	and #MODE_CSA+MODE_UPET+MODE_8296
+	bne no4032
+	lda #0
+	sta $8400
+	cmp $8400
+	bne is4032
+	eor #$ff
+	sta $8400
+	cmp $8400
+	beq no4032
+is4032	lda mode
+	ora #MODE_40COL
+	sta mode
+no4032	stx $8400
+	.)
+
+	
+	;---------------------------------------
+	; put mode info on screen
+	.(
+	lda mode
+	asl
+	bcs upetorultr
+	asl
+	bcs csa
+	asl
+	bcs c8296
+	asl
+	bcs c4032
+	bcc nochg
+
+upetorultr
+	and #MODE_ULTRACOL*2
+	beq upet
+ultra	ldy #m_ultr-modes+3
+	.byt $2c
+c4032	ldy #m_4032-modes+3
+	.byt $2c
+c8296	ldy #m_8296-modes+3
+	.byt $2c
+upet	ldy #m_upet-modes+3
+	.byt $2c
+csa	ldy #m_csa-modes+3
+	ldx #3
+mloop	lda modes,y
+	sta m_name,x
+	dey
+	dex
+	bpl mloop
+nochg	.)
+	
+

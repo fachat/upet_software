@@ -1,0 +1,98 @@
+
+	; This routing copies the code down to start from $0200
+	; Due to the length of the code, it overwrites the initial
+	; boot code.
+	;
+	; The original binary had enough space before the start
+	; of the program so that it could be copied to the lower
+	; address.
+	; 
+	; In this version there is not enough space, so copying
+	; is done only once, and checks are done byte by byte.
+	.(
+
+	; actual code to init
+	ldx #$ff
+	txs
+	stx tmp1	; XOR value ($ff)
+	jsr xcopy	; copy code to $200-$aff with XOR
+;	jsr xcomp	; check copied code
+;	bne l10b1
+;	inc tmp1	; next XOR value($00)
+;	jsr xcopy	
+;	jsr xcomp
+	bne enderr
+l10ae	jmp $0200	; jump to code copied from $1162 (startofprg)
+
+        ; DIAGNOSTIC RAM BAD: BIT"
+l1138   .byt "DIA"              ; $44,$49,$41
+        .byt "GNO"              ; $47,$4e,$4f
+        .byt "STI"              ; $53,$54,$49
+        .byt "C R"              ; $43,$20,$52
+        .byt "AM "              ; $41,$4d,$20
+        .byt "BAD"              ; $42,$41,$44
+        .byt ": B"              ; $3a,$20,$42
+        .byt "IT", 0            ; $49,$54,$00
+
+
+	; write error message to screen
+enderr	.(
+	tax
+l10b2	lda l1138,y
+	beq done
+	ora #$80
+	sta $8000,y
+	iny
+	bne l10b2
+done 	.)
+	; copy from mod_zpstack, as this may have already been overwritten
+        ; write lowest error bit in mismatch byte on screen
+	.(
+        txa
+        ldx #$38
+l107e   dex
+        asl
+        bne l107e
+        txa
+        sta $8000,y
+hang    jmp hang
+        .)
+
+	;.byt $f0,$c5	; TODO: remove
+
+	; called from init (1)
+	; copy code from $1162-1a61 (startofprg) to $0200-0aff
+	; XORing bit with $20 in the process
+xcopy	.(
+	lda #<startofprg	; $62
+	sta ptr1
+	lda #>startofprg	; $11
+	sta ptr1+1
+	lda #$00
+	sta ptr2
+	lda #$02
+	sta ptr2+1
+	ldy #$00
+l10d3	lda (ptr1),y
+	tax
+	eor tmp1
+	sta (ptr2),y
+	eor (ptr2),y
+	bne enderr
+	txa
+	sta (ptr2),y
+	eor (ptr2),y
+	bne enderr
+	iny
+	bne l10d3
+l10dc	inc ptr1+1
+	inc ptr2+1
+	lda #>endofprg+255
+	cmp ptr2+1
+	bne l10d3
+l10e6	rts
+	.)
+
+	.)
+
+

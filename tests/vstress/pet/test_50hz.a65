@@ -1,0 +1,141 @@
+
+test_50hz:
+	; ----------------------------------
+	; 50 HZ IRQ
+	; test works by running in interrupt routine
+	; on the VSYNC signal input (PIA1 CB1). Counts
+	; time between interrupts, checks diff.
+	; Note that counter $25/YR is initialized
+	; only at the very beginning, so 2nd pass
+	; counter snapshop stores value + value 
+	; from 1st pass. Therefore need to subtract them.
+	;
+	.(
+	lda #$60		; set memory configuration (disabled, memory+IO peek-through)
+	sta $fff0
+
+	jsr measure50hz
+	bcs l14d6		; overflow
+
+	; compare difference with target value of $0386-$0387 = 902-903
+	; (which implies that a loop is around 22 cycles avg.)
+
+	lda ptr1+1
+	jsr hexout
+	lda ptr1
+	jsr hexout
+	jsr spout
+
+	lda #MODE_2MHZ
+	bit mode
+	beq slow
+
+	lda ptr1+1
+	cmp #$07		; hi byte difference is 3?
+	bne l14d6		; no, then error
+	lda ptr1		; low byte is #$86 or #$87?
+	sec
+	sbc #$07
+	cmp #$2			; 07, 08
+	bcs l14d6		; no then error
+	bcc ok
+slow
+	lda ptr1+1
+	cmp #$03		; hi byte difference is 3?
+	bne l14d6		; no, then error
+	lda ptr1		; low byte is #$86 or #$87?
+	sec
+	sbc #$86
+	cmp #$3			; 86, 87, 88
+	bcs l14d6		; no then error
+ok
+#ifdef DEBUG
+	lda ptr1+1
+	jsr hexout
+	lda ptr1
+	jsr hexout
+#endif
+	jsr okout		; OK
+	bne l14dd
+
+l14d6 	lda #$00
+	ldy #$16		; "BAD"
+	jsr badout		; l7c8
+
+l14dd	
+	lda #$34		; output CB2, direct control via CRB.3, set CB2 low
+	sta $e813		; store in CRB
+	bit $e810		; check PA - clr interrupt on CAx?
+
+	rts
+	.)
+
+measure50hz .(
+	ldy #$00
+	sty cnt			; trigger flag (changed on interrupt)
+	;sty $e843		; DDRA all input (?)
+	sty ptr1		; 21/22 is counter snapshot stored during interrupt
+	sty ptr1+1
+	sty ptr2		; 23/24 is counter snapshot for 1st pass during 2nd pass
+	sty ptr2+1
+
+	lda #$7f
+	sta $e84e		; disable all interrupts
+	bit $e84d		; clear interrupt flag register
+	lda #$05
+	sta $e813		; PIA1 CRB Enable IRQ, select output register, irq on neg edge of cb1
+				; first time enter with Y=0, $25=0
+l148c	cli
+	nop			; allow interrupt
+				; IRQ does cnt->ptr1, YR->ptr1+1
+				; cnt/YR are a 16 bit counter that is stored into ptr1/ptr1+1 during the interrupt
+	sei
+	lda ptr1
+	ora ptr1+1		; do we have data in 21/22 yet?
+	bne l14a2		; yes - we had an interrupt
+
+	; no data yet
+	inc cnt			; increase lo byte of counter (in $25/cnt)
+	bne l148c		; and loop
+	iny			; increase upper byte
+	bne l148c
+
+	; overflow in counter
+	beq overflow		; output BAD
+
+	; we had an interrupt storing the counter into 21/22
+l14a2	lda ptr2
+	ora ptr2+1
+	bne l14b8		; we had 23/24 already, i.e. now is second iteration
+
+l14a8	lda ptr1		; save counter value into 1st pass
+	sta ptr2
+	lda ptr1+1
+	sta ptr2+1
+	lda #$00		; clear snapshot counter
+	sta ptr1
+	sta ptr1+1
+	beq l148c		; loop
+
+l14b8	; calculate difference between second and first pass
+	clc
+	.byt $24
+overflow
+	sec
+	php
+
+	lda #$04		; disable interrupt
+	sta $e813
+
+	sec
+	lda ptr1		; take snapshot pass 2
+	sbc ptr2		; subtract snapshot pass 1
+	sta ptr1		; store in snapshot
+	lda ptr1+1
+	sbc ptr2+1
+	sta ptr1+1
+	
+	plp
+	rts
+	.)
+
