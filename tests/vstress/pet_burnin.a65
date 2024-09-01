@@ -207,6 +207,9 @@ l11ff	lda #$0d
 	; infinite test loop
 	;
 
+	lda #0
+	sta pattrn
+
 loop	.(
 	; sync with vsync
 	jsr measure50hz
@@ -393,6 +396,12 @@ jmpind	jmp (ptr1)
 	; byt 8/9 is address of test executable
 tests
 
+	.byt 0,1
+	.byt 0,MODE_UPET+MODE_CSA+MODE_8296
+	.word m_wait
+	.byt 0,16		; -, number of screen pages (4 = 4032, 8 = 80xx, 16 = 8296)
+	.word test_wait
+
 	; RAM $8000-$8FFF Screen memory 
 	; run on uPET, CS/A and 8296
 	.byt 0,1
@@ -402,12 +411,6 @@ tests
 	.word test_screenmem
 
 
-	.byt 0,1
-	.byt 0,MODE_UPET+MODE_CSA+MODE_8296
-	.word m_wait
-	.byt 0,16		; -, number of screen pages (4 = 4032, 8 = 80xx, 16 = 8296)
-	.word test_wait
-
 	; end marker
 	.word 0
 
@@ -416,6 +419,7 @@ tests
 test_wait .(
 	lda pattrn
 	and #%00111111
+	;cmp #%00111111
 	bne end_test
 
 ;	inc pcnt

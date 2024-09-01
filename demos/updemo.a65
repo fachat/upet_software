@@ -12,6 +12,8 @@ VDC	=$e880
 VCTRL	=$e800
 SCTRL	=$e803
 
+SPEED	=3
+
 BRDCOL	=0	; black
 BGCOL	=0	; black
 FGCOL	=5	; light green
@@ -120,11 +122,11 @@ l0	tya
 
 idemo2	
 	ldx #VCCY_CTRL
-	lda #16
-	jsr sreg	; disable ColourPet mode
-	ldx #VCCY_HSCRL
-	lda #64+16
-	jsr sreg	; enable VDC attribute mode
+	lda #16+1
+	jsr sreg	; disable ColourPet mode, enable attribute mode
+;	ldx #VCCY_HSCRL
+;	lda #64+16
+;	jsr sreg	; enable VDC attribute mode
 
 	lda #VCCY_BRDR_COL
 	sta VDC
@@ -164,10 +166,10 @@ l0	tya
 idemo3	
 	ldx #VCCY_CTRL
 	lda #20
-	jsr sreg	; enable ColourPet mode
-	ldx #VCCY_HSCRL
-	lda #0+16
-	jsr sreg	; disable VDC attribute mode
+	jsr sreg	; enable ColourPet mode, disabel attr. mode
+;	ldx #VCCY_HSCRL
+;	lda #0+16
+;	jsr sreg	; disable VDC attribute mode
 
 	lda #VCCY_BRDR_COL
 	sta VDC
@@ -205,11 +207,11 @@ l0	tya
 
 idemo3	
 	ldx #VCCY_CTRL
-	lda #20
-	jsr sreg	; enable ColourPet mode (+attrib = multicolour)
-	ldx #VCCY_HSCRL
-	lda #64+16
-	jsr sreg	; enable VDC attribute mode (+cpet =multicolour)
+	lda #20+1
+	jsr sreg	; enable multicol mode 
+;	ldx #VCCY_HSCRL
+;	lda #64+16
+;	jsr sreg	; enable VDC attribute mode (+cpet =multicolour)
 
 	lda #VCCY_BRDR_COL
 	sta VDC
@@ -239,9 +241,12 @@ txt 	.asc "           * MULTI-COLOUR MODE"
 	jmp wait
 
 idemo4	
-	ldx #VCCY_HSCRL
-	lda #16
-	jsr sreg
+	ldx #VCCY_CTRL
+	lda #20
+	jsr sreg	; enable attrib mode 
+;	ldx #VCCY_HSCRL
+;	lda #16
+;	jsr sreg
 
 	ldx #VCCY_MODE
 	lda #2+128
@@ -1305,10 +1310,12 @@ idemo
 	ldx #VCCY_CTRL
 	stx VDC
 	lda VDC+1
-	and #%11011111
+	;and #%11011111
+	and #$ff-VCCY_CTRL_PALSEL
 	sta VDC+1
 	pha
 
+#if 1
 	ldx #VCCY_PAL_BASE
 	stx VDC
 	ldx #8
@@ -1317,14 +1324,15 @@ l1	lda pal0,y
 	iny
 	dex
 	bne l1
-
+#endif
 	ldx #VCCY_CTRL
 	stx VDC	
 	pla
 	pha
-	ora #%00100000
+	ora #VCCY_CTRL_PALSEL	;%00100000
 	sta VDC+1
 
+#if 1
 	ldx #VCCY_PAL_BASE
 	stx VDC
 	ldx #8
@@ -1333,7 +1341,7 @@ l2	lda pal0,y
 	iny
 	dex
 	bne l2
-
+#endif
 	ldx #VCCY_CTRL
 	stx VDC	
 	pla
@@ -1345,7 +1353,7 @@ end
 	inc VDC+1
 	rts
 
-txt 	.asc "           * PALETTE FOR 16 OUT OF 64 COLOURS"
+txt 	.asc "           * DUAL PALETTE FOR 2*16 OUT OF 64 COLOURS"
 	.asc CR,0
 
 itab	.word idemo-1
@@ -1642,7 +1650,7 @@ clrviccy .(
 	jsr sreg
 
 &setviccy 
-	lda #3
+	lda #SPEED
 	sta SCTRL	; 12 MHz CPU
 	lda #0		; 40 column, display enable
 	sta VCTRL

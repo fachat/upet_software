@@ -6,7 +6,7 @@ all:
 ########################################################
 # sub-repos
 
-REPOS=cbm-benchmarks
+REPOS=cbm-benchmarks cbm-burnin-tests
 
 # downloads all the repos it depends on
 clone: $(REPOS)
@@ -20,4 +20,7 @@ update: $(REPOS)
 
 cbm-benchmarks:
 	git clone $(BASE)/cbm-benchmarks.git
+
+cbm-burnin-tests:
+	git clone $(BASE)/cbm-burnin-tests.git 
 
