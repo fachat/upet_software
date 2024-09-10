@@ -1486,7 +1486,7 @@ updemo.a65
 
  1407 A:0f46                           idemo     
  1408 A:0f46  a5 09                              lda cnt2
- 1409 A:0f48  29 07                              and #%00000111
+ 1409 A:0f48  29 0f                              and #%00001111
  1410 A:0f4a  d0 3a                              bne checkh
 
  1412 A:0f4c                                     .( 
@@ -1517,7 +1517,7 @@ updemo.a65
  1437 A:0f86                           vend      .) 
 
  1439 A:0f86  a5 09                    checkh    lda cnt2
- 1440 A:0f88  29 0f                              and #%00001111
+ 1440 A:0f88  29 1f                              and #%00011111
  1441 A:0f8a  d0 2e                              bne end
 
  1443 A:0f8c                                     .( 

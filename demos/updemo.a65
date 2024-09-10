@@ -1406,7 +1406,7 @@ pal3	.byt %00000000, %00001001, %00000010, %00001111
 
 idemo
 	lda cnt2
-	and #%00000111
+	and #%00001111
 	bne checkh
 
 	.(
@@ -1437,7 +1437,7 @@ n2	dec dynvoff
 vend	.)
 
 checkh	lda cnt2
-	and #%00001111
+	and #%00011111
 	bne end
 
 	.(
