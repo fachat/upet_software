@@ -723,7 +723,7 @@ mode1	.(
 	sbc tmp
 	bne store
 	lda #1
-	sta vdctab+23	; initialize next mode
+	sta vdctab+VCCY_CHR_VDISP	; initialize next mode
 	lda #8
 	bne store
 	
@@ -1428,11 +1428,15 @@ next
 
 	ldy #2
 	lda (p2),y
+	clc
+	adc dynoff
 	ldx #VCCY_RLINE_L
 	jsr sreg
 	iny
 	inx
 	lda (p2),y
+	plp
+	adc #0
 	jsr sreg
 
 	ldx #VCCY_IRQ_CTRL
@@ -1551,21 +1555,20 @@ itab	.word resetscr-1
 	.word 0
 
 resetscr
-	;inc vdctab+VCCY_BRDR_COL
 	jsr setviccy
 	rts
 	.)
 
-setr39 .(
-	sta tmp
-	ldx #VCCY_CTRL
-	stx VDC
-	lda VDC+1
-	and #%11111100
-	ora tmp
-	sta VDC+1
-	rts
-	.)
+;setr39 .(
+;	sta tmp
+;	ldx #VCCY_CTRL
+;	stx VDC
+;	lda VDC+1
+;	and #%11111100
+;	ora tmp
+;	sta VDC+1
+;	rts
+;	.)
 
 
 ; ---------------------------------------------------------
@@ -1667,7 +1670,11 @@ clrviccy .(
 	ldy #0
 	sty VDC		; register number
 l0	lda vdctab,y
-	sta VDC+3	; register value w/ auto-inc of register number
+;	cpy #VCCY_VPOS
+;	bne nooff
+;	clc
+;	adc dynoff
+nooff 	sta VDC+3	; register value w/ auto-inc of register number
 lx	iny
 	cpy #42
 	bcc l0
@@ -1705,11 +1712,16 @@ lx	iny
 	.byt 127	; r36 (was r43): irq status (clear all sources)
 	.byt 0		; r37: v/h sync status (VDC)
 	.byt 21		; r38 (was r44): horizontal position (chars)
-	.byt 59+OFFSET70; r39 (was r45): vertical position (rasterlines)
+	;.byt 14		; r38 (was r44): horizontal position (chars)
+	;.byt 28		; r38 (was r44): horizontal position (chars)
+	;.byt 59+OFFSET70; r39 (was r45): vertical position (rasterlines)
+	.byt 69+OFFSET70; r39 (was r45): vertical position (rasterlines)
 	.byt 0		; r40 (was r46): alt match
 	.byt 0		; r41 (was r47): alt raster row
+
 	.)
 
+dynoff	.byt 0
 
 
 clrscr	.(
