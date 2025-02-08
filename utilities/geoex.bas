@@ -93,19 +93,86 @@
 10030 for i=1 to 40
 10040 read r(i)
 10050 next
+
+10051 rem sprite
+10052 for i=0 to 62
+10053 read a:poke 8*4096+4*256+i,a
+10054 next
+
+10059 return
+
 10060 data   0,  40,   0,   0,   0,   0,  25,   0:rem 0-7
 10061 data   0,   7,  32,   7, 144,   0,  16,   0:rem 8-15
 10062 data   0,   0,   0,   0, 208,   0,   9,  15:rem 16-23
 10063 data   0,   0,   0,   0,   0,   7,   0,   0:rem 24-31
-10064 data  20,  15,   5,   0, 127,   0,   8, 130:rem 32-39
-10090 return
+10064 data  20,  15,   5,   0, 127,   0,   8,  80:rem 32-39
+
+10070 data 204,211,51
+10071 data 204,203,51
+10072 data 51 ,16,204
+10073 data 51 ,8,204
+10074 data 192,16,3
+10075 data 192,8,3
+10076 data 48,16,12
+10077 data 48,8,12
+10078 data 192,16,3
+10079 data 192,8,3
+10080 data 255,255,255
+10081 data 192,16,3
+10082 data 192,8,3
+10083 data 48,16,12
+10084 data 48,8,12
+10085 data 192,16,3
+10086 data 192,8,3
+10087 data 51,16,204
+10088 data 51,8,204
+10089 data 204,211,51
+10090 data 204,203,51
 
 10100 rem reset registers
 10105 poke r,0
 10110 for i=1 to 40
 10120 poke p,r(i)
 10130 next
-10140 return
+
+10150 rem sprite reset
+10160 poke r,42:poke d,9*16+7:rem sprite base
+10180 rem sprite 0 top left
+10181 poke 8*4096+8*256-8,80
+10182 poke r,48:poke d,26
+10183 poke r,49:poke d,30
+10184 poke r,50:poke d,0
+10186 poke r,51:poke d,1
+10188 poke r,80:poke d,15:rem white
+10190 rem sprite 1 top right
+10191 poke 8*4096+8*256-7,80
+10192 poke r,52:poke d,90
+10193 poke r,53:poke d,30
+10194 poke r,54:poke d,1
+10196 poke r,55:poke d,1
+10198 poke r,81:poke d,15:rem white
+10200 rem sprite 2 bottom left
+10201 poke 8*4096+8*256-6,80
+10202 poke r,56:poke d,26
+10203 poke r,57:poke d,229
+10204 poke r,58:poke d,0
+10205 poke r,59:poke d,1
+10206 poke r,82:poke d,15:rem white
+10210 rem sprite 3 bottom right
+10211 poke 8*4096+8*256-5,80
+10212 poke r,60:poke d,90
+10213 poke r,61:poke d,229
+10214 poke r,62:poke d,1
+10215 poke r,63:poke d,1
+10216 poke r,83:poke d,15:rem white
+10210 rem sprite 4 zero middle
+10211 poke 8*4096+8*256-4,80
+10212 poke r,64:poke d,186
+10213 poke r,65:poke d,0
+10214 poke r,66:poke d,0
+10215 poke r,67:poke d,1
+10216 poke r,84:poke d,15:rem white
+10299 return
 
 11000 rem print menu
 11100 print "{clr}"
@@ -148,7 +215,7 @@
 11802 print "    ";:if v and 128 then print"{rvon}";
 11804 print "[8:80 col]{rvof}"
 11806 print "    ";:if v and 64 then print"{rvon}";
-11808 print "[6:60 Hz]{rvof}"
+11808 print "[6:60 hz]{rvof}"
 11810 print "    ";:if v and 32 then print"{rvon}";
 11812 print "[t:tv mode]{rvof}"
 11814 print "    ";:if v and 2 then print"{rvon}";
