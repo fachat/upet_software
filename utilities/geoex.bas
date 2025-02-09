@@ -4,11 +4,13 @@
 1020 gosub 10100:rem reset registers
 1100 gosub 11000:rem print menu
 
+1105 cc$="@{left}{right}{up}{down}ps86tidcovmbwre"
+1106 cl=len(cc$)
 1110 get c$:if c$="" then 1110
-1120 for c=1 to 17:if c$=mid$("@{left}{right}{up}{down}ps86tidcovmb",c,1) then 1200
+1120 for c=1 to cl:if c$=mid$(cc$,c,1) then 1200
 1130 next c
 1140 goto 1100
-1200 on c gosub 1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500
+1200 on c gosub 1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800
 1210 goto 1100
 
 1900 rem reset via @
@@ -82,6 +84,25 @@
 3500 rem "b"
 3510 m$=c$
 3520 return
+
+3600 rem "w" sprite width
+3610 for i=0 to 6:poke r,51+i*4
+3620 v=peek(d):v=(v or 6) - (v and 6):poke d,v
+3630 next
+3640 return
+
+3700 rem "r" sprite raster prio
+3710 for i=0 to 6:poke r,51+i*4
+3720 v=peek(d):v=(v or 16) - (v and 16):poke d,v
+3730 next
+3740 return
+
+3800 rem "e" sprite border prio
+3810 for i=0 to 6:poke r,51+i*4
+3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
+3830 next
+3840 return
+
 9990 get a$:ifa$=""then 9990
 9991 return
 9999 end
@@ -105,7 +126,7 @@
 10061 data   0,   7,  32,   7, 144,   0,  16,   0:rem 8-15
 10062 data   0,   0,   0,   0, 208,   0,   9,  15:rem 16-23
 10063 data   0,   0,   0,   0,   0,   7,   0,   0:rem 24-31
-10064 data  20,  15,   5,   0, 127,   0,   8,  80:rem 32-39
+10064 data  20,  15,   5,   0, 127,   0,   8,  79:rem 32-39
 
 10070 data 204,211,51
 10071 data 204,203,51
@@ -165,13 +186,27 @@
 10214 poke r,62:poke d,1
 10215 poke r,63:poke d,1
 10216 poke r,83:poke d,15:rem white
-10210 rem sprite 4 zero middle
-10211 poke 8*4096+8*256-4,80
-10212 poke r,64:poke d,186
-10213 poke r,65:poke d,0
-10214 poke r,66:poke d,0
-10215 poke r,67:poke d,1
-10216 poke r,84:poke d,15:rem white
+10220 rem sprite 4 zero middle
+10221 poke 8*4096+8*256-4,80
+10222 poke r,64:poke d,186
+10223 poke r,65:poke d,1
+10224 poke r,66:poke d,0
+10225 poke r,67:poke d,1
+10226 poke r,84:poke d,15:rem white
+10230 rem sprite 5 middle v zero h
+10231 poke 8*4096+8*256-3,80
+10232 poke r,68:poke d,14
+10233 poke r,69:poke d,130
+10234 poke r,70:poke d,0
+10235 poke r,71:poke d,1
+10236 poke r,85:poke d,15:rem white
+10240 rem sprite 6 last bottom zero
+10241 poke 8*4096+8*256-2,80
+10242 poke r,72:poke d,186
+10243 poke r,73:poke d,0
+10244 poke r,74:poke d,16
+10245 poke r,75:poke d,1
+10246 poke r,86:poke d,15:rem white
 10299 return
 
 11000 rem print menu
@@ -210,14 +245,23 @@
 11212 print "b: h/v borders      (24/25):";
 11215 poke r,24:print peek(p)and16;",";peek(p)and16;"{rvof}"
 
+11220 poke r,51:v=peek(d):if v and 6 then print"{rvon}";
+11222 print "w: toggle sprite width/height{rvof}"
+
+11230 poke r,51:v=peek(d):if v and 16 then print"{rvon}";
+11232 print "r: toggle sprite raster priority{rvof}"
+
+11240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
+11242 print "e: toggle sprite border prio{rvof}"
+
 11800 poke r,8:v=peek(d)
 11801 print:print "mode: "v
 11802 print "    ";:if v and 128 then print"{rvon}";
-11804 print "[8:80 col]{rvof}"
+11804 print "[8:80 col]{rvof}      ";
 11806 print "    ";:if v and 64 then print"{rvon}";
 11808 print "[6:60 hz]{rvof}"
 11810 print "    ";:if v and 32 then print"{rvon}";
-11812 print "[t:tv mode]{rvof}"
+11812 print "[t:tv mode]{rvof}     ";
 11814 print "    ";:if v and 2 then print"{rvon}";
 11816 print "[i:interlace]{rvof}"
 11818 print "    ";:if v and 1 then print"{rvon}";
