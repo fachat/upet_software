@@ -268,6 +268,7 @@
 11820 print "[d:double (with i only)]{rvof}"
 11900 print
 11910 if m$="s" or m$="p" or m$="c" or m$="o" or m$="v" or m$="m" then print "use cursor keys to adjust geometry"
+11920 print "<--                                  -->";
 11920 print "<--                                  -->"
 11999 return
 
