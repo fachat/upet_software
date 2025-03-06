@@ -126,7 +126,7 @@
 10061 data   0,   7,  32,   7, 144,   0,  16,   0:rem 8-15
 10062 data   0,   0,   0,   0, 208,   0,   9,  15:rem 16-23
 10063 data   0,   0,   0,   0,   0,   7,   0,   0:rem 24-31
-10064 data  20,  15,   5,   0, 127,   0,   8,  79:rem 32-39
+10064 data  20,  15,   5,   0, 127,   0,   9,  79:rem 32-39
 
 10070 data 204,211,51
 10071 data 204,203,51
@@ -160,28 +160,28 @@
 10160 poke r,42:poke d,9*16+7:rem sprite base
 10180 rem sprite 0 top left
 10181 poke 8*4096+8*256-8,80
-10182 poke r,48:poke d,26
+10182 poke r,48:poke d,27
 10183 poke r,49:poke d,30
 10184 poke r,50:poke d,0
 10186 poke r,51:poke d,1
 10188 poke r,80:poke d,15:rem white
 10190 rem sprite 1 top right
 10191 poke 8*4096+8*256-7,80
-10192 poke r,52:poke d,90
+10192 poke r,52:poke d,91
 10193 poke r,53:poke d,30
 10194 poke r,54:poke d,1
 10196 poke r,55:poke d,1
 10198 poke r,81:poke d,15:rem white
 10200 rem sprite 2 bottom left
 10201 poke 8*4096+8*256-6,80
-10202 poke r,56:poke d,26
+10202 poke r,56:poke d,27
 10203 poke r,57:poke d,229
 10204 poke r,58:poke d,0
 10205 poke r,59:poke d,1
 10206 poke r,82:poke d,15:rem white
 10210 rem sprite 3 bottom right
 10211 poke 8*4096+8*256-5,80
-10212 poke r,60:poke d,90
+10212 poke r,60:poke d,91
 10213 poke r,61:poke d,229
 10214 poke r,62:poke d,1
 10215 poke r,63:poke d,1
@@ -269,6 +269,6 @@
 11900 print
 11910 if m$="s" or m$="p" or m$="c" or m$="o" or m$="v" or m$="m" then print "use cursor keys to adjust geometry"
 11920 print "<--                                  -->";
-11920 print "<--                                  -->"
+11920 print "<--                                  -->";
 11999 return
 
