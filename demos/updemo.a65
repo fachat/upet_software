@@ -31,7 +31,7 @@ tmp2	=$0a
 
 BSOUT	=$ffd2
 
-OFFSET70=22
+OFFSET70=0	;22
 
 	.word $0401
 	* = $0401
@@ -1815,8 +1815,8 @@ lx	iny
 	.byt 0		; r35 (was r42): irq control
 	.byt 127	; r36 (was r43): irq status (clear all sources)
 	.byt 0		; r37: v/h sync status (VDC)
-	.byt 21		; r38 (was r44): horizontal position (chars)
-	.byt 59+OFFSET70; r39 (was r45): vertical position (rasterlines)
+	.byt 9		; r38 (was r44): horizontal position (chars)
+	.byt 79+OFFSET70; r39 (was r45): vertical position (rasterlines)
 	.byt 0		; r40 (was r46): alt match
 	.byt 0		; r41 (was r47): alt raster row
 

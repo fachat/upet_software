@@ -120,7 +120,7 @@ updemo.a65
 
    32 A:1000                                    BSOUT=$ffd2
 
-   34 A:1000                                    OFFSET70=22
+   34 A:1000                                    OFFSET70=0           ;22
 
    36 A:1000  01 04                              .word $0401
    37 A:1002                                     *= $0401
@@ -223,7 +223,7 @@ updemo.a65
   135 A:04e8  60                                 rts 
 
   137 A:04e9  d8 04                    itab      .word idemo2-1
-  138 A:04eb  ab 00                              .word 149+OFFSET70
+  138 A:04eb  95 00                              .word 149+OFFSET70
   139 A:04ed  00 00                              .word 0
 
   142 A:04ef  20 20 20 20 20 20 20 ... txt       .asc "           * C128 VDC COMPATIBLE MODE WITH BLINK/UNDERLINE"
@@ -265,7 +265,7 @@ updemo.a65
   178 A:0556  60                                 rts 
 
   180 A:0557  46 05                    itab      .word idemo3-1
-  181 A:0559  bd 00                              .word 167+OFFSET70
+  181 A:0559  a7 00                              .word 167+OFFSET70
   182 A:055b  00 00                              .word 0
 
   184 A:055d  20 20 20 20 20 20 20 ... txt       .asc "           * COLOUR PET COMPATIBLE COLOUR MODE"
@@ -307,7 +307,7 @@ updemo.a65
   220 A:05b8  60                                 rts 
 
   222 A:05b9  a8 05                    itab      .word idemo3-1
-  223 A:05bb  cf 00                              .word 185+OFFSET70
+  223 A:05bb  b9 00                              .word 185+OFFSET70
   224 A:05bd  00 00                              .word 0
 
   226 A:05bf  20 20 20 20 20 20 20 ... txt       .asc "           * MULTI-COLOUR MODE"
@@ -346,7 +346,7 @@ updemo.a65
   259 A:0606  60                                 rts 
 
   261 A:0607  ef 05                    itab      .word idemo4-1
-  262 A:0609  e1 00                              .word 203+OFFSET70
+  262 A:0609  cb 00                              .word 203+OFFSET70
   263 A:060b  00 00                              .word 0
 
   265 A:060d  20 20 20 20 20 20 20 ... txt       .asc "           * INTERLACE MODE"
@@ -382,7 +382,7 @@ updemo.a65
   295 A:0651  60                                 rts 
 
   297 A:0652  3a 06                    itab      .word idemo5-1
-  298 A:0654  f0 00                              .word 218+OFFSET70
+  298 A:0654  da 00                              .word 218+OFFSET70
   299 A:0656  00 00                              .word 0
 
   301 A:0658  20 20 20 20 20 20 20 ... txt       .asc "           * HARDWARE CURSOR"
@@ -424,7 +424,7 @@ updemo.a65
   338 A:06ac  60                                 rts 
 
   340 A:06ad  86 06                    itab      .word idemo5-1
-  341 A:06af  01 01                              .word 235+OFFSET70
+  341 A:06af  eb 00                              .word 235+OFFSET70
   342 A:06b1  00 00                              .word 0
 
   344 A:06b3  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL WIDTH AND POSITION"
@@ -473,7 +473,7 @@ updemo.a65
   387 A:071f  60                                 rts 
 
   389 A:0720  ef 06                    itab      .word idemo5-1
-  390 A:0722  13 01                              .word 253+OFFSET70
+  390 A:0722  fd 00                              .word 253+OFFSET70
   391 A:0724  00 00                              .word 0
 
   393 A:0726  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL SMOOTH SCROLL"
@@ -507,7 +507,7 @@ updemo.a65
   421 A:0770  60                                 rts 
 
   423 A:0771  67 07                    itab      .word idemo5-1
-  424 A:0773  a2 00                              .word 140+OFFSET70
+  424 A:0773  8c 00                              .word 140+OFFSET70
   425 A:0775  00 00                              .word 0
 
   427 A:0777  0d                       txt       .asc CR
@@ -570,7 +570,7 @@ updemo.a65
   484 A:07f5  60                                 rts 
 
   486 A:07f6  ce 07                    itab      .word idemo5-1
-  487 A:07f8  18 00                              .word 2+OFFSET70
+  487 A:07f8  02 00                              .word 2+OFFSET70
   488 A:07fa  00 00                              .word 0
 
   490 A:07fc  20 20 20 20 20 20 20 ... txt       .asc "           * VERTICAL SMOOTH SCROLL + VARIABLE CHAR HEIGHT"
@@ -588,7 +588,7 @@ updemo.a65
   502 A:084a  60                                 rts 
 
   504 A:084b  37 08                    itab2     .word idemo2-1
-  505 A:084d  8b 00                              .word 117+OFFSET70
+  505 A:084d  75 00                              .word 117+OFFSET70
   506 A:084f  00 00                              .word 0
 
   508 A:0851                           idemo3    
@@ -606,7 +606,7 @@ updemo.a65
   520 A:0867  60                                 rts 
 
   523 A:0868  50 08                    itab3     .word idemo3-1
-  524 A:086a  9d 00                              .word 135+OFFSET70
+  524 A:086a  87 00                              .word 135+OFFSET70
   525 A:086c  00 00                              .word 0
 
   527 A:086e                           idemores  
@@ -619,7 +619,7 @@ updemo.a65
   534 A:087d  60                                 rts 
 
   536 A:087e  6d 08                    itabres   .word idemores-1
-  537 A:0880  25 01                              .word 271+OFFSET70
+  537 A:0880  0f 01                              .word 271+OFFSET70
   538 A:0882  00 00                              .word 0
 
   541 A:0884                                     .) 
@@ -656,7 +656,7 @@ updemo.a65
   572 A:08b1  60                                 rts 
 
   574 A:08b2  94 08                    itab      .word idemo5-1
-  575 A:08b4  37 01                              .word 289+OFFSET70
+  575 A:08b4  21 01                              .word 289+OFFSET70
   576 A:08b6  00 00                              .word 0
 
   578 A:08b8  20 20 20 20 20 20 20 ... txt       .asc "           * SWITCHABLE 40/80 COLS"
@@ -707,7 +707,7 @@ updemo.a65
   623 A:094a  60                                 rts 
 
   625 A:094b  22 09                    itab      .word idemo5-1
-  626 A:094d  49 01                              .word 325-18+OFFSET70
+  626 A:094d  33 01                              .word 325-18+OFFSET70
   627 A:094f  00 00                              .word 0
 
   629 A:0951  a2 08                    idemox    ldx #VCCY_MODE
@@ -715,7 +715,7 @@ updemo.a65
   631 A:0955  4c 49 11                           jmp sreg
 
   633 A:0958  50 09                    itab2     .word idemox-1
-  634 A:095a  52 01                              .word 316+OFFSET70
+  634 A:095a  3c 01                              .word 316+OFFSET70
   635 A:095c  00 00                              .word 0
 
   637 A:095e                                     .) 
@@ -759,7 +759,7 @@ updemo.a65
   675 A:0997  00                       mode      .byt 0
 
   677 A:0998  75 09                    itab      .word idemo5-1
-  678 A:099a  5b 01                              .word 325+OFFSET70
+  678 A:099a  45 01                              .word 325+OFFSET70
   679 A:099c  00 00                              .word 0
 
   681 A:099e  a2 09                    idemox    ldx #VCCY_CHEIGHT
@@ -841,7 +841,7 @@ updemo.a65
   757 A:0a19  60                                 rts 
 
   760 A:0a1a  9d 09                    itab2     .word idemox-1
-  761 A:0a1c  77 01                              .word 353+OFFSET70
+  761 A:0a1c  61 01                              .word 353+OFFSET70
   762 A:0a1e  00 00                              .word 0
 
   764 A:0a20  20 20 20 20 20 20 20 ... txt       .asc "           * RE-DEFINABLE CHARACTER SET, LARGE HEIGHT AND CUT-OFF"
@@ -1131,12 +1131,12 @@ updemo.a65
  1048 A:0c33  90 02                              bcc l1
  1049 A:0c35  a9 52                              lda #82
  1050 A:0c37  8d bb 0a                 l1        sta cur
- 1051 A:0c3a  a9 0a                              lda #<500+OFFSET70
+ 1051 A:0c3a  a9 f4                              lda #<500+OFFSET70
  1052 A:0c3c  38                                 sec 
  1053 A:0c3d  ed bb 0a                           sbc cur
  1054 A:0c40  09 01                              ora #1             ; that prevents the top line from flickering, as we are in non-interlace mode
  1055 A:0c42  8d 57 0c                           sta line
- 1056 A:0c45  a9 02                              lda #>500+OFFSET70
+ 1056 A:0c45  a9 01                              lda #>500+OFFSET70
  1057 A:0c47  e9 00                              sbc #0
  1058 A:0c49  8d 58 0c                           sta line+1
 
@@ -1147,7 +1147,7 @@ updemo.a65
  1064 A:0c54  60                                 rts 
 
  1066 A:0c55  96 0b                    itab      .word idemo5-1
- 1067 A:0c57  aa 01                    line      .word 404+OFFSET70
+ 1067 A:0c57  94 01                    line      .word 404+OFFSET70
  1068 A:0c59  00 00                              .word 0
 
  1070 A:0c5b                           iclr      
@@ -1178,7 +1178,7 @@ updemo.a65
  1095 A:0c83  60                                 rts 
 
  1097 A:0c84  5a 0c                    itabc     .word iclr-1
- 1098 A:0c86  0f 02                              .word 505+OFFSET70
+ 1098 A:0c86  f9 01                              .word 505+OFFSET70
  1099 A:0c88  00 00                              .word 0
 
  1101 A:0c8a  20 20 20 20 20 20 20 ... txt       .asc "           * RESETABLE ADDRESS COUNTERS/PALETTE ON RASTERLINE MATCH"
@@ -1335,7 +1335,7 @@ updemo.a65
  1252 A:0db7  60                                 rts 
 
  1254 A:0db8  75 0d                    itab      .word idemo-1
- 1255 A:0dba  23 02                              .word 525+OFFSET70
+ 1255 A:0dba  0d 02                              .word 525+OFFSET70
  1256 A:0dbc  00 00                              .word 0
 
  1258 A:0dbe  20 20 20 20 20 20 20 ... txt       .asc "           * SPRITES (SINGLE/MULTICOL,EXPAND,PRIO,ALT PALETTE)"
@@ -1443,7 +1443,7 @@ updemo.a65
  1362 A:0eed  0d 00                              .asc CR,0
 
  1364 A:0eef  5d 0e                    itab      .word idemo-1
- 1365 A:0ef1  26 02                              .word 528+OFFSET70
+ 1365 A:0ef1  10 02                              .word 528+OFFSET70
  1366 A:0ef3  00 00                              .word 0
 
  1369 A:0ef5  00 49 02 6f              pal0      .byt %00000000,%01001001,%00000010,%01101111
@@ -1554,7 +1554,7 @@ updemo.a65
  1474 A:0fe7  0d 00                              .asc CR,0
 
  1476 A:0fe9  45 0f                    itab      .word idemo-1
- 1477 A:0feb  28 02                              .word 530+OFFSET70
+ 1477 A:0feb  12 02                              .word 530+OFFSET70
  1478 A:0fed  00 00                              .word 0
 
  1480 A:0fef  00                       hdir      .byt 0
@@ -1730,7 +1730,7 @@ updemo.a65
  1650 A:10f9  60                                 rts 
 
  1652 A:10fa  ff 10                    itab      .word resetscr-1
- 1653 A:10fc  32 02                              .word 540+OFFSET70
+ 1653 A:10fc  1c 02                              .word 540+OFFSET70
  1654 A:10fe  00 00                              .word 0
 
  1656 A:1100                           resetscr  
@@ -1894,8 +1894,8 @@ updemo.a65
  1815 A:11ea  00                                 .byt 0              ; r35 (was r42): irq control
  1816 A:11eb  7f                                 .byt 127              ; r36 (was r43): irq status (clear all sources)
  1817 A:11ec  00                                 .byt 0              ; r37: v/h sync status (VDC)
- 1818 A:11ed  15                                 .byt 21              ; r38 (was r44): horizontal position (chars)
- 1819 A:11ee  51                                 .byt 59+OFFSET70          ; r39 (was r45): vertical position (rasterlines)
+ 1818 A:11ed  09                                 .byt 9              ; r38 (was r44): horizontal position (chars)
+ 1819 A:11ee  4f                                 .byt 79+OFFSET70          ; r39 (was r45): vertical position (rasterlines)
  1820 A:11ef  00                                 .byt 0              ; r40 (was r46): alt match
  1821 A:11f0  00                                 .byt 0              ; r41 (was r47): alt raster row
 

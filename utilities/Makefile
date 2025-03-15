@@ -1,10 +1,10 @@
 
 PRGS=geoex
-ASM=
+ASM=geoexutil
 
 all: $(PRGS) $(ASM)
 
-$(ASM): % : %.a65 *.i65
+$(ASM): % : %.a65 
 	xa -w -XCA65 -P$@.lst -l $@.lab -o $@ $<
 
 ${PRGS}: % : %.bas

@@ -1,16 +1,21 @@
 
+100  if l=1 then 130
+110  l=1:print chr$(14)
+120  load "geoexutil",8
+130  sys634
+
 1000 gosub 10000:rem init
 1010 gosub 10100:rem reset registers
 1020 gosub 10100:rem reset registers
 1100 gosub 11000:rem print menu
 
-1105 cc$="@{left}{right}{up}{down}ps86tidcovmbwre"
+1105 cc$="@{left}{right}{up}{down}ps86tidcovmbwrehBP"
 1106 cl=len(cc$)
 1110 get c$:if c$="" then 1110
 1120 for c=1 to cl:if c$=mid$(cc$,c,1) then 1200
 1130 next c
 1140 goto 1100
-1200 on c gosub 1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800
+1200 on c gosub 1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,2850
 1210 goto 1100
 
 1900 rem reset via @
@@ -63,6 +68,9 @@
 2800 rem "t"
 2810 poke r,8:v=peek(d):v=(v or 32) - (v and 32):poke d,v
 2820 return
+2850 rem "P"
+2860 poke r,8:v=peek(d):v=(v or 16) - (v and 16):poke d,v
+2870 return
 2900 rem "i"
 2910 poke r,8:v=peek(d):v=(v or 2) - (v and 2):poke d,v
 2920 return
@@ -103,17 +111,28 @@
 3830 next
 3840 return
 
+3900 rem "h" hires mode
+3910 poke r,40
+3920 v=peek(d):v=(v or 160) - (v and 160):poke d,v
+3940 return
+
+4000 rem "B" border colour
+4010 poke r, 34
+4020 poke d, (peek(d) + 1) and 15
+4030 return
+
 9990 get a$:ifa$=""then 9990
 9991 return
 9999 end
+
 10000 rem init
-10010 r=59520
-10015 d=59521
-10020 p=59523
-10025 dim r(40)
-10030 for i=1 to 40
-10040 read r(i)
-10050 next
+10001 r=59520
+10002 d=59521
+10003 p=59523
+10004 dim r(40)
+10010 for i=1 to 40
+10011 read r(i)
+10012 next
 
 10051 rem sprite
 10052 for i=0 to 62
@@ -151,10 +170,20 @@
 10090 data 204,203,51
 
 10100 rem reset registers
+10101 poke r,32:poke d,20
 10105 poke r,0
 10110 for i=1 to 40
-10120 poke p,r(i)
-10130 next
+10111 poke p,r(i)
+10112 next
+
+10120 rem reset bitmap setting
+10122 poke r,40:poke d,3:rem alternate vid/attr mem, palettes
+10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $8800?
+10124 poke r,20:poke p,144:poke p,0:rem attr
+10125 poke r,40:poke d,0
+
+10130 rem raster match position
+10131 poke r,30:poke p,229:poke p,0
 
 10150 rem sprite reset
 10160 poke r,42:poke d,9*16+7:rem sprite base
@@ -254,19 +283,22 @@
 11240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
 11242 print "e: toggle sprite border prio{rvof}"
 
+11260 print "h: hires / B: border col"
+
 11800 poke r,8:v=peek(d)
 11801 print:print "mode: "v
-11802 print "    ";:if v and 128 then print"{rvon}";
+11802 print "  ";:if v and 128 then print"{rvon}";
 11804 print "[8:80 col]{rvof}      ";
-11806 print "    ";:if v and 64 then print"{rvon}";
+11806 print "  ";:if v and 64 then print"{rvon}";
 11808 print "[6:60 hz]{rvof}"
-11810 print "    ";:if v and 32 then print"{rvon}";
+11810 print "  ";:if v and 32 then print"{rvon}";
 11812 print "[t:tv mode]{rvof}     ";
-11814 print "    ";:if v and 2 then print"{rvon}";
-11816 print "[i:interlace]{rvof}"
-11818 print "    ";:if v and 1 then print"{rvon}";
-11820 print "[d:double (with i only)]{rvof}"
-11900 print
+11814 print "  ";:if v and 16 then print"{rvon}";
+11816 print "[P:PET (w/ t)]{rvof}"
+11818 print "  ";:if v and 2 then print"{rvon}";
+11820 print "[i:interlace]{rvof}   ";
+11822 print "  ";:if v and 1 then print"{rvon}";
+11824 print "[d:double (w/ i)]{rvof}"
 11910 if m$="s" or m$="p" or m$="c" or m$="o" or m$="v" or m$="m" then print "use cursor keys to adjust geometry"
 11920 print "<--                                  -->";
 11920 print "<--                                  -->";
