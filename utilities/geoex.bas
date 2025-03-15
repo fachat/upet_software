@@ -44,6 +44,7 @@
 2240 if m$="v" then poke r,23:v=peek(d)-1:poke d,(v+abs(v))/2:return
 2250 if m$="m" then poke r,24:v=(peek(d)and15)-1:poke d,(peek(d)and16)or((v+abs(v))/2):return
 2260 if m$="b" then poke r,24:v=peek(d):poke d,v and(255-16):return
+2270 if m$="h" then poke r,30:rm=rm-1:rm=(rm+abs(rm))/2:poke r,30:poke p,rm and 255:poke p,rm/256
 2290 return
 2300 rem down
 2310 if m$="p" then poke r,39:poke d,peek(d)+1:return
@@ -52,6 +53,7 @@
 2340 if m$="v" then poke r,23:poke d,peek(d)+1:return
 2350 if m$="m" then poke r,24:poke d,peek(d)+1:return
 2360 if m$="b" then poke r,24:v=peek(d):poke d,v or 16:return
+2370 if m$="h" then poke r,30:rm=rm+1:rm=(rm+abs(rm))/2:poke r,30:poke p,rm and 255:poke p,rm/256
 2390 return
 2400 rem "p"
 2405 m$=c$
@@ -113,7 +115,9 @@
 
 3900 rem "h" hires mode
 3910 poke r,40
-3920 v=peek(d):v=(v or 160) - (v and 160):poke d,v
+3920 v=peek(d):v=(v or 224) - (v and 224):poke d,v
+3925 if m$=c$ then m$=""
+3930 if v and 128 then m$=c$
 3940 return
 
 4000 rem "B" border colour
@@ -133,6 +137,8 @@
 10010 for i=1 to 40
 10011 read r(i)
 10012 next
+
+10020 gosub 10300
 
 10051 rem sprite
 10052 for i=0 to 62
@@ -176,14 +182,15 @@
 10111 poke p,r(i)
 10112 next
 
-10120 rem reset bitmap setting
+10120 rem reset hires setting
 10122 poke r,40:poke d,3:rem alternate vid/attr mem, palettes
-10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $8800?
-10124 poke r,20:poke p,144:poke p,0:rem attr
-10125 poke r,40:poke d,2
+10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $84000?
+10124 poke r,20:poke p,208:poke p,0:rem attr at 
+10125 poke r,40:poke d,10
 
 10130 rem raster match position
-10131 poke r,30:poke p,229:poke p,0
+10132 rm=79+256:rem cannot be read from regs
+10135 poke r,30:poke p,rm and 255:poke p,rm/256
 
 10150 rem sprite reset
 10160 poke r,42:poke d,9*16+7:rem sprite base
@@ -238,11 +245,17 @@
 10246 poke r,86:poke d,15:rem white
 10299 return
 
+10300 rem reset colour so you see attribute geo change as well
+10310 for i=0 to 24
+10320 poke 32768+8*256+i*40+39,(i*16)and255
+10330 next
+10340 return
+
 11000 rem print menu
 11100 print "{clr}"
 11110 print "micro-pet video geometry explorer"
 11120 print
-11130 print "use '@' to reset video if messed up"
+11130 print "use '@' to reset, crsr to adjust"
 11140 print
 
 11150 if m$="p" then print"{rvon}";
@@ -283,7 +296,8 @@
 11240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
 11242 print "e: toggle sprite border prio{rvof}"
 
-11260 print "h: hires / B: border col"
+11255 poke r,40:v=peek(d):if v and 128 then print "{rvon}"; 
+11260 print "h: hires ("rm"){rvof} / B: border col"
 
 11800 poke r,8:v=peek(d)
 11801 print:print "mode: "v
@@ -299,7 +313,6 @@
 11820 print "[i:interlace]{rvof}   ";
 11822 print "  ";:if v and 1 then print"{rvon}";
 11824 print "[d:double (w/ i)]{rvof}"
-11910 if m$="s" or m$="p" or m$="c" or m$="o" or m$="v" or m$="m" then print "use cursor keys to adjust geometry"
 11920 print "<--                                  -->";
 11920 print "<--                                  -->";
 11999 return
