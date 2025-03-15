@@ -215,7 +215,7 @@
 10214 poke r,62:poke d,1
 10215 poke r,63:poke d,1
 10216 poke r,83:poke d,15:rem white
-10220 rem sprite 4 zero middle
+10220 rem sprite 4 zero v middle h
 10221 poke 8*4096+8*256-4,80
 10222 poke r,64:poke d,186
 10223 poke r,65:poke d,1
@@ -224,7 +224,7 @@
 10226 poke r,84:poke d,15:rem white
 10230 rem sprite 5 middle v zero h
 10231 poke 8*4096+8*256-3,80
-10232 poke r,68:poke d,14
+10232 poke r,68:poke d,15
 10233 poke r,69:poke d,130
 10234 poke r,70:poke d,0
 10235 poke r,71:poke d,1
