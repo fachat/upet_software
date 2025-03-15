@@ -19,6 +19,8 @@ VBASE	=$8a000	; bitmap start
         rep #%00010000
         .xl
 
+	; --------------------
+	; clear the hires screen (xl)
         lda #0
         ldx #$1fff
 l3      sta $084000,x
@@ -29,18 +31,21 @@ l3      sta $084000,x
         rep #%00110000
         .al
 
+	; ---------------------
+	; binary ladder starting from 0 at the top (al,xl)
+	; four times
         lda #$0000      ; value
 l2      pha
-        ; times 80=64+16 to get top down bytes
+        ; times 40=32+8 (80=64+16) to get ladder bytes in a top-bottom line
+;        asl
         asl
         asl
         asl
+        sta tmp         ; x8 (x16)
         asl
-        sta tmp         ; x16
-        asl
-        asl             ; x64
+        asl             ; x32 (x64)
         clc
-        adc tmp         ; x80
+        adc tmp         ; x40 (x80)
         tax
         pla
         sta $084014,x
@@ -52,7 +57,8 @@ l2      pha
         cmp #$80
         bcc l2
 
-        ; draw a line
+	; ---------------------
+        ; draw a line (al,xl)
         lda #0
 :       tax
         tay
@@ -97,7 +103,7 @@ l2      pha
 
 dot_wxa ; draw a hires dot on x/y
         tya
-        asl
+;        asl
         asl
         asl
         asl             ; x16

@@ -144,7 +144,7 @@
 10060 data   0,  40,   0,   0,   0,   0,  25,   0:rem 0-7
 10061 data   0,   7,  32,   7, 144,   0,  16,   0:rem 8-15
 10062 data   0,   0,   0,   0, 208,   0,   9,  15:rem 16-23
-10063 data   0,   0,   0,   0,   0,   7,   0,   0:rem 24-31
+10063 data   0,   0,  80,   0,   0,   7,   0,   0:rem 24-31
 10064 data  20,  15,   5,   0, 127,   0,   9,  79:rem 32-39
 
 10070 data 204,211,51
@@ -180,7 +180,7 @@
 10122 poke r,40:poke d,3:rem alternate vid/attr mem, palettes
 10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $8800?
 10124 poke r,20:poke p,144:poke p,0:rem attr
-10125 poke r,40:poke d,0
+10125 poke r,40:poke d,2
 
 10130 rem raster match position
 10131 poke r,30:poke p,229:poke p,0
