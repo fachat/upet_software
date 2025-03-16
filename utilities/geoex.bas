@@ -135,8 +135,8 @@
 10001 r=59520
 10002 d=59521
 10003 p=59523
-10004 dim r(40)
-10010 for i=1 to 40
+10004 dim r(42)
+10010 for i=1 to 42
 10011 read r(i)
 10012 next
 
@@ -154,6 +154,7 @@
 10062 data   0,   0,   0,   0, 208,   0,   9,  15:rem 16-23
 10063 data   0,   0,  80,   0,   0,   7,   0,   0:rem 24-31
 10064 data  20,  15,   5,   0, 127,   0,   9,  79:rem 32-39
+10065 data   0,   0
 
 10070 data 204,211,51
 10071 data 204,203,51
@@ -180,7 +181,7 @@
 10100 rem reset registers
 10101 poke r,32:poke d,20
 10105 poke r,0
-10110 for i=1 to 40
+10110 for i=1 to 42
 10111 poke p,r(i)
 10112 next
 
@@ -188,7 +189,7 @@
 10122 poke r,40:poke d,3:rem alternate vid/attr mem, palettes
 10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $84000?
 10124 poke r,20:poke p,208:poke p,0:rem attr at 
-10125 poke r,25:poke d,0+4:rem no borders, plus 4 bit to right
+10125 poke r,25:poke d,16+4:rem no borders, plus 4 bit to right
 10129 poke r,40:poke d,10
 
 10130 rem raster match position
@@ -250,7 +251,8 @@
 
 10300 rem reset colour so you see attribute geo change as well
 10310 for i=0 to 24
-10320 poke 32768+8*256+i*40+39,(i*16)and255
+10320 poke 32768+8*256+i*40+38,(i*16)and255
+10321 poke 32768+8*256+i*40+39,(i*16)and255
 10330 next
 10340 return
 
