@@ -26,7 +26,15 @@ VBASE	=$8a000	; bitmap start
 l3      sta $084000,x
         ;txa
         dex
-        bne l3
+        bpl l3
+
+	; --------------------
+	; first line
+	lda #%10101010
+	ldx #39
+:	sta $084000,x
+	dex
+	bpl :-	
 
         rep #%00110000
         .al

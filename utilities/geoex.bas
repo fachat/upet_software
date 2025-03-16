@@ -116,6 +116,8 @@
 3900 rem "h" hires mode
 3910 poke r,40
 3920 v=peek(d):v=(v or 224) - (v and 224):poke d,v
+3921 poke r,41
+3922 v=peek(d):v=(v or 192) - (v and 192):poke d,v
 3925 if m$=c$ then m$=""
 3930 if v and 128 then m$=c$
 3940 return
@@ -186,7 +188,8 @@
 10122 poke r,40:poke d,3:rem alternate vid/attr mem, palettes
 10123 poke r,12:poke p,4*16:poke p,0:rem bitmap at $84000?
 10124 poke r,20:poke p,208:poke p,0:rem attr at 
-10125 poke r,40:poke d,10
+10125 poke r,25:poke d,0+4:rem no borders, plus 4 bit to right
+10129 poke r,40:poke d,10
 
 10130 rem raster match position
 10132 rm=79+256:rem cannot be read from regs
