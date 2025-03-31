@@ -1,5 +1,5 @@
 
-PRGS=geoex
+PRGS=geoex spritex
 ASM=geoexutil
 
 all: $(PRGS) $(ASM)
