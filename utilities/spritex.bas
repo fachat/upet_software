@@ -4,6 +4,90 @@
 1010 gosub 10000:rem data init
 1020 gosub 11000:rem registers
 
+1099 cc$="@{left}{right}{up}{down}p86tidmwreBP"
+
+1100 gosub 12000:rem print menu
+
+1106 cl=len(cc$)
+1110 get c$:if c$="" then 1110
+1120 for c=1 to cl:if c$=mid$(cc$,c,1) then 1200
+1130 next c
+1140 goto 1100
+1200 on c gosub 1900,2000,2100,2200,2300,2400,2600,2700,2800,2900,3000,3400,3600,3700,3800,4000,2850
+1210 goto 1100
+
+1900 rem reset via @
+1910 m$=""
+1920 goto 10100
+
+2000 rem left
+2010 if m$="p" then poke r,38:v=peek(d)-1:poke d,(v+abs(v))/2:return
+2050 if m$="m" then poke r,25:v=(peek(d)and15)-1:poke d,(peek(d)and16)or((v+abs(v))/2):return
+2090 return
+2100 rem right
+2110 if m$="p" then poke r,38:poke d,peek(d)+1:return
+2150 if m$="m" then poke r,25:poke d,peek(d)+1:return
+2190 return
+2200 rem up
+2210 if m$="p" then poke r,39:v=peek(d)-1:poke d,(v+abs(v))/2:return
+2250 if m$="m" then poke r,24:v=(peek(d)and15)-1:poke d,(peek(d)and16)or((v+abs(v))/2):return
+2290 return
+2300 rem down
+2310 if m$="p" then poke r,39:poke d,peek(d)+1:return
+2350 if m$="m" then poke r,24:poke d,peek(d)+1:return
+2390 return
+
+2400 rem "p"
+2405 m$=c$
+2410 return
+
+2600 rem "8"
+2610 poke r,8:v=peek(d):v=(v or 128) - (v and 128):poke d,v
+2620 return
+2700 rem "6"
+2710 poke r,8:v=peek(d):v=(v or 64) - (v and 64):poke d,v
+2720 return
+2800 rem "t"
+2810 poke r,8:v=peek(d):v=(v or 32) - (v and 32):poke d,v
+2820 return
+2850 rem "P"
+2860 poke r,8:v=peek(d):v=(v or 16) - (v and 16):poke d,v
+2870 return
+2900 rem "i"
+2910 poke r,8:v=peek(d):v=(v or 2) - (v and 2):poke d,v
+
+3000 rem "d"
+3010 poke r,8:v=peek(d):v=(v or 1) - (v and 1):poke d,v
+3020 return
+
+3400 rem "m"
+3410 m$=c$
+3420 return
+
+3600 rem "w" sprite width
+3610 for i=0 to 6:poke r,51+i*4
+3620 v=peek(d):v=(v or 6) - (v and 6):poke d,v
+3630 next
+3640 return
+
+3700 rem "r" sprite raster prio
+3710 for i=0 to 6:poke r,51+i*4
+3720 v=peek(d):v=(v or 16) - (v and 16):poke d,v
+3730 next
+3740 return
+
+3800 rem "e" sprite border prio
+3810 for i=0 to 6:poke r,51+i*4
+3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
+3830 next
+3840 return
+
+4000 rem "B" border colour
+4010 poke r, 34
+4020 poke d, (peek(d) + 1) and 15
+4030 return
+
+
 9999 end
 
 10000 rem viccy registers
@@ -79,4 +163,47 @@
 11170 poke r,80: poke d,1:rem white
 
 11999 return
+
+12000 rem print menu
+12100 print "{clr}"
+12110 print "micro-pet video geometry explorer"
+12120 print
+12130 print "use '@' to reset, crsr to adjust"
+12140 print
+
+12150 if m$="p" then print"{rvon}";
+12152 print "p: hor/vert pos     (38/39):";
+12155 poke r,38:print peek(p);",";peek(p)"{rvof}"
+
+12200 if m$="m" then print"{rvon}";
+12202 print "m: h/v smooth scroll(24/25):";
+12205 poke r,24:print peek(p);",";peek(p);"{rvof}"
+
+12220 poke r,51:v=peek(d):if v and 6 then print"{rvon}";
+12222 print "w: toggle sprite width/height{rvof}"
+
+12230 poke r,51:v=peek(d):if v and 16 then print"{rvon}";
+12232 print "r: toggle sprite raster priority{rvof}"
+
+12240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
+12242 print "e: toggle sprite border prio{rvof}"
+
+12800 poke r,8:v=peek(d)
+12801 print:print "mode: "v
+12802 print "  ";:if v and 128 then print"{rvon}";
+12804 print "[8:80 col]{rvof}      ";
+12806 print "  ";:if v and 64 then print"{rvon}";
+12808 print "[6:60 hz]{rvof}"
+12810 print "  ";:if v and 32 then print"{rvon}";
+12812 print "[t:tv mode]{rvof}     ";
+12814 print "  ";:if v and 16 then print"{rvon}";
+12816 print "[P:PET (w/ t)]{rvof}"
+12818 print "  ";:if v and 2 then print"{rvon}";
+12820 print "[i:interlace]{rvof}   ";
+12822 print "  ";:if v and 1 then print"{rvon}";
+12824 print "[d:double (w/ i)]{rvof}"
+12920 print "<--                                  -->";
+12920 print "<--                                  -->";
+12999 return
+
 
