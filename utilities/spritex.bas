@@ -4,7 +4,7 @@
 1010 gosub 10000:rem data init
 1020 gosub 11000:rem registers
 
-1099 cc$="@{left}{right}{up}{down}p86tidmwreBP"
+1099 cc$="@{left}{right}{up}{down}p86tidmwreBPf"
 
 1100 gosub 12000:rem print menu
 
@@ -13,7 +13,7 @@
 1120 for c=1 to cl:if c$=mid$(cc$,c,1) then 1200
 1130 next c
 1140 goto 1100
-1200 on c gosub 1900,2000,2100,2200,2300,2400,2600,2700,2800,2900,3000,3400,3600,3700,3800,4000,2850
+1200 on c gosub 1900,2000,2100,2200,2300,2400,2600,2700,2800,2900,3000,3400,3600,3700,3800,4000,2850,3900
 1210 goto 1100
 
 1900 rem reset via @
@@ -81,6 +81,12 @@
 3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
 3830 next
 3840 return
+
+3900 rem "f" sprite fine/80col mode
+3910 for i=0 to 6:poke r,51+i*4
+3920 v=peek(d):v=(v or 64) - (v and 64):poke d,v
+3930 next
+3940 return
 
 4000 rem "B" border colour
 4010 poke r, 34
@@ -166,7 +172,7 @@
 
 12000 rem print menu
 12100 print "{clr}"
-12110 print "micro-pet video geometry explorer"
+12110 print "micro-pet sprite geometry explorer"
 12120 print
 12130 print "use '@' to reset, crsr to adjust"
 12140 print
@@ -187,6 +193,9 @@
 
 12240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
 12242 print "e: toggle sprite border prio{rvof}"
+
+12250 poke r,51:v=peek(d):if v and 64 then print"{rvon}";
+12252 print "f: toggle sprite fine/80col coords{rvof}"
 
 12800 poke r,8:v=peek(d)
 12801 print:print "mode: "v
