@@ -139,6 +139,7 @@
 10010 for i=1 to 42
 10011 read r(i)
 10012 next
+10015 poke 59395,3:rem full speed 
 
 10020 gosub 10300
 

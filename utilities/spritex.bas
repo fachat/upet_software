@@ -24,18 +24,22 @@
 2000 rem left
 2010 if m$="p" then poke r,38:v=peek(d)-1:poke d,(v+abs(v))/2:return
 2050 if m$="s" then poke r,25:v=(peek(d)and15)-1:poke d,(peek(d)and16)or((v+abs(v))/2):return
+2060 if m$="m" then poke r,48+s*4:v=peek(p):a=peek(p):v=v+256*(peek(p)and3):v=v-1:v=(v+abs(v))/2:poke r,48+s*4:poke d,v and255:poke r,50+s*4:poke d,(peek(d) and 240) + v/256
 2090 return
 2100 rem right
 2110 if m$="p" then poke r,38:poke d,peek(d)+1:return
 2150 if m$="s" then poke r,25:poke d,peek(d)+1:return
+2160 if m$="m" then poke r,48+s*4:v=peek(p):a=peek(p):v=v+256*(peek(p)and3):v=v+1:v=v and 1023:poke r,48+s*4:poke d,v and255:poke r,50+s*4:poke d,(peek(d) and 240) + v/256
 2190 return
 2200 rem up
 2210 if m$="p" then poke r,39:v=peek(d)-1:poke d,(v+abs(v))/2:return
 2250 if m$="s" then poke r,24:v=(peek(d)and15)-1:poke d,(peek(d)and16)or((v+abs(v))/2):return
+2260 if m$="m" then poke r,49+s*4:v=peek(p):v=v+256*int(peek(p)/16):v=v-1:v=(v+abs(v))/2:poke r,49+s*4:poke p,v and255:poke d,(peek(d) and 15) + (int(v/256)*16)
 2290 return
 2300 rem down
 2310 if m$="p" then poke r,39:poke d,peek(d)+1:return
 2350 if m$="s" then poke r,24:poke d,peek(d)+1:return
+2360 if m$="m" then poke r,49+s*4:v=peek(p):v=v+256*int(peek(p)/16):v=v+1:v=v and 1023:poke r,49+s*4:poke p,v and255:poke d,(peek(d) and 15) + (int(v/256)*16)
 2390 return
 
 2400 rem "p"
@@ -95,8 +99,8 @@
 4030 return
 
 4100 rem "m" sprite move
-4105 m$=c$
-4110 s=s+1:if s>8 then s=0
+4110 if m$="m" then s=s+1:if s>8 then s=0
+4110 m$=c$
 4120 return
 9999 end
 
@@ -108,6 +112,7 @@
 
 10005 poke r,38:poke p,9:poke p,79: rem screen geo
 10006 poke r,9:poke d,7
+10007 poke 59395,3:rem full speed
 
 10010 rem sprites
 10015 poke 59398,128+10:rem $8axxx in $9xxx window, i.e. block 10 in vid bank
@@ -189,11 +194,11 @@
 11010 poke r,42:poke d, 10*16+15:rem sprite base $1afxx (sprite pointer)
 11100 rem sprite 0
 11110 poke 10*4096-8, 128:rem a15/14 from sprite base, b7 becomes a13 etc
-11120 poke r,48: poke p,27:poke p,30:poke p,0:poke p,1
-11130 poke r,80: poke d,1:rem white
-11150 poke 10*4096-7, 129
-11160 poke r,52: poke p,91:poke p,30:poke p,1:poke p,1
-11170 poke r,80: poke d,15:rem white
+11120 poke r,48: poke p,15
+11121            poke p,130
+11122            poke p,0
+11123            poke p,1
+11130 poke r,80: poke d,15:rem white
 11190 rem sprite 1 top right
 11191 poke 40960-7,128+1
 11192 poke r,52:poke d,91
@@ -224,8 +229,8 @@
 11226 poke r,84:poke d,15:rem white
 11230 rem sprite 5 middle v zero h
 11231 poke 40960-3,128+5
-11232 poke r,68:poke d,15
-11233 poke r,69:poke d,130
+11232 poke r,68:poke d,15  :rem 27
+11233 poke r,69:poke d,160 :rem 30
 11234 poke r,70:poke d,0
 11235 poke r,71:poke d,1
 11236 poke r,85:poke d,15:rem white
@@ -271,8 +276,8 @@
 12310 for i=0to7:poke r,48+i*4
 12320 x=peek(p):y=peek(p):xy=peek(p):x=x+256*(xy and 3):y=y+256*((xy and 48)/16)
 12325 if m$="m" and i=s then print"{rvon}";
-12330 print x"/"y" {rvof}";
-12331 if i=2 or i=5 then print:print"   ";
+12330 print i;": "x"/"y"{rvof} ";
+12331 if i=1 or i=3 or i=5 then print:print"   ";
 12340 next
 12800 poke r,8:v=peek(d)
 12801 print:print "mode: "v
