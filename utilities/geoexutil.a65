@@ -1,0 +1,164 @@
+
+tmp	=$1
+i
+	.word 634
+	*=634	; tape buffer
+
+VBASE	=$8a000	; bitmap start
+
+	sei
+	
+        ; set hires buffer
+        php
+        sei
+
+        ; go to native / wide mode
+        clc
+        xce
+        ; set X/Y registers to 16 bit ...
+        rep #%00010000
+        .xl
+
+	; --------------------
+	; clear the hires screen (xl)
+        lda #0
+        ldx #$1fff
+l3      sta $084000,x
+        ;txa
+        dex
+        bpl l3
+
+	; --------------------
+	; first line
+	ldx #39
+:	lda #%10101010
+	sta $084000,x
+	lsr
+	sta $084028,x
+	dex
+	bpl :-	
+
+        rep #%00110000
+        .al
+
+	; ---------------------
+	; binary ladder starting from 0 at the top (al,xl)
+	; four times
+        lda #$0000      ; value
+l2      pha
+        ; times 40=32+8 (80=64+16) to get ladder bytes in a top-bottom line
+;        asl
+        asl
+        asl
+        asl
+        sta tmp         ; x8 (x16)
+        asl
+        asl             ; x32 (x64)
+        clc
+        adc tmp         ; x40 (x80)
+        tax
+        pla
+        sta $084014,x
+        sta $084016,x
+        sta $084018,x
+        sta $08401a,x
+        clc
+        adc #1
+        cmp #$80
+        bcc l2
+
+	; ---------------------
+        ; draw a line (al,xl)
+        lda #0
+:       tax
+        tay
+        pha
+        jsr dot_wxa
+        pla
+        pha
+        clc
+        ;adc #128
+        tax
+        pla
+        pha
+        sec
+        sbc #128
+        eor #$ffff
+        tay
+        jsr dot_wxa
+        pla
+        clc
+
+        adc #1
+        cmp #128
+        bcc :-
+
+        ; end native / wide mode
+        lda #0
+        ldx #0
+        sep #%00110000
+
+        sec
+        xce
+
+        .xs
+        .as
+        plp
+
+        rts
+
+
+        .al
+        .xl
+
+dot_wxa ; draw a hires dot on x/y
+        tya
+;        asl
+        asl
+        asl
+        asl             ; x16
+        sta tmp
+        asl
+        asl             ; x64
+        clc 
+        adc tmp
+        sta tmp
+        txa
+        lsr
+        lsr
+        lsr
+        and #$fe        ; index in line
+        clc
+        adc tmp
+        sta tmp
+        txa
+        and #$0f        ; index in word
+        asl
+        tay
+        lda dottab,y
+        ldx tmp
+        ora $084020,x
+        sta $084020,x
+        rts
+
+dottab  .word $0080
+        .word $0040
+        .word $0020
+        .word $0010
+        .word $0008
+        .word $0004
+        .word $0002
+        .word $0001
+        .word $8000
+        .word $4000
+        .word $2000
+        .word $1000
+        .word $0800
+        .word $0400
+        .word $0200
+        .word $0100
+
+        .as
+        .xs
+
+

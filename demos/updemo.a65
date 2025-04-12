@@ -31,7 +31,7 @@ tmp2	=$0a
 
 BSOUT	=$ffd2
 
-OFFSET70=22
+OFFSET70=0	;22
 
 	.word $0401
 	* = $0401
@@ -74,6 +74,7 @@ loop
 	jsr demohires
 	jsr demosprites
 	jsr demopalette
+	jsr demodynpos
 
 	jsr wait
 	jsr wait
@@ -320,6 +321,8 @@ idemo5
 	ldx #VCCY_HPOS
 	lda vdctab+VCCY_HPOS
 	clc
+	adc dynhoff
+	clc
 	adc #3		; shift three to the right
 	jsr sreg
 	ldx #VCCY_HDISP
@@ -359,6 +362,8 @@ txt 	.asc "           * HORIZONTAL WIDTH AND POSITION"
 idemo5	
 	ldx #VCCY_HPOS
 	lda vdctab+VCCY_HPOS	; reset shift
+	clc 
+	adc dynhoff
 	jsr sreg
 	ldx #VCCY_HDISP
 	lda #80		; reset chars to 80
@@ -723,7 +728,7 @@ mode1	.(
 	sbc tmp
 	bne store
 	lda #1
-	sta vdctab+23	; initialize next mode
+	sta vdctab+VCCY_CHR_VDISP	; initialize next mode
 	lda #8
 	bne store
 	
@@ -1384,6 +1389,99 @@ pal3	.byt %00000000, %00001001, %00000010, %00001111
 	.)
 
 ; ---------------------------------------------------------
+; dynamic position demo
+
+	.(
+
+&demodynpos
+	lda #<txt
+	ldy #>txt
+	jsr txtout
+
+	lda #<itab
+	ldy #>itab
+	jsr addirq
+
+	jmp wait
+
+idemo
+	lda cnt2
+	and #%00001111
+	bne checkh
+
+	.(
+	lda vdir
+	bmi vdown
+	inc dynvoff
+	bne n1
+	inc dynvoff+1
+n1	lda dynvoff
+	clc
+	adc #30
+	cmp #30+31
+	bcc vend
+	dec dynvoff
+	ror vdir
+	bne vend
+vdown	lda dynvoff
+	bne n2
+	dec dynvoff+1
+n2	dec dynvoff
+	lda dynvoff
+	clc
+	adc #30
+	cmp #30-15
+	bcs vend
+	inc dynvoff
+	ror vdir
+vend	.)
+
+checkh	lda cnt2
+	and #%00011111
+	bne end
+
+	.(
+	lda hdir
+	bmi hdown
+	inc dynhoff
+	lda dynhoff
+	clc
+	adc #20		; work aound signed compare
+	cmp #20+8
+	bcc hend
+	dec dynhoff
+	ror hdir
+	bne hend
+
+hdown	dec dynhoff
+	lda dynhoff
+	clc
+	adc #20
+	cmp #20-7
+	bcs hend
+	inc dynhoff
+	clc
+	ror hdir
+hend	.)
+
+end
+	lda #VCCY_BRDR_COL
+	sta VDC
+	inc VDC+1
+	rts
+
+txt 	.asc "           * DYNAMIC SCREEN POSITION"
+	.asc CR,0
+
+itab	.word idemo-1
+	.word 530+OFFSET70
+	.word 0
+
+hdir	.byt 0
+vdir	.byt 0
+	.)
+
+; ---------------------------------------------------------
 ; irq chain
 
 last	.word 0
@@ -1428,11 +1526,16 @@ next
 
 	ldy #2
 	lda (p2),y
+	clc
+	adc dynvoff
+	php
 	ldx #VCCY_RLINE_L
 	jsr sreg
 	iny
 	inx
 	lda (p2),y
+	plp
+	adc dynvoff+1
 	jsr sreg
 
 	ldx #VCCY_IRQ_CTRL
@@ -1551,21 +1654,20 @@ itab	.word resetscr-1
 	.word 0
 
 resetscr
-	;inc vdctab+VCCY_BRDR_COL
 	jsr setviccy
 	rts
 	.)
 
-setr39 .(
-	sta tmp
-	ldx #VCCY_CTRL
-	stx VDC
-	lda VDC+1
-	and #%11111100
-	ora tmp
-	sta VDC+1
-	rts
-	.)
+;setr39 .(
+;	sta tmp
+;	ldx #VCCY_CTRL
+;	stx VDC
+;	lda VDC+1
+;	and #%11111100
+;	ora tmp
+;	sta VDC+1
+;	rts
+;	.)
 
 
 ; ---------------------------------------------------------
@@ -1667,7 +1769,16 @@ clrviccy .(
 	ldy #0
 	sty VDC		; register number
 l0	lda vdctab,y
-	sta VDC+3	; register value w/ auto-inc of register number
+	cpy #VCCY_VPOS
+	bne hoff
+	clc
+	adc dynvoff
+	jmp nooff
+hoff	cpy #VCCY_HPOS
+	bne nooff
+	clc
+	adc dynhoff
+nooff 	sta VDC+3	; register value w/ auto-inc of register number
 lx	iny
 	cpy #42
 	bcc l0
@@ -1704,13 +1815,19 @@ lx	iny
 	.byt 0		; r35 (was r42): irq control
 	.byt 127	; r36 (was r43): irq status (clear all sources)
 	.byt 0		; r37: v/h sync status (VDC)
-	.byt 21		; r38 (was r44): horizontal position (chars)
-	.byt 59+OFFSET70; r39 (was r45): vertical position (rasterlines)
+	.byt 9		; r38 (was r44): horizontal position (chars)
+	.byt 79+OFFSET70; r39 (was r45): vertical position (rasterlines)
 	.byt 0		; r40 (was r46): alt match
 	.byt 0		; r41 (was r47): alt raster row
+
 	.)
 
-
+;dynvoff	.word -15
+;dynvoff	.word 30
+dynvoff		.word 0
+;dynhoff	.byt <-7
+;dynhoff	.byt 7
+dynhoff		.byt 0
 
 clrscr	.(
 	lda #<$8000
