@@ -70,26 +70,26 @@
 3420 return
 
 3600 rem "e" sprite width
-3610 for i=0 to 6:poke r,51+i*4
+3610 for i=0 to 7:poke r,51+i*4
 3620 rem v=peek(d):v=(v or 6) - (v and 6):poke d,v
 3625 v=peek(d):v=(v or 6) - (v and 6):poke d,v
 3630 next
 3640 return
 
 3700 rem "r" sprite raster prio
-3710 for i=0 to 6:poke r,51+i*4
+3710 for i=0 to 7:poke r,51+i*4
 3720 v=peek(d):v=(v or 16) - (v and 16):poke d,v
 3730 next
 3740 return
 
 3800 rem "S" sprite border prio
-3810 for i=0 to 6:poke r,51+i*4
+3810 for i=0 to 7:poke r,51+i*4
 3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
 3830 next
 3840 return
 
 3900 rem "f" sprite fine/80col mode
-3910 for i=0 to 6:poke r,51+i*4
+3910 for i=0 to 7:poke r,51+i*4
 3920 v=peek(d):v=(v or 64) - (v and 64):poke d,v
 3930 next
 3940 return
@@ -244,11 +244,11 @@
 11246 poke r,86:poke d,15:rem white
 11250 rem sprite 7 right border
 11251 poke 40960-1,128+7
-11252 poke r,72:poke d,103
-11253 poke r,73:poke d,140
-11254 poke r,74:poke d,1
-11255 poke r,75:poke d,1
-11256 poke r,86:poke d,15:rem white
+11252 poke r,76:poke d,103
+11253 poke r,77:poke d,140
+11254 poke r,78:poke d,1
+11255 poke r,79:poke d,1
+11256 poke r,87:poke d,15:rem white
 
 11999 return
 
