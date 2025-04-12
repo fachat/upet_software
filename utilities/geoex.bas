@@ -9,7 +9,7 @@
 1020 gosub 10100:rem reset registers
 1100 gosub 11000:rem print menu
 
-1105 cc$="@{left}{right}{up}{down}ps86tidcovmbwrehBP"
+1105 cc$="@{left}{right}{up}{down}ps86tidcovmberShBP"
 1106 cl=len(cc$)
 1110 get c$:if c$="" then 1110
 1120 for c=1 to cl:if c$=mid$(cc$,c,1) then 1200
@@ -95,7 +95,7 @@
 3510 m$=c$
 3520 return
 
-3600 rem "w" sprite width
+3600 rem "e" sprite width
 3610 for i=0 to 6:poke r,51+i*4
 3620 v=peek(d):v=(v or 6) - (v and 6):poke d,v
 3630 next
@@ -107,7 +107,7 @@
 3730 next
 3740 return
 
-3800 rem "e" sprite border prio
+3800 rem "S" sprite border prio
 3810 for i=0 to 6:poke r,51+i*4
 3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
 3830 next
@@ -202,28 +202,28 @@
 10180 rem sprite 0 top left
 10181 poke 8*4096+8*256-8,80
 10182 poke r,48:poke d,27
-10183 poke r,49:poke d,30
+10183 poke r,49:poke d,28
 10184 poke r,50:poke d,0
 10186 poke r,51:poke d,1
 10188 poke r,80:poke d,15:rem white
 10190 rem sprite 1 top right
 10191 poke 8*4096+8*256-7,80
 10192 poke r,52:poke d,91
-10193 poke r,53:poke d,30
+10193 poke r,53:poke d,28
 10194 poke r,54:poke d,1
 10196 poke r,55:poke d,1
 10198 poke r,81:poke d,15:rem white
 10200 rem sprite 2 bottom left
 10201 poke 8*4096+8*256-6,80
 10202 poke r,56:poke d,27
-10203 poke r,57:poke d,229
+10203 poke r,57:poke d,227
 10204 poke r,58:poke d,0
 10205 poke r,59:poke d,1
 10206 poke r,82:poke d,15:rem white
 10210 rem sprite 3 bottom right
 10211 poke 8*4096+8*256-5,80
 10212 poke r,60:poke d,91
-10213 poke r,61:poke d,229
+10213 poke r,61:poke d,227
 10214 poke r,62:poke d,1
 10215 poke r,63:poke d,1
 10216 poke r,83:poke d,15:rem white
@@ -294,13 +294,13 @@
 11215 poke r,24:print peek(p)and16;",";peek(p)and16;"{rvof}"
 
 11220 poke r,51:v=peek(d):if v and 6 then print"{rvon}";
-11222 print "w: toggle sprite width/height{rvof}"
+11222 print "e: toggle sprite width/height{rvof}"
 
 11230 poke r,51:v=peek(d):if v and 16 then print"{rvon}";
 11232 print "r: toggle sprite raster priority{rvof}"
 
 11240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
-11242 print "e: toggle sprite border prio{rvof}"
+11242 print "S: toggle sprite border prio{rvof}"
 
 11255 poke r,40:v=peek(d):if v and 128 then print "{rvon}"; 
 11260 print "h: hires ("rm"){rvof} / B: border col"
