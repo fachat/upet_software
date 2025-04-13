@@ -6,7 +6,6 @@
 
 1000 gosub 10000:rem init
 1010 gosub 10100:rem reset registers
-1020 gosub 10100:rem reset registers
 1100 gosub 11000:rem print menu
 
 1105 cc$="@{left}{right}{up}{down}ps86tidcovmberShBP"
@@ -180,7 +179,7 @@
 10090 data 204,203,51
 
 10100 rem reset registers
-10101 poke r,32:poke d,20
+10101 poke r,32:poke d,20: rem disable pet compat mode
 10105 poke r,0
 10110 for i=1 to 42
 10111 poke p,r(i)
@@ -216,14 +215,14 @@
 10200 rem sprite 2 bottom left
 10201 poke 8*4096+8*256-6,80
 10202 poke r,56:poke d,27
-10203 poke r,57:poke d,227
+10203 poke r,57:poke d,228
 10204 poke r,58:poke d,0
 10205 poke r,59:poke d,1
 10206 poke r,82:poke d,15:rem white
 10210 rem sprite 3 bottom right
 10211 poke 8*4096+8*256-5,80
 10212 poke r,60:poke d,91
-10213 poke r,61:poke d,227
+10213 poke r,61:poke d,228
 10214 poke r,62:poke d,1
 10215 poke r,63:poke d,1
 10216 poke r,83:poke d,15:rem white

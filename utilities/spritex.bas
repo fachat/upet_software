@@ -1,7 +1,6 @@
 
 
 1000 rem init
-1005 print chr$(14)
 1010 gosub 10000:rem data init
 1020 gosub 11000:rem registers
 
@@ -192,6 +191,9 @@
 10120 data 255,255,255
 
 11000 rem register init
+11002 poke r,32:poke d,20+128:rem enable pet compat mode
+11005 print chr$(142):poke 59468,14
+11007 poke r,32:poke d,20:rem disable pet compat mode so mode change works
 11010 poke r,42:poke d, 10*16+15:rem sprite base $1afxx (sprite pointer)
 11100 rem sprite 0
 11110 poke 10*4096-8, 128:rem a15/14 from sprite base, b7 becomes a13 etc
