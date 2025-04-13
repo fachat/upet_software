@@ -1,11 +1,10 @@
 
 
 1000 rem init
-1005 print chr$(14)
 1010 gosub 10000:rem data init
 1020 gosub 11000:rem registers
 
-1099 cc$="@{left}{right}{up}{down}p86tidserbBPfm"
+1099 cc$="@{left}{right}{up}{down}p86tidserSBPfm"
 
 1100 gosub 12000:rem print menu
 
@@ -70,26 +69,26 @@
 3420 return
 
 3600 rem "e" sprite width
-3610 for i=0 to 6:poke r,51+i*4
+3610 for i=0 to 7:poke r,51+i*4
 3620 rem v=peek(d):v=(v or 6) - (v and 6):poke d,v
 3625 v=peek(d):v=(v or 6) - (v and 6):poke d,v
 3630 next
 3640 return
 
 3700 rem "r" sprite raster prio
-3710 for i=0 to 6:poke r,51+i*4
+3710 for i=0 to 7:poke r,51+i*4
 3720 v=peek(d):v=(v or 16) - (v and 16):poke d,v
 3730 next
 3740 return
 
-3800 rem "b" sprite border prio
-3810 for i=0 to 6:poke r,51+i*4
+3800 rem "S" sprite border prio
+3810 for i=0 to 7:poke r,51+i*4
 3820 v=peek(d):v=(v or 32) - (v and 32):poke d,v
 3830 next
 3840 return
 
 3900 rem "f" sprite fine/80col mode
-3910 for i=0 to 6:poke r,51+i*4
+3910 for i=0 to 7:poke r,51+i*4
 3920 v=peek(d):v=(v or 64) - (v and 64):poke d,v
 3930 next
 3940 return
@@ -192,32 +191,35 @@
 10120 data 255,255,255
 
 11000 rem register init
+11002 poke r,32:poke d,20+128:rem enable pet compat mode
+11005 print chr$(142):poke 59468,14
+11007 poke r,32:poke d,20:rem disable pet compat mode so mode change works
 11010 poke r,42:poke d, 10*16+15:rem sprite base $1afxx (sprite pointer)
 11100 rem sprite 0
 11110 poke 10*4096-8, 128:rem a15/14 from sprite base, b7 becomes a13 etc
-11120 poke r,48: poke p,15
-11121            poke p,130
+11120 poke r,48: poke p,27
+11121            poke p,29
 11122            poke p,0
 11123            poke p,1
 11130 poke r,80: poke d,15:rem white
 11190 rem sprite 1 top right
 11191 poke 40960-7,128+1
 11192 poke r,52:poke d,91
-11193 poke r,53:poke d,30
+11193 poke r,53:poke d,29
 11194 poke r,54:poke d,1
 11196 poke r,55:poke d,1
 11198 poke r,81:poke d,15:rem white
 11200 rem sprite 2 bottom left
 11201 poke 40960-6,128+2
 11202 poke r,56:poke d,27
-11203 poke r,57:poke d,229
+11203 poke r,57:poke d,228
 11204 poke r,58:poke d,0
 11205 poke r,59:poke d,1
 11206 poke r,82:poke d,15:rem white
 11210 rem sprite 3 bottom right
 11211 poke 40960-5,128+3
 11212 poke r,60:poke d,91
-11213 poke r,61:poke d,229
+11213 poke r,61:poke d,228
 11214 poke r,62:poke d,1
 11215 poke r,63:poke d,1
 11216 poke r,83:poke d,15:rem white
@@ -231,7 +233,7 @@
 11230 rem sprite 5 middle v zero h
 11231 poke 40960-3,128+5
 11232 poke r,68:poke d,15  :rem 27
-11233 poke r,69:poke d,160 :rem 30
+11233 poke r,69:poke d,140 :rem 30
 11234 poke r,70:poke d,0
 11235 poke r,71:poke d,1
 11236 poke r,85:poke d,15:rem white
@@ -242,6 +244,13 @@
 11244 poke r,74:poke d,16
 11245 poke r,75:poke d,1
 11246 poke r,86:poke d,15:rem white
+11250 rem sprite 7 right border
+11251 poke 40960-1,128+7
+11252 poke r,76:poke d,103
+11253 poke r,77:poke d,140
+11254 poke r,78:poke d,1
+11255 poke r,79:poke d,1
+11256 poke r,87:poke d,15:rem white
 
 11999 return
 
@@ -267,7 +276,7 @@
 12232 print "r: toggle sprite raster priority{rvof}"
 
 12240 poke r,51:v=peek(d):if v and 32 then print"{rvon}";
-12242 print "b: toggle sprite border prio{rvof}"
+12242 print "S: toggle sprite border prio{rvof}"
 
 12250 poke r,51:v=peek(d):if v and 64 then print"{rvon}";
 12252 print "f: toggle sprite fine/80col coords{rvof}"

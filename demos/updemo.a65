@@ -74,12 +74,12 @@ loop
 	jsr demohires
 	jsr demosprites
 	jsr demopalette
-	jsr demodynpos
+	;jsr demodynpos
 
 	jsr wait
 	jsr wait
 	jsr wait
-x jmp x
+;x jmp x
 	jsr stopirq
 	sei
 	jsr resetchain
@@ -178,7 +178,7 @@ idemo3
 	rts
 
 itab	.word idemo3-1
-	.word 167+OFFSET70
+	.word 167+18+OFFSET70
 	.word 0
 
 txt 	.asc "           * COLOUR PET COMPATIBLE COLOUR MODE"
@@ -220,7 +220,7 @@ idemo3
 	rts
 
 itab	.word idemo3-1
-	.word 185+OFFSET70
+	.word 185+18+OFFSET70
 	.word 0
 
 txt 	.asc "           * MULTI-COLOUR MODE"
@@ -259,7 +259,7 @@ idemo4
 	rts
 
 itab	.word idemo4-1
-	.word 203+OFFSET70
+	.word 203+18+OFFSET70
 	.word 0
 
 txt 	.asc "           * INTERLACE MODE"
@@ -295,7 +295,7 @@ idemo5
 	rts
 
 itab	.word idemo5-1
-	.word 218+OFFSET70
+	.word 218+18+OFFSET70
 	.word 0
 
 txt 	.asc "           * HARDWARE CURSOR"
@@ -338,7 +338,7 @@ idemo5
 	rts
 
 itab	.word idemo5-1
-	.word 235+OFFSET70
+	.word 235+20+OFFSET70
 	.word 0
 
 txt 	.asc "           * HORIZONTAL WIDTH AND POSITION"
@@ -387,7 +387,7 @@ idemo5
 	rts
 
 itab	.word idemo5-1
-	.word 253+OFFSET70
+	.word 253+20+OFFSET70
 	.word 0
 
 txt 	.asc "           * HORIZONTAL SMOOTH SCROLL"
@@ -534,7 +534,7 @@ idemores
 	rts
 
 itabres	.word idemores-1
-	.word 271+OFFSET70
+	.word 271+20+OFFSET70
 	.word 0
 
 
@@ -572,7 +572,7 @@ idemo5	ldx #VCCY_MODE
 	rts
 
 itab	.word idemo5-1
-	.word 289+OFFSET70
+	.word 289+20+OFFSET70
 	.word 0
 
 txt 	.asc "           * SWITCHABLE 40/80 COLS"
@@ -597,7 +597,7 @@ txt 	.asc "           * SWITCHABLE 40/80 COLS"
 
 	jmp wait
 
-txt 	.asc "           * 50 ROW MODES - UP TO 96","x"-32,"71 CHARS"
+txt 	.asc "           * 50 ROW MODES - UP TO 88","x"-32,"71 CHARS"
 	.asc CR,0
 
 idemo5	
@@ -623,7 +623,7 @@ l0	bit VDC+1
 	rts
 
 itab	.word idemo5-1
-	.word 325-18+OFFSET70
+	.word 325+2+OFFSET70
 	.word 0
 
 idemox	ldx #VCCY_MODE
@@ -631,7 +631,7 @@ idemox	ldx #VCCY_MODE
 	jmp sreg	
 
 itab2	.word idemox-1
-	.word 316+OFFSET70
+	.word 316+20+OFFSET70
 	.word 0
 
 	.)
@@ -675,7 +675,7 @@ l	bit VDC+1
 mode	.byt 0
 
 itab	.word idemo5-1
-	.word 325+OFFSET70
+	.word 325+20+OFFSET70
 	.word 0
 
 idemox	ldx #VCCY_CHEIGHT
