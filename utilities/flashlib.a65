@@ -10,6 +10,175 @@ SPI_SELECT	=1
 
 &flash_read .(
 	php
+	jsr send_read_p	; does a SEI
+
+	jsr send_address
+
+	jsr setup_ptr
+
+	jsr spi_read_sector
+
+	jsr spi_deselect
+	plp
+	clc
+	rts
+	.)
+
+;------------------------------
+; write a 4k block - erase first then write
+&flash_write .(
+	php
+
+	jsr read_status
+	and #%10011100
+	beq wrenabled
+	; is write protected, at least in parts
+
+	jsr send_ewsr
+
+	lda #%00000000
+	jsr write_status
+
+	jsr read_status
+	eor #%00000010
+	and #%10011110
+	beq wrenabled
+	; is write protected, at least in parts
+
+	plp
+	;lda #<-1
+	.byt $2c
+wperr	lda #<-2
+	sec
+	rts
+wrenabled
+
+inc $8020
+	jsr send_wren
+
+	jsr send_4k_block_erase
+inc $8021
+
+
+	jsr setup_ptr
+	jsr setup_cntr
+
+inc $8022
+	jsr send_wren
+
+	;------- 
+	; write loop, two bytes at a time
+	; only the first one has actual address using AAI command
+	; must be ended with WRDI command
+
+	lda #$ad	; AAI auto-increment programming
+	jsr send_cmd_p
+	jsr send_address
+
+	jmp send_bytes
+
+aailoop
+	lda #$ad
+	jsr send_cmd_p
+send_bytes
+byte_loop
+	ldy #0
+	lda (sector_ptr),y
+	jsr spi_write
+
+	inc sector_ptr
+	bne @1
+	inc sector_ptr+1
+@1
+	lda tmpw
+	bne @2
+	dec tmpw+1
+@2	dec tmpw
+
+	lda tmpw
+	and #1
+	bne byte_loop
+
+	jsr spi_deselect
+
+inc $8023
+@3	jsr read_status
+	and #1
+	bne @3
+
+	lda tmpw+1
+	ora tmpw
+	bne aailoop
+inc $8024
+
+	jsr send_wdis
+inc $8025
+
+@5	jsr read_status
+	and #1
+	bne @5
+inc $8026
+
+	plp
+	clc
+	rts
+	.)
+
+send_4k_block_erase .(
+	lda #$20	; 4k sector erase
+	jsr send_cmd_p
+
+	jsr send_address
+
+	jsr spi_deselect
+
+busy	jsr read_status
+	and #1
+	bne busy
+
+	clc
+	rts
+	.)
+
+read_status .(
+	lda #5
+	jsr send_cmd_p
+
+	jsr spi_read
+
+	pha
+	jsr spi_deselect
+	pla
+	rts
+	.)
+
+write_status .(
+	pha
+	lda #1
+	jsr send_cmd_p
+
+	pla
+	jsr spi_write
+
+	jmp spi_deselect
+	.)
+
+send_wdis
+	lda #4
+	.byt $2c
+send_ewsr
+	lda #$50
+	.byt $2c
+send_wren .(
+	lda #6		; WREN
+	jsr send_cmd_p
+	jmp spi_deselect
+	.)
+
+send_read_p 
+	lda #3		; RD
+send_cmd_p .(
+	pha
 	sei
 	lda #%00000000	; mode 0
 	jsr spi_ctrl
@@ -17,21 +186,42 @@ SPI_SELECT	=1
 	lda #SPI_SELECT
 	jsr spi_select
 
-	lda #3		; READ
-	jsr spi_write
+	pla
+	jmp spi_write
+	.)
 
+send_address .(
+	lda sector_address
+	sta tmp
 	lda sector_address+1
+	asl tmp
+	rol
+	asl tmp
+	rol
+	asl tmp
+	rol
+	asl tmp
+	rol
 	jsr spi_write
-	lda sector_address+0	
+	lda tmp
 	jsr spi_write
 	lda #0
-	jsr spi_write
+	jmp spi_write
+	.)
 
-	jsr spi_read_sector
+setup_ptr .(
+	lda #<sector_buffer
+	sta sector_ptr
+	lda #>sector_buffer
+	sta sector_ptr+1
+	rts
+	.)
 
-	jsr spi_deselect
-	plp
-	clc
+setup_cntr .(
+	lda #<$1000
+	sta tmpw
+	lda #>$1000
+	sta tmpw+1
 	rts
 	.)
 

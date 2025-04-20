@@ -99,12 +99,16 @@ spi_ctrl:
 ;-----------------------------------------------------------------------------
 spi_read_sector:
 
-	; Read 256 bytes of sector data
+	; Read 4k bytes of sector data
+	ldx #16		; # pages
         ldy #0
 
 @1:	jsr spi_read
-	sta sector_buffer + 0, y
+	sta (sector_ptr), y
 	iny
+	bne @1
+	inc sector_ptr+1
+	dex
 	bne @1
 	clc
 	rts

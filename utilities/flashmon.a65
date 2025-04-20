@@ -4,9 +4,9 @@
 ; available commands are
 ;
 ;	R 01234567 	read a block into buffer; display first 64 bytes
-;	M [00 [11]]	display the memory in the buffer
+;	M [000]		display the memory in the buffer
 ;	W 01234567	write a block from memory to flash
-;	: 00 01 [02...] overwrite buffer memory
+;	: 000 01 [02...] overwrite buffer memory
 ;
 ; The program is using a flash access library in flashlib.a65
 ; API basically works by setting parameters in flashlib's external
@@ -17,7 +17,10 @@
 
 ; display and input
 STDOUT	=$ffd2
-STDIN	=$ffcf
+OSSTDIN	=$ffcf
+
+; zeropage vars
+sector_ptr	=$fe
 
 ; -----------------------------------------
 ; BASIC header
@@ -44,8 +47,12 @@ prompt	.(
 	jsr STDOUT
 
 @2	jsr STDIN
+	cmp " "
+	beq @2
 	cmp #">"
 	beq @2
+	cmp #13
+	beq endcmd
 
 	ldy #cmds_e-cmds-1
 @1	cmp cmds,y
@@ -76,40 +83,79 @@ cmds_a	.word cmdx-1, cmdr-1, cmdc-1, cmdm-1, cmdw-1
 
 ; -----------------------------------------
 
-cmdw
-	jmp prompt
-
 cmdc	.(
-	jsr parse_byte
-	bcs error
+	jsr parse_hex
+&err1	bcs error
 	sta memory_address
+	tya
+	and #$0f
+	sta memory_address+1
 
-	ldx #8	
-	ldy memory_address
+	jsr setup_sector_ptr
+	
+	ldy #0
 @1	jsr parse_byte
 	bcs nohex
-	sta sector_buffer,y
+	sta (sector_ptr),y
 	iny
-	dex
+	cpy #8
 	bne @1
-nohex	jmp endcmd
+	jmp endcmd
+nohex	jmp error
 	.)
 
-cmdr	.(
-	jsr parse_sector
-	bcs error
+cmdw	.(
+	jsr parse_hex
+	bcs err1
+	sta sector_address
+	sty sector_address+1
 
+	jsr SPOUT
 	lda #">"
 	jsr STDOUT
 	lda sector_address+1
 	jsr HEXOUT
 	lda sector_address
 	jsr HEXOUT
-	
+	lda #"0"
+	jsr STDOUT
+	lda #0
+	jsr HEXOUT
+
+	jsr flash_write
+	bcc @1
+	pha
+	lda #":"
+	jsr STDOUT
+	pla
+	jsr HEXOUT
+@1
+	jmp endcmd
+	.)
+
+cmdr	.(
+	jsr parse_hex
+	bcs err1
+	sta sector_address
+	sty sector_address+1
+
+	jsr SPOUT
+	lda #">"
+	jsr STDOUT
+	lda sector_address+1
+	jsr HEXOUT
+	lda sector_address
+	jsr HEXOUT
+	lda #"0"
+	jsr STDOUT
+	lda #0
+	jsr HEXOUT
+
 	jsr flash_read
 
 	lda #0
 	sta memory_address
+	sta memory_address+1
 	
 	jsr display_memory
 	jmp endcmd
@@ -120,13 +166,18 @@ cmdx	.(
 	.)
 
 cmdm	.(
-	jsr parse_byte
+	jsr parse_hex
 	bcs no_addr
 	sta memory_address
+	tya
+	and #$0f		; 4k blocks
+	sta memory_address+1
 no_addr
 	lda #">"
 	jsr STDOUT
 	lda memory_address+1
+	jsr HEXOUT
+	lda memory_address
 	jsr HEXOUT
 
 	jsr display_memory
@@ -136,33 +187,59 @@ no_addr
 
 ; -----------------------------------------
 
+setup_sector_ptr .(
+	lda memory_address
+	clc
+	adc #<sector_buffer
+	sta sector_ptr
+	lda memory_address+1
+	adc #>sector_buffer
+	sta sector_ptr+1
+	rts
+	.)
+
 display_memory .(
 	jsr CRLF
 
-	ldx #8			; 8 lines with 8 bytes each
-	stx tmp
+	lda #8			; 8 lines with 8 bytes each
+	sta tmp
 
 @2	lda #">"
 	jsr STDOUT
 	lda #":"
 	jsr STDOUT
 
+	lda memory_address+1
+	jsr NIBOUT
 	lda memory_address
 	jsr HEXOUT
 
-	ldy memory_address
-@1	jsr SPOUT
-	lda sector_buffer,y
+	ldx #8		; 8 bytes
+	ldy #0
+@1	
+	jsr setup_sector_ptr
+
+	jsr SPOUT
+	lda (sector_ptr),y
 	jsr HEXOUT
-	iny
+
+	; inc pointer
+	inc memory_address
+	bne @3
+	; upper byte
+	lda memory_address+1
+	inc memory_address+1
+	; check if 4k boundary is crossed?
+	eor memory_address+1
+	and #$f0
+	beq @3
+	lda #0
+	sta memory_address+1
+@3
+	; all 8 bytes?
 	dex
 	bne @1
 	jsr CRLF
-	lda #8
-	clc
-	adc memory_address
-	sta memory_address
-	ldx #8
 	dec tmp
 	bne @2
 	rts
@@ -170,44 +247,24 @@ display_memory .(
 
 ; -----------------------------------------
 
-
 parse_byte .(
-	lda #0
-	sta tmp
-
-@4	jsr STDIN
-	jsr ISHEX
-	bcc @3
+	sty tmp
+	lda lastin
+	cmp #13
+	beq @1
 	cmp #" "
-	beq @4
-	sec
-	rts
-
-@2	jsr STDIN
-@3	jsr HEX2BIN
-	bcs nohex
-	asl
-	asl
-	asl
-	asl
-	asl
-	rol tmp
-	asl
-	rol tmp
-	asl
-	rol tmp
-	asl
-	rol tmp
-	bra @2
-nohex	lda tmp
-	clc
+	bne @2
+	jsr parse_hex
+	ldy tmp
+@1	rts
+@2	sec
 	rts
 	.)
 
-parse_sector .(
+parse_hex .(
 	lda #0
-	sta sector_address
-	sta sector_address+1
+	sta tmpw
+	sta tmpw+1
 
 @4	jsr STDIN
 	jsr ISHEX
@@ -224,27 +281,35 @@ parse_sector .(
 	asl
 	asl
 	asl
-	ldx #4
-@1	asl
-	rol sector_address
-	rol sector_address+1
-	dex
-	bne @1
+	asl
+	rol tmpw
+	rol tmpw+1
+	asl
+	rol tmpw
+	rol tmpw+1
+	asl
+	rol tmpw
+	rol tmpw+1
+	asl
+	rol tmpw
+	rol tmpw+1
 	beq @2
 nohex	clc
-&out	rts
+	lda tmpw
+	ldy tmpw+1
+	rts
 	.)
 
 HEX2BIN	.(
 	jsr ISHEX
-	bcs out
+	bcs @2
 	; moves "0"-"9" to 0-9
 	sbc #"0"-1	; -1 as C=0
 	cmp #9+1
 	bcc @1
 	sbc #7
 @1	clc
-	rts
+@2	rts
 	.)
 
 ISHEX	.(
@@ -270,7 +335,7 @@ HEXOUT	.(
 	lsr
 	jsr nib
 	pla
-	and #$0f
+&NIBOUT	and #$0f
 nib	cmp #10
 	bcc digit
 	adc #"A"-"9"-1-1
@@ -288,14 +353,22 @@ CRLF	.(
 SPOUT	lda #" "
 	jmp STDOUT
 
+STDIN	jsr OSSTDIN
+	sta lastin
+	rts
+
 ; -----------------------------------------
 
 	.include "flashlib.a65"
 
 ; -----------------------------------------
 
+lastin		.byt 0
 tmp		.byt 0
-memory_address	.byt 0
-sector_address	.byt 0,0
+tmpw		.word 0
+memory_address	.word 0
+sector_address	.word 0
+byte_counter	.word 0
+
 sector_buffer	=*
 	
