@@ -1,0 +1,301 @@
+
+; This program allows reading/writing blocks of memory (i.e. 256 bytes) from the flash chip
+;
+; available commands are
+;
+;	R 01234567 	read a block into buffer; display first 64 bytes
+;	M [00 [11]]	display the memory in the buffer
+;	W 01234567	write a block from memory to flash
+;	: 00 01 [02...] overwrite buffer memory
+;
+; The program is using a flash access library in flashlib.a65
+; API basically works by setting parameters in flashlib's external
+; parameters where needed, and calling the appropriate function.
+
+; -----------------------------------------
+; standard routines
+
+; display and input
+STDOUT	=$ffd2
+STDIN	=$ffcf
+
+; -----------------------------------------
+; BASIC header
+
+	.word $0401
+	* = $0401
+
+	.word link
+	.word 10
+	.byt $9e, "1040"
+	.byt 0
+link	.word 0
+	.dsb $0410-*, $aa
+
+; -----------------------------------------
+
+	jsr flash_init
+
+; -----------------------------------------
+; prompt loop
+
+prompt	.(
+	lda #">"
+	jsr STDOUT
+
+@2	jsr STDIN
+	cmp #">"
+	beq @2
+
+	ldy #cmds_e-cmds-1
+@1	cmp cmds,y
+	beq found
+	dey
+	bpl @1
+
+&error	lda #"?"
+	jsr STDOUT
+&endcmd	jsr CRLF
+	jmp prompt
+
+found	tya
+	asl
+	tay
+	lda cmds_a+1,y
+	pha
+	lda cmds_a,y
+	pha
+	rts
+
+cmds	.byt "XR:MW",0
+cmds_e	=*
+
+cmds_a	.word cmdx-1, cmdr-1, cmdc-1, cmdm-1, cmdw-1
+
+	.)
+
+; -----------------------------------------
+
+cmdw
+	jmp prompt
+
+cmdc	.(
+	jsr parse_byte
+	bcs error
+	sta memory_address
+
+	ldx #8	
+	ldy memory_address
+@1	jsr parse_byte
+	bcs nohex
+	sta sector_buffer,y
+	iny
+	dex
+	bne @1
+nohex	jmp endcmd
+	.)
+
+cmdr	.(
+	jsr parse_sector
+	bcs error
+
+	lda #">"
+	jsr STDOUT
+	lda sector_address+1
+	jsr HEXOUT
+	lda sector_address
+	jsr HEXOUT
+	
+	jsr flash_read
+
+	lda #0
+	sta memory_address
+	
+	jsr display_memory
+	jmp endcmd
+	.)
+
+cmdx	.(
+	rts
+	.)
+
+cmdm	.(
+	jsr parse_byte
+	bcs no_addr
+	sta memory_address
+no_addr
+	lda #">"
+	jsr STDOUT
+	lda memory_address+1
+	jsr HEXOUT
+
+	jsr display_memory
+	jmp endcmd
+	.)
+
+
+; -----------------------------------------
+
+display_memory .(
+	jsr CRLF
+
+	ldx #8			; 8 lines with 8 bytes each
+	stx tmp
+
+@2	lda #">"
+	jsr STDOUT
+	lda #":"
+	jsr STDOUT
+
+	lda memory_address
+	jsr HEXOUT
+
+	ldy memory_address
+@1	jsr SPOUT
+	lda sector_buffer,y
+	jsr HEXOUT
+	iny
+	dex
+	bne @1
+	jsr CRLF
+	lda #8
+	clc
+	adc memory_address
+	sta memory_address
+	ldx #8
+	dec tmp
+	bne @2
+	rts
+	.)
+
+; -----------------------------------------
+
+
+parse_byte .(
+	lda #0
+	sta tmp
+
+@4	jsr STDIN
+	jsr ISHEX
+	bcc @3
+	cmp #" "
+	beq @4
+	sec
+	rts
+
+@2	jsr STDIN
+@3	jsr HEX2BIN
+	bcs nohex
+	asl
+	asl
+	asl
+	asl
+	asl
+	rol tmp
+	asl
+	rol tmp
+	asl
+	rol tmp
+	asl
+	rol tmp
+	bra @2
+nohex	lda tmp
+	clc
+	rts
+	.)
+
+parse_sector .(
+	lda #0
+	sta sector_address
+	sta sector_address+1
+
+@4	jsr STDIN
+	jsr ISHEX
+	bcc @3
+	cmp #" "
+	beq @4
+	sec
+	rts
+
+@2	jsr STDIN
+@3	jsr HEX2BIN
+	bcs nohex
+	asl
+	asl
+	asl
+	asl
+	ldx #4
+@1	asl
+	rol sector_address
+	rol sector_address+1
+	dex
+	bne @1
+	beq @2
+nohex	clc
+&out	rts
+	.)
+
+HEX2BIN	.(
+	jsr ISHEX
+	bcs out
+	; moves "0"-"9" to 0-9
+	sbc #"0"-1	; -1 as C=0
+	cmp #9+1
+	bcc @1
+	sbc #7
+@1	clc
+	rts
+	.)
+
+ISHEX	.(
+	cmp #"0"
+	bcc nohex
+	cmp #"9"+1
+	bcc hex
+	cmp #"A"
+	bcc nohex
+	cmp #"F"+1
+	bcc hex
+nohex	sec
+	rts
+hex	clc
+	rts
+	.)
+
+HEXOUT	.(
+	pha
+	lsr
+	lsr
+	lsr
+	lsr
+	jsr nib
+	pla
+	and #$0f
+nib	cmp #10
+	bcc digit
+	adc #"A"-"9"-1-1
+digit	adc #"0"
+	jmp STDOUT
+	.)
+
+CRLF	.(
+	lda #13
+	jsr STDOUT
+	lda #10
+	jmp STDOUT
+	.)
+
+SPOUT	lda #" "
+	jmp STDOUT
+
+; -----------------------------------------
+
+	.include "flashlib.a65"
+
+; -----------------------------------------
+
+tmp		.byt 0
+memory_address	.byt 0
+sector_address	.byt 0,0
+sector_buffer	=*
+	

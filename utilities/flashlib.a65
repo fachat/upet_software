@@ -1,0 +1,40 @@
+
+; library for accessing flash memory 
+
+	.(
+&flash_init .(
+	rts
+	.)
+	
+SPI_SELECT	=1
+
+&flash_read .(
+	php
+	sei
+	lda #%00000000	; mode 0
+	jsr spi_ctrl
+
+	lda #SPI_SELECT
+	jsr spi_select
+
+	lda #3		; READ
+	jsr spi_write
+
+	lda sector_address+1
+	jsr spi_write
+	lda sector_address+0	
+	jsr spi_write
+	lda #0
+	jsr spi_write
+
+	jsr spi_read_sector
+
+	jsr spi_deselect
+	plp
+	clc
+	rts
+	.)
+
+	.include "spi-UPET.s"
+	.)
+
