@@ -14,5 +14,5 @@ ${PRGS}: % : %.bas
 	petcat -w40 -o $@ $<
 
 clean:
-	
+	rm -f *.lst *.lab
 

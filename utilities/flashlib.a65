@@ -53,17 +53,13 @@ wperr	lda #<-2
 	rts
 wrenabled
 
-inc $8020
 	jsr send_wren
 
 	jsr send_4k_block_erase
-inc $8021
-
 
 	jsr setup_ptr
 	jsr setup_cntr
 
-inc $8022
 	jsr send_wren
 
 	;------- 
@@ -101,7 +97,6 @@ byte_loop
 
 	jsr spi_deselect
 
-inc $8023
 @3	jsr read_status
 	and #1
 	bne @3
@@ -109,15 +104,12 @@ inc $8023
 	lda tmpw+1
 	ora tmpw
 	bne aailoop
-inc $8024
 
 	jsr send_wdis
-inc $8025
 
 @5	jsr read_status
 	and #1
 	bne @5
-inc $8026
 
 	plp
 	clc
