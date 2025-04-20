@@ -252,8 +252,6 @@ parse_byte .(
 	lda lastin
 	cmp #13
 	beq @1
-	cmp #" "
-	bne @2
 	jsr parse_hex
 	ldy tmp
 @1	rts
