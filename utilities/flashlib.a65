@@ -201,7 +201,7 @@ send_address .(
 	jmp spi_write
 	.)
 
-setup_ptr .(
+&setup_ptr .(
 	lda #<sector_buffer
 	sta sector_ptr
 	lda #>sector_buffer
@@ -209,7 +209,7 @@ setup_ptr .(
 	rts
 	.)
 
-setup_cntr .(
+&setup_cntr .(
 	lda #<$1000
 	sta tmpw
 	lda #>$1000

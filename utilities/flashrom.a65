@@ -1,0 +1,210 @@
+
+; This program allows writing a new SPI ROM image file to the flash ROM
+;
+
+; display and input
+STDOUT	=$ffd2
+STDIN	=$ffcf
+CHKIN	=$ffc6
+CLRCH	=$ffcc
+
+; zeropage vars
+sector_ptr	=$fe
+
+; consts
+LFN	=14	; LFN to open
+
+; -----------------------------------------
+; BASIC header
+
+	.word $0401
+	* = $0401
+
+	.word link
+	.word 10
+	.byt $9e, "1040"
+	.byt 0
+link	.word 0
+	.dsb $0410-*, $aa
+
+; -----------------------------------------
+
+	jsr flash_init
+
+	jsr write_msg
+	jsr write_fname
+	
+	jsr input_fname
+	sty $d1
+	lda #<actual_filename
+	sta $da
+	lda #>actual_filename
+	sta $db
+
+	lda #LFN
+	sta $d2
+	;lda #8
+	;sta $d4	; keep one where I loaded this from
+	lda #0
+	sta $d3
+
+	lda #0
+	sta $96
+
+	lda #0
+	jsr $f563	; OPEN
+	lda $96
+	bne err
+
+	jsr write_loading
+	jsr write_actual
+	jsr CRLF
+
+	lda #0
+	sta sector_address
+	sta sector_address+1
+
+loop
+	lda #"*"
+	jsr STDOUT
+
+	jsr read_sector
+	bcs end
+	jsr flash_write
+
+	inc sector_address
+	bne loop
+	inc sector_address+1
+	bne loop
+end
+err	pha
+	lda #":"
+	jsr STDOUT
+	pla
+	jsr HEXOUT
+
+	lda #LFN
+	jmp $f2e2
+	rts
+
+; -----------------------------------------
+
+read_sector .(
+	jsr setup_ptr
+
+	ldx #LFN
+	jsr CHKIN
+
+	ldx #16		; pages = 4k
+blkloop
+	ldy #0
+bytloop
+	jsr STDIN
+	sta (sector_ptr),y
+	iny
+	bne bytloop
+
+	inc sector_ptr+1
+
+	dex
+	bne blkloop
+
+	jsr CLRCH
+	lda $96
+	cmp #1
+	rts
+	.)
+
+; -----------------------------------------
+
+HEXOUT  .(
+        pha
+        lsr
+        lsr
+        lsr
+        lsr
+        jsr nib
+        pla
+&NIBOUT and #$0f
+nib     cmp #10
+        bcc digit
+        adc #"A"-"9"-1-1
+digit   adc #"0"
+        jmp STDOUT
+        .)
+
+CRLF    .(
+        lda #13
+        jsr STDOUT
+        lda #10
+        jmp STDOUT
+        .)
+
+SPOUT   lda #" "
+        jmp STDOUT
+
+; -----------------------------------------
+
+input_fname .(
+	ldy #0
+@1	jsr STDIN
+	cmp #13
+	beq @2
+	sta actual_filename,y
+	iny
+	cpy #87
+	bcc @1
+@2	; terminate with zero
+	lda #0
+	sta actual_filename,y
+	rts
+	.)
+
+
+write_actual
+	ldy #actual_filename-txts
+	.byt $2c
+write_loading
+	ldy #loading-txts
+	.byt $2c
+write_msg 
+	ldy #msg-txts
+	.byt $2c
+write_fname 
+	ldy #default_filename-txts
+	.(
+@1	lda txts,y
+	beq @2
+	jsr STDOUT
+	iny
+	bne @1
+@2	rts
+	.)
+
+; -----------------------------------------
+
+txts	=*
+
+msg	.asc 13,10, "ENTER FILENAME FOR SPI IMAGE:",13,10,0
+
+loading	.asc 13,10, "LOADING FILE: ",0
+
+default_filename
+	.asc "SPIIMG",$9d,$9d,$9d,$9d,$9d,$9d, 0
+actual_filename
+	.dsb 88,0
+
+; -----------------------------------------
+
+	.include "flashlib.a65"
+
+; -----------------------------------------
+
+tmp		.byt 0
+tmpw		.word 0
+;memory_address	.word 0
+sector_address	.word 0
+;byte_counter	.word 0
+
+sector_buffer	=*
+	
