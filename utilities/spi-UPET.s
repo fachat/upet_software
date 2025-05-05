@@ -34,6 +34,8 @@ SPI_CTRL_SELECT_MASK	= %00000111
 ; clobbers: A
 ;-----------------------------------------------------------------------------
 spi_deselect:
+	bit SPI_CTRL
+	bmi spi_deselect	; wait for end
 	lda SPI_CTRL
 	ora #SPI_CTRL_SELECT_MASK
 	sta SPI_CTRL
@@ -64,6 +66,8 @@ spi_select:
 spi_read:
 	lda #$FF	; 2
 spi_rw:
+	bit SPI_CTRL
+	bvs spi_rw	; wait for tx data register free
 	sta SPI_DATA	; 4
 @1:	bit SPI_CTRL	; 4
 	bmi @1		; 2 + 1 if branch
@@ -77,9 +81,9 @@ spi_rw:
 ; byte to write in A
 ;-----------------------------------------------------------------------------
 spi_write:
+	bit SPI_CTRL
+	bvs spi_write
 	sta SPI_DATA
-@1:	bit SPI_CTRL
-	bmi @1
 	rts
 
 ;-----------------------------------------------------------------------------
@@ -87,6 +91,8 @@ spi_write:
 ; result: C=0 -> error, C=1 -> success
 ;-----------------------------------------------------------------------------
 spi_ctrl:
+	bit SPI_CTRL
+	bmi spi_ctrl		; wait for end of shift
 	ora #SPI_CTRL_SELECT_MASK
 	sta SPI_CTRL
 	rts
@@ -123,10 +129,10 @@ spi_write_sector:
         ; Send 512 bytes of sector data
         ldy #0
 
-@1:     lda sector_buffer, y            ; 4
+@1:     bit SPI_CTRL
+	bvs @1
+	lda sector_buffer, y            ; 4
         sta SPI_DATA
-@3:	bit SPI_CTRL
-	bmi @3
         iny                             ; 2
         bne @1                          ; 2 + 1
 

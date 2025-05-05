@@ -10,6 +10,8 @@ SPI_SELECT	=1
 
 &flash_read .(
 	php
+	sei
+
 	jsr send_read_p	; does a SEI
 
 	jsr send_address
@@ -28,6 +30,7 @@ SPI_SELECT	=1
 ; write a 4k block - erase first then write
 &flash_write .(
 	php
+	sei
 
 	jsr read_status
 	and #%10011100
