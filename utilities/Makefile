@@ -1,6 +1,6 @@
 
 PRGS=geoex spritex
-ASM=geoexutil 
+ASM=geoexutil optmenu
 
 all: $(PRGS) $(ASM) flashmon flashrom
 

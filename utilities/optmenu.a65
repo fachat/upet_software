@@ -1,0 +1,112 @@
+; This program allows reading/writing the EEPROM boot options
+;
+; The program re-uses the boot_opts.a65 code from the actual
+; firmware
+
+; -----------------------------------------
+; standard routines
+
+; display and input
+;STDOUT	=$ffd2
+;OSSTDIN	=$ffcf
+
+; zeropage vars
+sector_ptr	=$fe
+
+; -----------------------------------------
+; BASIC header
+
+	.word $0401
+	* = $0401
+
+	.word link
+	.word 10
+	.byt $9e, "1040"
+	.byt 0
+link	.word 0
+	.dsb $0410-*, $aa
+
+; -----------------------------------------
+
+main	.(
+	sei
+
+	; switch to native mode (to allow for 16bit registers)
+	clc
+	xce
+
+	rep #%00010000
+	.xl
+
+	; prep irq vector for native mode
+	lda #0
+	sta $e801	; disable write protection
+	; save old irq vector
+	ldx $ffee
+	stx oldirq
+	ldx #newirq
+	stx $ffee
+
+	cli
+	
+	jsr do_options_init_xl
+
+@1	jsr do_options_xl
+	cmp #"x"
+	bne @1
+
+	sep #%00010000	
+	.xs
+	cli
+	rts
+	.)
+
+newirq 	.(
+	rti
+	.)
+
+; -----------------------------------------
+
+	.xl
+
+clrscreen_xl .(
+	ldy #0
+	lda #" "
+@1:	sta $8000,y
+	iny
+	cpy #1000
+	bcc @1
+	ldy #0
+	lda #5
+@2:	sta $8800,y
+	iny
+	cpy #1000
+	bcc @2
+	rts
+	.)
+
+; -----------------------------------------
+
+oldirq	.word 0
+
+opt	.byt 0
+opt0	.byt 0
+opt1	.byt 0
+opt2	.byt 0
+optu	.byt 0
+optkbd	.byt 0
+lastopt	.byt 0
+char	.byt 0
+shift	.byt 0
+
+PIA1	=$e810
+
+SPICTRL	=$e808
+SPIDATA	=$e809
+SPIPEEK	=$e80a
+
+	.include "via6522.i65"
+	.include "tcdefs.i65"
+	.include "boot_opts.a65"
+	.include "boot_kbd.a65"
+
