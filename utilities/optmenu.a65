@@ -55,13 +55,45 @@ main	.(
 	cmp #"x"
 	bne @1
 
+	ldx oldirq
+	stx $ffee
+
 	sep #%00010000	
 	.xs
+
+	; switch to emulation mode (to allow for 16bit registers)
+	sec
+	xce
+
 	cli
 	rts
 	.)
 
 newirq 	.(
+	pha
+	phx
+	phy
+
+	php
+
+	sep #%00110000	
+	.xs
+
+	ldy #0
+	jsr $e4be
+	jsr $f20d
+	cmp #$40
+	bcc nochg
+	cmp #$80
+	bcs nochg
+	ora #$20
+nochg	sta opt
+
+	plp
+
+	ply
+	plx
+	pla
 	rti
 	.)
 
@@ -100,13 +132,22 @@ char	.byt 0
 shift	.byt 0
 
 PIA1	=$e810
+PIA_PA  =0
+PIA_CRA =1
+PIA_PB  =2
+PIA_CRB =3
 
 SPICTRL	=$e808
 SPIDATA	=$e809
 SPIPEEK	=$e80a
 
+VICCY_IRQ=0
+
+TC_CRGT	=29
+TC_CLFT	=29+128
+TC_CUP	=17+128
+TC_CDWN	=17
+
 	.include "via6522.i65"
-	.include "tcdefs.i65"
 	.include "boot_opts.a65"
-	.include "boot_kbd.a65"
 
