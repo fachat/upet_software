@@ -79,8 +79,9 @@ newirq 	.(
 	sep #%00110000	
 	.xs
 
-	ldy #0
-	jsr $e4be
+	jsr $e027
+	lda #$f0
+	sta $e810
 	jsr $f20d
 	cmp #$40
 	bcc nochg
