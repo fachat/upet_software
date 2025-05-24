@@ -100,7 +100,7 @@ spi_ctrl:
 
 ;-----------------------------------------------------------------------------
 ; spi_read_sector
-; read 256 bytes from SPI to sector_buffer
+; read 4096 bytes from SPI to sector_buffer
 ; result: C=1 -> error, C=0 -> success
 ;-----------------------------------------------------------------------------
 spi_read_sector:
@@ -124,18 +124,18 @@ spi_read_sector:
 ; write 256 bytes of data from sector_buffer
 ; result: C=1 -> error, C=0 -> success
 ;-----------------------------------------------------------------------------
-spi_write_sector:
-
-        ; Send 512 bytes of sector data
-        ldy #0
-
-@1:     bit SPI_CTRL
-	bvs @1
-	lda sector_buffer, y            ; 4
-        sta SPI_DATA
-        iny                             ; 2
-        bne @1                          ; 2 + 1
-
-	clc
-        rts
+;spi_write_sector_:
+;
+;        ; Send 256 bytes of sector data
+;        ldy #0
+;
+;@1:     bit SPI_CTRL
+;	bvs @1
+;	lda sector_buffer, y            ; 4
+;        sta SPI_DATA
+;        iny                             ; 2
+;        bne @1                          ; 2 + 1
+;
+;	clc
+;        rts
 

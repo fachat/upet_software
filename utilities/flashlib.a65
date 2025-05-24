@@ -89,12 +89,12 @@ byte_loop
 	bne @1
 	inc sector_ptr+1
 @1
-	lda tmpw
+	lda cntr
 	bne @2
-	dec tmpw+1
-@2	dec tmpw
+	dec cntr+1
+@2	dec cntr
 
-	lda tmpw
+	lda cntr
 	and #1
 	bne byte_loop
 
@@ -104,8 +104,8 @@ byte_loop
 	and #1
 	bne @3
 
-	lda tmpw+1
-	ora tmpw
+	lda cntr+1
+	ora cntr
 	bne aailoop
 
 	jsr send_wdis
@@ -212,11 +212,12 @@ send_address .(
 	rts
 	.)
 
+	; length of block 
 &setup_cntr .(
 	lda #<$1000
-	sta tmpw
+	sta cntr
 	lda #>$1000
-	sta tmpw+1
+	sta cntr+1
 	rts
 	.)
 

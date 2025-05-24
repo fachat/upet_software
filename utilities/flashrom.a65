@@ -64,6 +64,9 @@ link	.word 0
 	sta sector_address
 	sta sector_address+1
 
+	sta checksum
+	sta checksum+1
+
 loop
 	lda #"*"
 	jsr STDOUT
@@ -81,6 +84,14 @@ err	pha
 	lda #":"
 	jsr STDOUT
 	pla
+	cmp #$40
+	beq iseof
+	jsr HEXOUT
+iseof	lda #"-"
+	jsr STDOUT
+	lda checksum+1
+	jsr HEXOUT
+	lda checksum
 	jsr HEXOUT
 
 	lda #LFN
@@ -100,6 +111,15 @@ blkloop
 	ldy #0
 bytloop
 	jsr STDIN
+	
+	pha
+	clc
+	adc checksum
+	sta checksum
+	bcc :+
+	inc checksum+1
+:	pla
+
 	sta (sector_ptr),y
 	iny
 	bne bytloop
@@ -200,8 +220,10 @@ actual_filename
 
 ; -----------------------------------------
 
+checksum	.word 0
 tmp		.byt 0
-tmpw		.word 0
+;tmpw		.word 0
+cntr		.word 0
 ;memory_address	.word 0
 sector_address	.word 0
 ;byte_counter	.word 0

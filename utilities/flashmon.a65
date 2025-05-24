@@ -363,6 +363,7 @@ STDIN	jsr OSSTDIN
 
 lastin		.byt 0
 tmp		.byt 0
+cntr		.word 0
 tmpw		.word 0
 memory_address	.word 0
 sector_address	.word 0
