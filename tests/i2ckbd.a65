@@ -1,0 +1,190 @@
+
+; using i2c to control keyboard LEDs 
+;
+; Using a PCF8574 I/O extender at bus address $20
+; with P0-P3 being the On/Off switch for the LEDs cols
+;
+; Using a PCA0531 PWM LED controller for brightness control
+; of the rows, at address $60, with LED0-4 controlling 
+; LED rows
+
+
+IO_ADDR		=$38
+PWM_ADDR	=$60
+
+
+I2C		=$e80c
+
+I2C_STATUS	=0
+I2C_TIMEOUT	=0
+I2C_DATA	=1
+I2C_OWNADDR	=2
+I2C_CTRL	=3
+
+I2C_C_AA	=%10000000
+I2C_C_ENSIO	=%01000000
+I2C_C_STA	=%00100000
+I2C_C_STO	=%00010000
+I2C_C_SI	=%00001000
+I2C_C_CLOCK	=%00000101	; 59kHz I2C clock
+
+zp	=$fe
+
+	.word $0401
+	*=$0401
+	.word link
+	.word 10
+	.byt $9e
+	.asc "1040"
+	.byt 0
+link	.word 0
+	.dsb 1040-*
+
+	sei
+
+	; I2C init
+	jsr i2c_init
+	bcs end
+
+inc $8000
+	; send IO port data
+	ldx #IO_ADDR
+	;ldx #PWM_ADDR
+	jsr i2c_start
+stx $8027
+	bcs end
+inc $8001
+
+	lda #$aa
+	jsr i2c_sendbyt
+	bcs end
+	ldx #0
+inc $8002
+
+end	; end i2c
+	pha
+	jsr i2c_stop
+	jsr i2c_end
+	pla
+	cpx #1
+	cli
+	brk
+
+i2c_init .(
+	lda #0	;lda #$ff
+	sta I2C + I2C_TIMEOUT
+
+	lda #1	; 64
+	sta I2C + I2C_OWNADDR
+	
+	lda #I2C_C_ENSIO | I2C_C_CLOCK
+	sta I2C + I2C_CTRL
+
+	.(			; wait 550u
+	ldx #110
+wait	dex
+	bne wait
+	.)
+
+	clc
+	rts
+	.)
+
+i2c_start .(
+	lda #I2C_C_ENSIO | I2C_C_STA | I2C_C_AA | I2C_C_CLOCK
+	sta I2C + I2C_CTRL	; triggers SI serial interrupt with STA
+
+	.(			; wait for SI
+	lda #I2C_C_SI 
+wait	bit I2C + I2C_CTRL
+	beq wait
+	.)
+	
+	lda I2C + I2C_STATUS
+	cmp #$08
+;	beq w1
+;	cmp #$10		; repeated START (should not happen)
+	bne err08
+;w1
+inc $8028
+	;lda #(ADDR << 1)+0	; r/w bit = 0 -> write
+	txa
+	asl
+	sta I2C + I2C_DATA
+
+	lda #I2C_C_ENSIO | I2C_C_CLOCK | I2C_C_AA
+	sta I2C + I2C_CTRL	; send address
+
+	.(
+	lda #I2C_C_SI 
+wait	bit I2C + I2C_CTRL
+	beq wait
+	.)
+
+	lda I2C + I2C_STATUS
+	cmp #$18
+	bne err18
+inc $8029
+	clc
+	rts
+	.)
+
+	; loop start
+
+
+i2c_sendbyt .(
+	sta I2C + I2C_DATA
+
+	lda #I2C_C_ENSIO | I2C_C_AA | I2C_C_CLOCK
+	sta I2C + I2C_CTRL	; send data
+
+	.(
+	lda #I2C_C_SI 
+wait	bit I2C + I2C_CTRL
+	beq wait
+	.)
+
+	lda I2C + I2C_STATUS
+	cmp #$28
+	bne err28
+	clc
+	rts
+	.)
+
+	; check number of bytes (here = 1), go loop start if more
+
+i2c_stop .(
+	lda #I2C_C_ENSIO | I2C_C_AA | I2C_C_STO | I2C_C_CLOCK
+	sta I2C + I2C_CTRL	; generate stop condition
+
+	; verify
+	
+	lda I2C + I2C_CTRL
+	and #I2C_C_STO
+	;bne errsto
+	clc
+	rts
+	.)
+
+i2c_end .(
+	ldy #0
+	sty I2C + I2C_CTRL
+	clc
+	rts
+	.)
+
+errsto	ldx #1
+	.byt $2c
+err08	ldx #$08
+	.byt $2c
+err18	ldx #$18
+	.byt $2c
+err28	ldx #$28
+	sec
+	rts
+
+
+
+io_buf	.byt 0,1,2,3,4
+pwm_buf	.byt 0,1,2,3,4
+
