@@ -42,33 +42,87 @@ link	.word 0
 
 	sei
 
+	jsr kbd_send_pwm
+	bcs exit
+
+loop
+	lda #$aa
+	jsr kbd_send_io
+	bcs exit
+
+	jsr delay
+
+	lda #$55
+	jsr kbd_send_io
+	bcs exit
+
+	jsr delay
+
+	jmp loop
+exit	cli
+	brk
+
+delay 	.(
+	ldx #0
+	ldy #0
+l1	dex
+	bne l1
+	dey
+	bne l1
+	rts
+	.)
+
+kbd_send_pwm .(
+	; I2C init
+	jsr i2c_init
+	bcs end
+	; send IO port data
+
+	ldx #PWM_ADDR
+	jsr i2c_start
+	bcs end
+
+	ldy #0
+bloop	lda pwm_buf,y
+	jsr i2c_sendbyt
+	bcs end
+	iny
+	cpy #7
+	bcc bloop
+	ldx #0
+	beq end
+	.)
+
+kbd_send_io .(
+	sta io_buf
+
 	; I2C init
 	jsr i2c_init
 	bcs end
 
-inc $8000
 	; send IO port data
 	ldx #IO_ADDR
 	;ldx #PWM_ADDR
 	jsr i2c_start
-stx $8027
 	bcs end
-inc $8001
 
-	lda #$aa
+	lda io_buf
 	jsr i2c_sendbyt
 	bcs end
 	ldx #0
-inc $8002
+	; beq end
+	.)
 
-end	; end i2c
+	; end i2c
+end	.(
 	pha
 	jsr i2c_stop
 	jsr i2c_end
 	pla
 	cpx #1
-	cli
-	brk
+	rts
+	.)
+
 
 i2c_init .(
 	lda #0	;lda #$ff
@@ -106,7 +160,6 @@ wait	bit I2C + I2C_CTRL
 ;	cmp #$10		; repeated START (should not happen)
 	bne err08
 ;w1
-inc $8028
 	;lda #(ADDR << 1)+0	; r/w bit = 0 -> write
 	txa
 	asl
@@ -184,7 +237,12 @@ err28	ldx #$28
 	rts
 
 
-
-io_buf	.byt 0,1,2,3,4
-pwm_buf	.byt 0,1,2,3,4
+io_buf	.byt 0
+pwm_buf	.byt $11	; control, auto inc, start at 1
+	.byt 1		; prescaler 0
+	.byt 1		; duty cycle 0, 255 = 100%
+	.byt 1		; prescaler 1
+	.byt 64		; duty cycle 1, 128 = 50%
+	.byt %10111011	; LS0 = LED0-3, using timer 0/1
+	.byt %10111011	; LS1 = LED4-7, using timer 0/1
 
