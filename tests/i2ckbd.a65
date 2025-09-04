@@ -9,7 +9,7 @@
 ; LED rows
 
 
-IO_ADDR		=$38
+IO_ADDR		=$18
 PWM_ADDR	=$60
 
 
@@ -42,9 +42,17 @@ link	.word 0
 
 	sei
 
+	lda #PWM_ADDR
 	jsr kbd_send_pwm
 	bcs exit
 
+	lda #PWM_ADDR+1
+	jsr kbd_send_pwm
+	bcs exit
+
+	jsr kbd_set_out		; set I/O register to output
+	bcs exit
+	
 loop
 	lda #$aa
 	jsr kbd_send_io
@@ -73,12 +81,14 @@ l1	dex
 	.)
 
 kbd_send_pwm .(
+	pha
 	; I2C init
 	jsr i2c_init
+	pla
 	bcs end
 	; send IO port data
 
-	ldx #PWM_ADDR
+	tax
 	jsr i2c_start
 	bcs end
 
@@ -93,6 +103,27 @@ bloop	lda pwm_buf,y
 	beq end
 	.)
 
+kbd_set_out .(
+	; I2C init
+	jsr i2c_init
+	bcs end
+
+	; send IO port data
+	ldx #IO_ADDR
+	jsr i2c_start
+	bcs end
+
+	lda #3		; write to output port
+	jsr i2c_sendbyt
+	bcs end
+
+	lda #0
+	jsr i2c_sendbyt
+	bcs end
+	ldx #0
+	beq end
+	.)
+
 kbd_send_io .(
 	sta io_buf
 
@@ -102,8 +133,11 @@ kbd_send_io .(
 
 	; send IO port data
 	ldx #IO_ADDR
-	;ldx #PWM_ADDR
 	jsr i2c_start
+	bcs end
+
+	lda #1		; write to output port
+	jsr i2c_sendbyt
 	bcs end
 
 	lda io_buf
@@ -242,7 +276,9 @@ pwm_buf	.byt $11	; control, auto inc, start at 1
 	.byt 1		; prescaler 0
 	.byt 1		; duty cycle 0, 255 = 100%
 	.byt 1		; prescaler 1
-	.byt 64		; duty cycle 1, 128 = 50%
-	.byt %10111011	; LS0 = LED0-3, using timer 0/1
-	.byt %10111011	; LS1 = LED4-7, using timer 0/1
+	.byt 255	; duty cycle 1, 128 = 50%
+	;.byt %10111011	; LS0 = LED0-3, using timer 0/1
+	;.byt %10111011	; LS1 = LED4-7, using timer 0/1
+	.byt %11111111	; LS0 = LED0-3, using timer 0/1
+	.byt %11111111	; LS1 = LED4-7, using timer 0/1
 
