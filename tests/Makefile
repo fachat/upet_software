@@ -1,5 +1,5 @@
 
-ASM=map 8296screen virtpet i2c i2ckbd
+ASM=map 8296screen virtpet i2c i2ckbd i2ckbd2
 BASIC=readflash rtcc batmem sdcard showcols eeprom
 
 all: ${ASM} ${BASIC}
