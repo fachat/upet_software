@@ -10,6 +10,8 @@
 ;STDOUT	=$ffd2
 ;OSSTDIN	=$ffcf
 
+BOOTCOL	=5
+
 ; zeropage vars
 sector_ptr	=$fe
 
