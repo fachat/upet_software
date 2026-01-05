@@ -39,54 +39,73 @@ viccy.i65
    36 A:1000                                    VCCY_ALT1=40
    37 A:1000                                    VCCY_ALT2=41
 
-   39 A:1000                                    VCCY_CTRL_ATTR=%00000001
-   40 A:1000                                    VCCY_CTRL_BITMAP=%00000010
-   41 A:1000                                    VCCY_CTRL_EXT=%00000100
-   42 A:1000                                    VCCY_CTRL_DISPEN=%00010000
-   43 A:1000                                    VCCY_CTRL_PALSEL=%00100000
-   44 A:1000                                    VCCY_CTRL_REGMAP=%01000000
-   45 A:1000                                    VCCY_CTRL_COMPAT=%10000000
+   39 A:1000                                    VCCY_MODE_DBL=%00000001
+   40 A:1000                                    VCCY_MODE_ILC=%00000010
+   41 A:1000                                    VCCY_MODE_PET=%00010000
+   42 A:1000                                    VCCY_MODE_TV=%00100000
+   43 A:1000                                    VCCY_MODE_60HZ=%01000000
+   44 A:1000                                    VCCY_MODE_80COL=%10000000
 
-   47 A:1000                                    VCCY_SPRT_BASE=42
-   48 A:1000                                    VCCY_SPRT_BRDR=43
-   49 A:1000                                    VCCY_SPRT_SPRT=44
-   50 A:1000                                    VCCY_SPRT_RSTR=45
-   51 A:1000                                    VCCY_SPRT_MCOL1=46
-   52 A:1000                                    VCCY_SPRT_MCOL2=47
+   46 A:1000                                    VCCY_CTRL_ATTR=%00000001
+   47 A:1000                                    VCCY_CTRL_BITMAP=%00000010
+   48 A:1000                                    VCCY_CTRL_EXT=%00000100
+   49 A:1000                                    VCCY_CTRL_DISPEN=%00010000
+   50 A:1000                                    VCCY_CTRL_PALSEL=%00100000
+   51 A:1000                                    VCCY_CTRL_REGMAP=%01000000
+   52 A:1000                                    VCCY_CTRL_COMPAT=%10000000
 
-   54 A:1000                                    VCCY_SPRT_BASE_0=48
-   55 A:1000                                    VCCY_SPRT_BASE_1=52
-   56 A:1000                                    VCCY_SPRT_BASE_2=56
-   57 A:1000                                    VCCY_SPRT_BASE_3=60
-   58 A:1000                                    VCCY_SPRT_BASE_4=64
-   59 A:1000                                    VCCY_SPRT_BASE_5=68
-   60 A:1000                                    VCCY_SPRT_BASE_6=72
-   61 A:1000                                    VCCY_SPRT_BASE_7=76
+   54 A:1000                                    VCCY_ALT1_ACCESS=%00000001
+   55 A:1000                                    VCCY_ALT1_BITMAP=%00000010
+   56 A:1000                                    VCCY_ALT1_ATTR=%00000100
+   57 A:1000                                    VCCY_ALT1_EXT=%00001000
+   58 A:1000                                    VCCY_ALT1_EN_PAL=%00010000
+   59 A:1000                                    VCCY_ALT1_EN_MODES=%00100000
+   60 A:1000                                    VCCY_ALT1_EN_ATTR_ADDR=%01000000
+   61 A:1000                                    VCCY_ALT1_EN_VMEM_ADDR=%10000000
 
-   63 A:1000                                    VCCY_SPRT_COL_0=80
-   64 A:1000                                    VCCY_SPRT_COL_1=81
-   65 A:1000                                    VCCY_SPRT_COL_2=82
-   66 A:1000                                    VCCY_SPRT_COL_3=83
-   67 A:1000                                    VCCY_SPRT_COL_4=84
-   68 A:1000                                    VCCY_SPRT_COL_5=85
-   69 A:1000                                    VCCY_SPRT_COL_6=86
-   70 A:1000                                    VCCY_SPRT_COL_7=87
+   63 A:1000                                    VCCY_ALT2_EN_HCONF=%01000000
+   64 A:1000                                    VCCY_ALT2_EN_ROWCNT=%10000000
 
-   72 A:1000                                    SPRT_XPOS=0
-   73 A:1000                                    SPRT_YPOS=1
-   74 A:1000                                    SPRT_XYPOS=2
-   75 A:1000                                    SPRT_CTRL=3
+   66 A:1000                                    VCCY_SPRT_BASE=42
+   67 A:1000                                    VCCY_SPRT_BRDR=43
+   68 A:1000                                    VCCY_SPRT_SPRT=44
+   69 A:1000                                    VCCY_SPRT_RSTR=45
+   70 A:1000                                    VCCY_SPRT_MCOL1=46
+   71 A:1000                                    VCCY_SPRT_MCOL2=47
 
-   77 A:1000                                    SPRT_CTRL_EN=%00000001
-   78 A:1000                                    SPRT_CTRL_XEXP=%00000010
-   79 A:1000                                    SPRT_CTRL_YEXP=%00000100
-   80 A:1000                                    SPRT_CTRL_MCOL=%00001000
-   81 A:1000                                    SPRT_CTRL_BGPRIO=%00010000
-   82 A:1000                                    SPRT_CTRL_BRPRIO=%00100000
-   83 A:1000                                    SPRT_CTRL_DRES=%01000000
-   84 A:1000                                    SPRT_CTRL_ALTPAL=%10000000
+   73 A:1000                                    VCCY_SPRT_BASE_0=48
+   74 A:1000                                    VCCY_SPRT_BASE_1=52
+   75 A:1000                                    VCCY_SPRT_BASE_2=56
+   76 A:1000                                    VCCY_SPRT_BASE_3=60
+   77 A:1000                                    VCCY_SPRT_BASE_4=64
+   78 A:1000                                    VCCY_SPRT_BASE_5=68
+   79 A:1000                                    VCCY_SPRT_BASE_6=72
+   80 A:1000                                    VCCY_SPRT_BASE_7=76
 
-   86 A:1000                                    VCCY_PAL_BASE=88
+   82 A:1000                                    VCCY_SPRT_COL_0=80
+   83 A:1000                                    VCCY_SPRT_COL_1=81
+   84 A:1000                                    VCCY_SPRT_COL_2=82
+   85 A:1000                                    VCCY_SPRT_COL_3=83
+   86 A:1000                                    VCCY_SPRT_COL_4=84
+   87 A:1000                                    VCCY_SPRT_COL_5=85
+   88 A:1000                                    VCCY_SPRT_COL_6=86
+   89 A:1000                                    VCCY_SPRT_COL_7=87
+
+   91 A:1000                                    SPRT_XPOS=0
+   92 A:1000                                    SPRT_YPOS=1
+   93 A:1000                                    SPRT_XYPOS=2
+   94 A:1000                                    SPRT_CTRL=3
+
+   96 A:1000                                    SPRT_CTRL_EN=%00000001
+   97 A:1000                                    SPRT_CTRL_XEXP=%00000010
+   98 A:1000                                    SPRT_CTRL_YEXP=%00000100
+   99 A:1000                                    SPRT_CTRL_MCOL=%00001000
+  100 A:1000                                    SPRT_CTRL_BGPRIO=%00010000
+  101 A:1000                                    SPRT_CTRL_BRPRIO=%00100000
+  102 A:1000                                    SPRT_CTRL_DRES=%01000000
+  103 A:1000                                    SPRT_CTRL_ALTPAL=%10000000
+
+  105 A:1000                                    VCCY_PAL_BASE=88
 
 updemo.a65
 
@@ -116,402 +135,402 @@ updemo.a65
    27 A:1000                                    tmp=$06
    28 A:1000                                    cnt=$08
    29 A:1000                                    cnt2=$09
-   30 A:1000                                    tmp2=$0a
-
-   32 A:1000                                    BSOUT=$ffd2
-
-   34 A:1000                                    OFFSET70=0           ;22
-
-   36 A:1000  01 04                              .word $0401
-   37 A:1002                                     *= $0401
-
-   39 A:0401  0b 04                              .word link
-   40 A:0403  0a 00                              .word 10              ; line number
-   41 A:0405  9e 31 30 34 30                     .byt $9e,"1040"
-   42 A:040a  00                                 .byt 0
-   43 A:040b  00 00                    link      .byt $00,$00
-
-   45 A:040d  aa ff 10                           .dsb $0410-*,$aa
-
-   47 A:0410                           l1000                      ; start of program
-
-   49 A:0410  78                                 sei 
-   50 A:0411  20 19 11                           jsr iniirq
-   51 A:0414                           loop      
-   52 A:0414  20 4a 11                           jsr clrviccy
-   53 A:0417  20 ee 11                           jsr clrscr
-   54 A:041a  20 c7 10                           jsr inichain
-   55 A:041d  58                                 cli 
-
-   57 A:041e                                    ;lda #0
-   58 A:041e                                    ;sta vdctab+VCCY_VSCRL
-
-   60 A:041e  20 67 04                           jsr demo1                ; print header
-   61 A:0421  20 47 07                           jsr demoborders                ; rasterline ints & borders
-   62 A:0424  20 b7 04                           jsr demovdc
-   63 A:0427  20 25 05                           jsr democpet
-   64 A:042a  20 87 05                           jsr demomcol
-   65 A:042d  20 d9 05                           jsr demoilace
-   66 A:0430  20 24 06                           jsr democursor
-   67 A:0433  20 70 06                           jsr demohwpos
-   68 A:0436  20 d9 06                           jsr demohscrl
-   69 A:0439  20 a3 07                           jsr demovert
-   70 A:043c  20 7e 08                           jsr demo4080
-   71 A:043f  20 d6 08                           jsr demo50rows
-   72 A:0442  20 58 09                           jsr democset
-   73 A:0445  20 b6 0a                           jsr demoreset
-   74 A:0448  20 5d 0a                           jsr demohires
-   75 A:044b  20 c9 0c                           jsr demosprites
-   76 A:044e  20 47 0e                           jsr demopalette
-   77 A:0451                                    ;jsr demodynpos
-
-   79 A:0451  20 44 12                           jsr wait
-   80 A:0454  20 44 12                           jsr wait
-   81 A:0457  20 44 12                           jsr wait
-   82 A:045a                                    ;x jmp x
-   83 A:045a  20 c0 10                           jsr stopirq
-   84 A:045d  78                                 sei 
-   85 A:045e  20 9c 10                           jsr resetchain
-   86 A:0461  20 7e 11                           jsr setviccy
-   87 A:0464  4c 14 04                           jmp loop
-
-   90 A:0467                                    ; ---------------------------------------------------------
-
-   92 A:0467                                     .( 
-   93 A:0467  a9 71                    demo1     lda #<txt
-   94 A:0469  a0 04                              ldy #>txt
-   95 A:046b  20 33 12                           jsr txtout
-   96 A:046e  4c 44 12                           jmp wait
-
-   98 A:0471  13 11 11                 txt       .asc HOME,CRSD,CRSD
-   99 A:0474  20 20 20 20 20 20 20 ...           .asc "           THE ULTRACPU BOARD ... ON THE WAY TO THE ULTIMATE PET!"
-  100 A:04b5  0d 00                              .asc CR,0
-  101 A:04b7                                     .) 
-
-  103 A:04b7                                    ; --------------------
-
-  105 A:04b7                                     .( 
-  106 A:04b7                           demovdc   
-  107 A:04b7  a9 e9                              lda #<txt
-  108 A:04b9  a0 04                              ldy #>txt
-  109 A:04bb  20 33 12                           jsr txtout
-
-  111 A:04be  a0 00                              ldy #0
-  112 A:04c0  98                       l0        tya 
-  113 A:04c1  99 9a 89                           sta $8800+5*80+10,y
-  114 A:04c4  c8                                 iny 
-  115 A:04c5  c0 3c                              cpy #60
-  116 A:04c7  90 f7                              bcc l0
-
-  118 A:04c9  a9 e3                              lda #<itab
-  119 A:04cb  a0 04                              ldy #>itab
-  120 A:04cd  20 5a 10                           jsr addirq
-
-  122 A:04d0  4c 44 12                           jmp wait
-
-  124 A:04d3                           idemo2    
-  125 A:04d3  a2 20                              ldx #VCCY_CTRL
-  126 A:04d5  a9 11                              lda #16+1
-  127 A:04d7  20 43 11                           jsr sreg                ; disable ColourPet mode, enable attribute mode
-  128 A:04da                                    ; ldx #VCCY_HSCRL
-  129 A:04da                                    ; lda #64+16
-  130 A:04da                                    ; jsr sreg ; enable VDC attribute mode
-
-  132 A:04da  a9 22                              lda #VCCY_BRDR_COL
-  133 A:04dc  8d 80 e8                           sta VDC
-  134 A:04df  ee 81 e8                           inc VDC+1
-  135 A:04e2  60                                 rts 
-
-  137 A:04e3  d2 04                    itab      .word idemo2-1
-  138 A:04e5  95 00                              .word 149+OFFSET70
-  139 A:04e7  00 00                              .word 0
-
-  142 A:04e9  20 20 20 20 20 20 20 ... txt       .asc "           * C128 VDC COMPATIBLE MODE WITH BLINK/UNDERLINE"
-  143 A:0523  0d 00                              .asc CR,0
-  144 A:0525                                     .) 
-
-  146 A:0525                                    ; --------------------
-
-  148 A:0525                                     .( 
-  149 A:0525                           democpet  
-  150 A:0525  a9 57                              lda #<txt
-  151 A:0527  a0 05                              ldy #>txt
-  152 A:0529  20 33 12                           jsr txtout
-
-  154 A:052c  a0 00                              ldy #0
-  155 A:052e  98                       l0        tya 
-  156 A:052f  99 ea 89                           sta $8800+6*80+10,y
-  157 A:0532  c8                                 iny 
-  158 A:0533  c0 3c                              cpy #60
-  159 A:0535  90 f7                              bcc l0
-
-  161 A:0537  a9 51                              lda #<itab
-  162 A:0539  a0 05                              ldy #>itab
-  163 A:053b  20 5a 10                           jsr addirq
-
-  165 A:053e  4c 44 12                           jmp wait
-
-  167 A:0541                           idemo3    
-  168 A:0541  a2 20                              ldx #VCCY_CTRL
-  169 A:0543  a9 14                              lda #20
-  170 A:0545  20 43 11                           jsr sreg                ; enable ColourPet mode, disabel attr. mode
-  171 A:0548                                    ; ldx #VCCY_HSCRL
-  172 A:0548                                    ; lda #0+16
-  173 A:0548                                    ; jsr sreg ; disable VDC attribute mode
-
-  175 A:0548  a9 22                              lda #VCCY_BRDR_COL
-  176 A:054a  8d 80 e8                           sta VDC
-  177 A:054d  ee 81 e8                           inc VDC+1
-  178 A:0550  60                                 rts 
-
-  180 A:0551  40 05                    itab      .word idemo3-1
-  181 A:0553  b9 00                              .word 167+18+OFFSET70
-  182 A:0555  00 00                              .word 0
-
-  184 A:0557  20 20 20 20 20 20 20 ... txt       .asc "           * COLOUR PET COMPATIBLE COLOUR MODE"
-  185 A:0585  0d 00                              .asc CR,0
-  186 A:0587                                     .) 
-
-  188 A:0587                                    ; --------------------
-
-  190 A:0587                                     .( 
-  191 A:0587                           demomcol  
-  192 A:0587  a9 b9                              lda #<txt
-  193 A:0589  a0 05                              ldy #>txt
-  194 A:058b  20 33 12                           jsr txtout
-
-  196 A:058e  a0 00                              ldy #0
-  197 A:0590  98                       l0        tya 
-  198 A:0591  99 3a 8a                           sta $8800+7*80+10,y
-  199 A:0594  c8                                 iny 
-  200 A:0595  c0 3c                              cpy #60
-  201 A:0597  90 f7                              bcc l0
-
-  203 A:0599  a9 b3                              lda #<itab
-  204 A:059b  a0 05                              ldy #>itab
-  205 A:059d  20 5a 10                           jsr addirq
-
-  207 A:05a0  4c 44 12                           jmp wait
-
-  209 A:05a3                           idemo3    
-  210 A:05a3  a2 20                              ldx #VCCY_CTRL
-  211 A:05a5  a9 15                              lda #20+1
-  212 A:05a7  20 43 11                           jsr sreg                ; enable multicol mode 
-  213 A:05aa                                    ; ldx #VCCY_HSCRL
-  214 A:05aa                                    ; lda #64+16
-  215 A:05aa                                    ; jsr sreg ; enable VDC attribute mode (+cpet =multicolour)
-
-  217 A:05aa  a9 22                              lda #VCCY_BRDR_COL
-  218 A:05ac  8d 80 e8                           sta VDC
-  219 A:05af  ee 81 e8                           inc VDC+1
-  220 A:05b2  60                                 rts 
-
-  222 A:05b3  a2 05                    itab      .word idemo3-1
-  223 A:05b5  cb 00                              .word 185+18+OFFSET70
-  224 A:05b7  00 00                              .word 0
-
-  226 A:05b9  20 20 20 20 20 20 20 ... txt       .asc "           * MULTI-COLOUR MODE"
-  227 A:05d7  0d 00                              .asc CR,0
-  228 A:05d9                                     .) 
-
-  230 A:05d9                                    ; --------------------
-
-  232 A:05d9                                     .( 
-  233 A:05d9                           demoilace 
-  234 A:05d9  a9 07                              lda #<txt
-  235 A:05db  a0 06                              ldy #>txt
-  236 A:05dd  20 33 12                           jsr txtout
-
-  238 A:05e0  a9 01                              lda #<itab
-  239 A:05e2  a0 06                              ldy #>itab
-  240 A:05e4  20 5a 10                           jsr addirq
-
-  242 A:05e7  4c 44 12                           jmp wait
-
-  244 A:05ea                           idemo4    
-  245 A:05ea  a2 20                              ldx #VCCY_CTRL
-  246 A:05ec  a9 14                              lda #20
-  247 A:05ee  20 43 11                           jsr sreg                ; enable attrib mode 
-  248 A:05f1                                    ; ldx #VCCY_HSCRL
-  249 A:05f1                                    ; lda #16
-  250 A:05f1                                    ; jsr sreg
-
-  252 A:05f1  a2 08                              ldx #VCCY_MODE
-  253 A:05f3  a9 82                              lda #2+128
-  254 A:05f5  20 43 11                           jsr sreg                ; interlace mode
-
-  256 A:05f8  a9 22                              lda #VCCY_BRDR_COL
-  257 A:05fa  8d 80 e8                           sta VDC
-  258 A:05fd  ee 81 e8                           inc VDC+1
-  259 A:0600  60                                 rts 
-
-  261 A:0601  e9 05                    itab      .word idemo4-1
-  262 A:0603  dd 00                              .word 203+18+OFFSET70
-  263 A:0605  00 00                              .word 0
-
-  265 A:0607  20 20 20 20 20 20 20 ... txt       .asc "           * INTERLACE MODE"
-  266 A:0622  0d 00                              .asc CR,0
-  267 A:0624                                     .) 
-
-  269 A:0624                                    ; --------------------
-
-  271 A:0624                                     .( 
-  272 A:0624                           democursor 
-  273 A:0624  a9 52                              lda #<txt
-  274 A:0626  a0 06                              ldy #>txt
-  275 A:0628  20 33 12                           jsr txtout
-
-  277 A:062b  a9 4c                              lda #<itab
-  278 A:062d  a0 06                              ldy #>itab
-  279 A:062f  20 5a 10                           jsr addirq
-
-  281 A:0632  4c 44 12                           jmp wait
-
-  283 A:0635                           idemo5    
-  284 A:0635  a2 0a                              ldx #10
-  285 A:0637  a9 40                              lda #0+64       ; cursor blink on 
-  286 A:0639  20 43 11                           jsr sreg
-
-  288 A:063c  a2 08                              ldx #VCCY_MODE
-  289 A:063e  a9 80                              lda #128
-  290 A:0640  20 43 11                           jsr sreg                ; interlace mode off
-
-  292 A:0643  a9 22                              lda #VCCY_BRDR_COL
-  293 A:0645  8d 80 e8                           sta VDC
-  294 A:0648  ee 81 e8                           inc VDC+1
-  295 A:064b  60                                 rts 
-
-  297 A:064c  34 06                    itab      .word idemo5-1
-  298 A:064e  ec 00                              .word 218+18+OFFSET70
-  299 A:0650  00 00                              .word 0
-
-  301 A:0652  20 20 20 20 20 20 20 ... txt       .asc "           * HARDWARE CURSOR"
-  302 A:066e  0d 00                              .asc CR,0
-  303 A:0670                                     .) 
-
-  305 A:0670                                    ; --------------------
-
-  308 A:0670                                     .( 
-  309 A:0670                           demohwpos 
-  310 A:0670  a9 ad                              lda #<txt
-  311 A:0672  a0 06                              ldy #>txt
-  312 A:0674  20 33 12                           jsr txtout
-
-  314 A:0677  a9 a7                              lda #<itab
-  315 A:0679  a0 06                              ldy #>itab
-  316 A:067b  20 5a 10                           jsr addirq
-
-  318 A:067e  4c 44 12                           jmp wait
-
-  320 A:0681                           idemo5    
-  321 A:0681  a2 26                              ldx #VCCY_HPOS
-  322 A:0683  ad e7 11                           lda vdctab+VCCY_HPOS
-  323 A:0686  18                                 clc 
-  324 A:0687  6d ed 11                           adc dynhoff
-  325 A:068a  18                                 clc 
-  326 A:068b  69 03                              adc #3             ; shift three to the right
-  327 A:068d  20 43 11                           jsr sreg
-  328 A:0690  a2 01                              ldx #VCCY_HDISP
-  329 A:0692  a9 3c                              lda #60             ; only 60 chars
-  330 A:0694  20 43 11                           jsr sreg
-  331 A:0697  a2 1b                              ldx #VCCY_ROW_INC
-  332 A:0699  a9 14                              lda #20             ; compensate
-  333 A:069b  20 43 11                           jsr sreg
-
-  335 A:069e  a9 22                              lda #VCCY_BRDR_COL
-  336 A:06a0  8d 80 e8                           sta VDC
-  337 A:06a3  ee 81 e8                           inc VDC+1
-  338 A:06a6  60                                 rts 
-
-  340 A:06a7  80 06                    itab      .word idemo5-1
-  341 A:06a9  ff 00                              .word 235+20+OFFSET70
-  342 A:06ab  00 00                              .word 0
-
-  344 A:06ad  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL WIDTH AND POSITION"
-  345 A:06d7  0d 00                              .asc CR,0
-  346 A:06d9                                     .) 
-
-  348 A:06d9                                    ; --------------------
-
-  350 A:06d9                                     .( 
-  351 A:06d9                           demohscrl 
-  352 A:06d9  a9 20                              lda #<txt
-  353 A:06db  a0 07                              ldy #>txt
-  354 A:06dd  20 33 12                           jsr txtout
-
-  356 A:06e0  a9 1a                              lda #<itab
-  357 A:06e2  a0 07                              ldy #>itab
-  358 A:06e4  20 5a 10                           jsr addirq
-
-  360 A:06e7  4c 44 12                           jmp wait
-
-  362 A:06ea                           idemo5    
-  363 A:06ea  a2 26                              ldx #VCCY_HPOS
-  364 A:06ec  ad e7 11                           lda vdctab+VCCY_HPOS            ; reset shift
-  365 A:06ef  18                                 clc 
-  366 A:06f0  6d ed 11                           adc dynhoff
-  367 A:06f3  20 43 11                           jsr sreg
-  368 A:06f6  a2 01                              ldx #VCCY_HDISP
-  369 A:06f8  a9 50                              lda #80             ; reset chars to 80
-  370 A:06fa  20 43 11                           jsr sreg
-  371 A:06fd  a2 1b                              ldx #VCCY_ROW_INC
-  372 A:06ff  a9 00                              lda #0             ; reset compensate
-  373 A:0701  20 43 11                           jsr sreg
-
-  375 A:0704  a2 19                              ldx #VCCY_HSCRL
-  376 A:0706  a5 09                              lda cnt2
-  377 A:0708  4a                                 lsr 
-  378 A:0709  4a                                 lsr 
-  379 A:070a  4a                                 lsr 
-  380 A:070b  4a                                 lsr 
-  381 A:070c  09 10                              ora #16
-  382 A:070e  20 43 11                           jsr sreg
-
-  384 A:0711  a9 22                              lda #VCCY_BRDR_COL
-  385 A:0713  8d 80 e8                           sta VDC
-  386 A:0716  ee 81 e8                           inc VDC+1
-  387 A:0719  60                                 rts 
-
-  389 A:071a  e9 06                    itab      .word idemo5-1
-  390 A:071c  11 01                              .word 253+20+OFFSET70
-  391 A:071e  00 00                              .word 0
-
-  393 A:0720  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL SMOOTH SCROLL"
-  394 A:0745  0d 00                              .asc CR,0
-  395 A:0747                                     .) 
-
-  397 A:0747                                    ; --------------------
-
-  399 A:0747                                     .( 
-  400 A:0747                           demoborders 
-  401 A:0747  a9 71                              lda #<txt
-  402 A:0749  a0 07                              ldy #>txt
-  403 A:074b  20 33 12                           jsr txtout
-
-  405 A:074e  a9 6b                              lda #<itab
-  406 A:0750  a0 07                              ldy #>itab
-  407 A:0752  20 5a 10                           jsr addirq
-
-  409 A:0755  a2 22                              ldx #VCCY_BRDR_COL
-  410 A:0757  a9 05                              lda #5
-  411 A:0759  20 43 11                           jsr sreg
-
-  413 A:075c  ee e3 11                           inc vdctab+VCCY_BRDR_COL
-
-  415 A:075f  4c 44 12                           jmp wait
-
-  417 A:0762                           idemo5    
-  418 A:0762  a9 22                              lda #VCCY_BRDR_COL
-  419 A:0764  8d 80 e8                           sta VDC
-  420 A:0767  ee 81 e8                           inc VDC+1
-  421 A:076a  60                                 rts 
-
-  423 A:076b  61 07                    itab      .word idemo5-1
-  424 A:076d  8c 00                              .word 140+OFFSET70
-  425 A:076f  00 00                              .word 0
-
-  427 A:0771  0d                       txt       .asc CR
-  428 A:0772  20 20 20 20 20 20 20 ...           .asc "           * BORDERS AND RASTERLINE INTERRUPTS"
+
+   31 A:1000                                    scrp=$0a
+   32 A:1000                                    scrc=$0c
+
+   34 A:1000                                    ;BSOUT =$ffd2
+
+   36 A:1000                                    OFFSET70=0           ;22
+
+   38 A:1000  01 04                              .word $0401
+   39 A:1002                                     *= $0401
+
+   41 A:0401  0b 04                              .word link
+   42 A:0403  0a 00                              .word 10              ; line number
+   43 A:0405  9e 31 30 34 30                     .byt $9e,"1040"
+   44 A:040a  00                                 .byt 0
+   45 A:040b  00 00                    link      .byt $00,$00
+
+   47 A:040d  aa ff 10                           .dsb $0410-*,$aa
+
+   49 A:0410                           l1000                      ; start of program
+
+   51 A:0410  78                                 sei 
+   52 A:0411  20 19 11                           jsr iniirq
+   53 A:0414                           loop      
+   54 A:0414  20 4a 11                           jsr clrviccy
+   55 A:0417  20 ee 11                           jsr clrscr
+   56 A:041a  20 c7 10                           jsr inichain
+   57 A:041d  58                                 cli 
+
+   59 A:041e                                    ;lda #0
+   60 A:041e                                    ;sta vdctab+VCCY_VSCRL
+
+   62 A:041e  20 67 04                           jsr demo1                ; print header
+   63 A:0421  20 b7 04                           jsr demoborders                ; rasterline ints & borders
+   64 A:0424  20 12 05                           jsr demovdc
+   65 A:0427                                    ;jmp endloop
+   66 A:0427  20 80 05                           jsr democpet
+   67 A:042a  20 e2 05                           jsr demomcol
+   68 A:042d  20 34 06                           jsr demoilace
+   69 A:0430  20 7f 06                           jsr democursor
+   70 A:0433  20 cb 06                           jsr demohwpos
+   71 A:0436  20 34 07                           jsr demohscrl
+   72 A:0439  20 a3 07                           jsr demovert
+   73 A:043c  20 7e 08                           jsr demo4080
+   74 A:043f  20 d6 08                           jsr demo50rows
+   75 A:0442  20 58 09                           jsr democset
+   76 A:0445  20 b6 0a                           jsr demoreset
+   77 A:0448  20 5d 0a                           jsr demohires
+   78 A:044b  20 c9 0c                           jsr demosprites
+   79 A:044e  20 47 0e                           jsr demopalette
+   80 A:0451                                    ;jsr demodynpos
+   81 A:0451                           endloop   
+   82 A:0451  20 4a 12                           jsr wait
+   83 A:0454  20 4a 12                           jsr wait
+   84 A:0457  20 4a 12                           jsr wait
+   85 A:045a                                    ;x jmp x
+   86 A:045a  20 c0 10                           jsr stopirq
+   87 A:045d  78                                 sei 
+   88 A:045e  20 9c 10                           jsr resetchain
+   89 A:0461  20 7e 11                           jsr setviccy
+   90 A:0464  4c 14 04                           jmp loop
+
+   93 A:0467                                    ; ---------------------------------------------------------
+
+   95 A:0467                                     .( 
+   96 A:0467  a9 71                    demo1     lda #<txt
+   97 A:0469  a0 04                              ldy #>txt
+   98 A:046b  20 39 12                           jsr txtout
+   99 A:046e  4c 4a 12                           jmp wait
+
+  101 A:0471  13 11 11                 txt       .asc HOME,CRSD,CRSD
+  102 A:0474  20 20 20 20 20 20 20 ...           .asc "           THE ULTRACPU BOARD ... ON THE WAY TO THE ULTIMATE PET!"
+  103 A:04b5  0d 00                              .asc CR,0
+  104 A:04b7                                     .) 
+
+  106 A:04b7                                    ; --------------------
+
+  108 A:04b7                                     .( 
+  109 A:04b7                           demoborders 
+  110 A:04b7  a9 e1                              lda #<txt
+  111 A:04b9  a0 04                              ldy #>txt
+  112 A:04bb  20 39 12                           jsr txtout
+
+  114 A:04be  a9 db                              lda #<itab
+  115 A:04c0  a0 04                              ldy #>itab
+  116 A:04c2  20 5a 10                           jsr addirq
+
+  118 A:04c5  a2 22                              ldx #VCCY_BRDR_COL
+  119 A:04c7  a9 05                              lda #5
+  120 A:04c9  20 43 11                           jsr sreg
+
+  122 A:04cc  ee e3 11                           inc vdctab+VCCY_BRDR_COL
+
+  124 A:04cf  4c 4a 12                           jmp wait
+
+  126 A:04d2                           idemo5    
+  127 A:04d2  a9 22                              lda #VCCY_BRDR_COL
+  128 A:04d4  8d 80 e8                           sta VDC
+  129 A:04d7  ee 81 e8                           inc VDC+1
+  130 A:04da  60                                 rts 
+
+  132 A:04db  d1 04                    itab      .word idemo5-1
+  133 A:04dd  8c 00                              .word 140+OFFSET70
+  134 A:04df  00 00                              .word 0
+
+  136 A:04e1  0d                       txt       .asc CR
+  137 A:04e2  20 20 20 20 20 20 20 ...           .asc "           * BORDERS AND RASTERLINE INTERRUPTS"
+  138 A:0510  0d 00                              .asc CR,0
+  139 A:0512                                     .) 
+
+  141 A:0512                                    ; --------------------
+
+  143 A:0512                                     .( 
+  144 A:0512                           demovdc   
+  145 A:0512  a9 44                              lda #<txt
+  146 A:0514  a0 05                              ldy #>txt
+  147 A:0516  20 39 12                           jsr txtout
+
+  149 A:0519  a0 00                              ldy #0
+  150 A:051b  98                       l0        tya 
+  151 A:051c  99 9a 89                           sta $8800+5*80+10,y
+  152 A:051f  c8                                 iny 
+  153 A:0520  c0 3c                              cpy #60
+  154 A:0522  90 f7                              bcc l0
+
+  156 A:0524  a9 3e                              lda #<itab
+  157 A:0526  a0 05                              ldy #>itab
+  158 A:0528  20 5a 10                           jsr addirq
+
+  160 A:052b  4c 4a 12                           jmp wait
+
+  162 A:052e                           idemo2    
+  163 A:052e  a2 20                              ldx #VCCY_CTRL
+  164 A:0530  a9 11                              lda #VCCY_CTRL_DISPEN+VCCY_CTRL_ATTR
+  165 A:0532  20 43 11                           jsr sreg                ; disable ColourPet mode, enable attribute mode
+
+  167 A:0535  a9 22                              lda #VCCY_BRDR_COL
+  168 A:0537  8d 80 e8                           sta VDC
+  169 A:053a  ee 81 e8                           inc VDC+1
+  170 A:053d  60                                 rts 
+
+  172 A:053e  2d 05                    itab      .word idemo2-1
+  173 A:0540  95 00                              .word 149+OFFSET70
+  174 A:0542  00 00                              .word 0
+
+  177 A:0544  20 20 20 20 20 20 20 ... txt       .asc "           * C128 VDC COMPATIBLE MODE WITH BLINK/UNDERLINE"
+  178 A:057e  0d 00                              .asc CR,0
+  179 A:0580                                     .) 
+
+  181 A:0580                                    ; --------------------
+
+  183 A:0580                                     .( 
+  184 A:0580                           democpet  
+  185 A:0580  a9 b2                              lda #<txt
+  186 A:0582  a0 05                              ldy #>txt
+  187 A:0584  20 39 12                           jsr txtout
+
+  189 A:0587  a0 00                              ldy #0
+  190 A:0589  98                       l0        tya 
+  191 A:058a  99 ea 89                           sta $8800+6*80+10,y
+  192 A:058d  c8                                 iny 
+  193 A:058e  c0 3c                              cpy #60
+  194 A:0590  90 f7                              bcc l0
+
+  196 A:0592  a9 ac                              lda #<itab
+  197 A:0594  a0 05                              ldy #>itab
+  198 A:0596  20 5a 10                           jsr addirq
+
+  200 A:0599  4c 4a 12                           jmp wait
+
+  202 A:059c                           idemo3    
+  203 A:059c  a2 20                              ldx #VCCY_CTRL
+  204 A:059e  a9 14                              lda #20
+  205 A:05a0  20 43 11                           jsr sreg                ; enable ColourPet mode, disabel attr. mode
+  206 A:05a3                                    ; ldx #VCCY_HSCRL
+  207 A:05a3                                    ; lda #0+16
+  208 A:05a3                                    ; jsr sreg ; disable VDC attribute mode
+
+  210 A:05a3  a9 22                              lda #VCCY_BRDR_COL
+  211 A:05a5  8d 80 e8                           sta VDC
+  212 A:05a8  ee 81 e8                           inc VDC+1
+  213 A:05ab  60                                 rts 
+
+  215 A:05ac  9b 05                    itab      .word idemo3-1
+  216 A:05ae  b9 00                              .word 167+18+OFFSET70
+  217 A:05b0  00 00                              .word 0
+
+  219 A:05b2  20 20 20 20 20 20 20 ... txt       .asc "           * COLOUR PET COMPATIBLE COLOUR MODE"
+  220 A:05e0  0d 00                              .asc CR,0
+  221 A:05e2                                     .) 
+
+  223 A:05e2                                    ; --------------------
+
+  225 A:05e2                                     .( 
+  226 A:05e2                           demomcol  
+  227 A:05e2  a9 14                              lda #<txt
+  228 A:05e4  a0 06                              ldy #>txt
+  229 A:05e6  20 39 12                           jsr txtout
+
+  231 A:05e9  a0 00                              ldy #0
+  232 A:05eb  98                       l0        tya 
+  233 A:05ec  99 3a 8a                           sta $8800+7*80+10,y
+  234 A:05ef  c8                                 iny 
+  235 A:05f0  c0 3c                              cpy #60
+  236 A:05f2  90 f7                              bcc l0
+
+  238 A:05f4  a9 0e                              lda #<itab
+  239 A:05f6  a0 06                              ldy #>itab
+  240 A:05f8  20 5a 10                           jsr addirq
+
+  242 A:05fb  4c 4a 12                           jmp wait
+
+  244 A:05fe                           idemo3    
+  245 A:05fe  a2 20                              ldx #VCCY_CTRL
+  246 A:0600  a9 15                              lda #20+1
+  247 A:0602  20 43 11                           jsr sreg                ; enable multicol mode 
+  248 A:0605                                    ; ldx #VCCY_HSCRL
+  249 A:0605                                    ; lda #64+16
+  250 A:0605                                    ; jsr sreg ; enable VDC attribute mode (+cpet =multicolour)
+
+  252 A:0605  a9 22                              lda #VCCY_BRDR_COL
+  253 A:0607  8d 80 e8                           sta VDC
+  254 A:060a  ee 81 e8                           inc VDC+1
+  255 A:060d  60                                 rts 
+
+  257 A:060e  fd 05                    itab      .word idemo3-1
+  258 A:0610  cb 00                              .word 185+18+OFFSET70
+  259 A:0612  00 00                              .word 0
+
+  261 A:0614  20 20 20 20 20 20 20 ... txt       .asc "           * MULTI-COLOUR MODE"
+  262 A:0632  0d 00                              .asc CR,0
+  263 A:0634                                     .) 
+
+  265 A:0634                                    ; --------------------
+
+  267 A:0634                                     .( 
+  268 A:0634                           demoilace 
+  269 A:0634  a9 62                              lda #<txt
+  270 A:0636  a0 06                              ldy #>txt
+  271 A:0638  20 39 12                           jsr txtout
+
+  273 A:063b  a9 5c                              lda #<itab
+  274 A:063d  a0 06                              ldy #>itab
+  275 A:063f  20 5a 10                           jsr addirq
+
+  277 A:0642  4c 4a 12                           jmp wait
+
+  279 A:0645                           idemo4    
+  280 A:0645  a2 20                              ldx #VCCY_CTRL
+  281 A:0647  a9 14                              lda #20
+  282 A:0649  20 43 11                           jsr sreg                ; enable attrib mode 
+  283 A:064c                                    ; ldx #VCCY_HSCRL
+  284 A:064c                                    ; lda #16
+  285 A:064c                                    ; jsr sreg
+
+  287 A:064c  a2 08                              ldx #VCCY_MODE
+  288 A:064e  a9 82                              lda #2+128
+  289 A:0650  20 43 11                           jsr sreg                ; interlace mode
+
+  291 A:0653  a9 22                              lda #VCCY_BRDR_COL
+  292 A:0655  8d 80 e8                           sta VDC
+  293 A:0658  ee 81 e8                           inc VDC+1
+  294 A:065b  60                                 rts 
+
+  296 A:065c  44 06                    itab      .word idemo4-1
+  297 A:065e  dd 00                              .word 203+18+OFFSET70
+  298 A:0660  00 00                              .word 0
+
+  300 A:0662  20 20 20 20 20 20 20 ... txt       .asc "           * INTERLACE MODE"
+  301 A:067d  0d 00                              .asc CR,0
+  302 A:067f                                     .) 
+
+  304 A:067f                                    ; --------------------
+
+  306 A:067f                                     .( 
+  307 A:067f                           democursor 
+  308 A:067f  a9 ad                              lda #<txt
+  309 A:0681  a0 06                              ldy #>txt
+  310 A:0683  20 39 12                           jsr txtout
+
+  312 A:0686  a9 a7                              lda #<itab
+  313 A:0688  a0 06                              ldy #>itab
+  314 A:068a  20 5a 10                           jsr addirq
+
+  316 A:068d  4c 4a 12                           jmp wait
+
+  318 A:0690                           idemo5    
+  319 A:0690  a2 0a                              ldx #10
+  320 A:0692  a9 40                              lda #0+64       ; cursor blink on 
+  321 A:0694  20 43 11                           jsr sreg
+
+  323 A:0697  a2 08                              ldx #VCCY_MODE
+  324 A:0699  a9 80                              lda #128
+  325 A:069b  20 43 11                           jsr sreg                ; interlace mode off
+
+  327 A:069e  a9 22                              lda #VCCY_BRDR_COL
+  328 A:06a0  8d 80 e8                           sta VDC
+  329 A:06a3  ee 81 e8                           inc VDC+1
+  330 A:06a6  60                                 rts 
+
+  332 A:06a7  8f 06                    itab      .word idemo5-1
+  333 A:06a9  ec 00                              .word 218+18+OFFSET70
+  334 A:06ab  00 00                              .word 0
+
+  336 A:06ad  20 20 20 20 20 20 20 ... txt       .asc "           * HARDWARE CURSOR"
+  337 A:06c9  0d 00                              .asc CR,0
+  338 A:06cb                                     .) 
+
+  340 A:06cb                                    ; --------------------
+
+  343 A:06cb                                     .( 
+  344 A:06cb                           demohwpos 
+  345 A:06cb  a9 08                              lda #<txt
+  346 A:06cd  a0 07                              ldy #>txt
+  347 A:06cf  20 39 12                           jsr txtout
+
+  349 A:06d2  a9 02                              lda #<itab
+  350 A:06d4  a0 07                              ldy #>itab
+  351 A:06d6  20 5a 10                           jsr addirq
+
+  353 A:06d9  4c 4a 12                           jmp wait
+
+  355 A:06dc                           idemo5    
+  356 A:06dc  a2 26                              ldx #VCCY_HPOS
+  357 A:06de  ad e7 11                           lda vdctab+VCCY_HPOS
+  358 A:06e1  18                                 clc 
+  359 A:06e2  6d ed 11                           adc dynhoff
+  360 A:06e5  18                                 clc 
+  361 A:06e6  69 03                              adc #3             ; shift three to the right
+  362 A:06e8  20 43 11                           jsr sreg
+  363 A:06eb  a2 01                              ldx #VCCY_HDISP
+  364 A:06ed  a9 3c                              lda #60             ; only 60 chars
+  365 A:06ef  20 43 11                           jsr sreg
+  366 A:06f2  a2 1b                              ldx #VCCY_ROW_INC
+  367 A:06f4  a9 14                              lda #20             ; compensate
+  368 A:06f6  20 43 11                           jsr sreg
+
+  370 A:06f9  a9 22                              lda #VCCY_BRDR_COL
+  371 A:06fb  8d 80 e8                           sta VDC
+  372 A:06fe  ee 81 e8                           inc VDC+1
+  373 A:0701  60                                 rts 
+
+  375 A:0702  db 06                    itab      .word idemo5-1
+  376 A:0704  ff 00                              .word 235+20+OFFSET70
+  377 A:0706  00 00                              .word 0
+
+  379 A:0708  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL WIDTH AND POSITION"
+  380 A:0732  0d 00                              .asc CR,0
+  381 A:0734                                     .) 
+
+  383 A:0734                                    ; --------------------
+
+  385 A:0734                                     .( 
+  386 A:0734                           demohscrl 
+  387 A:0734  a9 7b                              lda #<txt
+  388 A:0736  a0 07                              ldy #>txt
+  389 A:0738  20 39 12                           jsr txtout
+
+  391 A:073b  a9 75                              lda #<itab
+  392 A:073d  a0 07                              ldy #>itab
+  393 A:073f  20 5a 10                           jsr addirq
+
+  395 A:0742  4c 4a 12                           jmp wait
+
+  397 A:0745                           idemo5    
+  398 A:0745  a2 26                              ldx #VCCY_HPOS
+  399 A:0747  ad e7 11                           lda vdctab+VCCY_HPOS            ; reset shift
+  400 A:074a  18                                 clc 
+  401 A:074b  6d ed 11                           adc dynhoff
+  402 A:074e  20 43 11                           jsr sreg
+  403 A:0751  a2 01                              ldx #VCCY_HDISP
+  404 A:0753  a9 50                              lda #80             ; reset chars to 80
+  405 A:0755  20 43 11                           jsr sreg
+  406 A:0758  a2 1b                              ldx #VCCY_ROW_INC
+  407 A:075a  a9 00                              lda #0             ; reset compensate
+  408 A:075c  20 43 11                           jsr sreg
+
+  410 A:075f  a2 19                              ldx #VCCY_HSCRL
+  411 A:0761  a5 09                              lda cnt2
+  412 A:0763  4a                                 lsr 
+  413 A:0764  4a                                 lsr 
+  414 A:0765  4a                                 lsr 
+  415 A:0766  4a                                 lsr 
+  416 A:0767  09 10                              ora #16
+  417 A:0769  20 43 11                           jsr sreg
+
+  419 A:076c  a9 22                              lda #VCCY_BRDR_COL
+  420 A:076e  8d 80 e8                           sta VDC
+  421 A:0771  ee 81 e8                           inc VDC+1
+  422 A:0774  60                                 rts 
+
+  424 A:0775  44 07                    itab      .word idemo5-1
+  425 A:0777  11 01                              .word 253+20+OFFSET70
+  426 A:0779  00 00                              .word 0
+
+  428 A:077b  20 20 20 20 20 20 20 ... txt       .asc "           * HORIZONTAL SMOOTH SCROLL"
   429 A:07a0  0d 00                              .asc CR,0
   430 A:07a2                                     .) 
 
@@ -523,7 +542,7 @@ updemo.a65
   437 A:07a3                           demovert  
   438 A:07a3  a9 f6                              lda #<txt
   439 A:07a5  a0 07                              ldy #>txt
-  440 A:07a7  20 33 12                           jsr txtout
+  440 A:07a7  20 39 12                           jsr txtout
 
   442 A:07aa  a9 62                              lda #<itab3
   443 A:07ac  a0 08                              ldy #>itab3
@@ -541,7 +560,7 @@ updemo.a65
   455 A:07c1  a0 08                              ldy #>itabres
   456 A:07c3  20 5a 10                           jsr addirq
 
-  458 A:07c6  4c 44 12                           jmp wait
+  458 A:07c6  4c 4a 12                           jmp wait
 
   460 A:07c9                           idemo5    
   461 A:07c9  a2 19                              ldx #VCCY_HSCRL
@@ -630,13 +649,13 @@ updemo.a65
   546 A:087e                           demo4080  
   547 A:087e  a9 b2                              lda #<txt
   548 A:0880  a0 08                              ldy #>txt
-  549 A:0882  20 33 12                           jsr txtout
+  549 A:0882  20 39 12                           jsr txtout
 
   551 A:0885  a9 ac                              lda #<itab
   552 A:0887  a0 08                              ldy #>itab
   553 A:0889  20 5a 10                           jsr addirq
 
-  555 A:088c  4c 44 12                           jmp wait
+  555 A:088c  4c 4a 12                           jmp wait
 
   557 A:088f  a2 08                    idemo5    ldx #VCCY_MODE
   558 A:0891  a9 00                              lda #0
@@ -669,7 +688,7 @@ updemo.a65
   585 A:08d6                           demo50rows 
   586 A:08d6  a9 ee                              lda #<txt
   587 A:08d8  a0 08                              ldy #>txt
-  588 A:08da  20 33 12                           jsr txtout
+  588 A:08da  20 39 12                           jsr txtout
 
   590 A:08dd  a9 45                              lda #<itab
   591 A:08df  a0 09                              ldy #>itab
@@ -679,7 +698,7 @@ updemo.a65
   595 A:08e6  a0 09                              ldy #>itab2
   596 A:08e8  20 5a 10                           jsr addirq
 
-  598 A:08eb  4c 44 12                           jmp wait
+  598 A:08eb  4c 4a 12                           jmp wait
 
   600 A:08ee  20 20 20 20 20 20 20 ... txt       .asc "           * 50 ROW MODES - UP TO 88","x"-32,"71 CHARS"
   601 A:091b  0d 00                              .asc CR,0
@@ -725,7 +744,7 @@ updemo.a65
   641 A:0958                           democset  
   642 A:0958  a9 1a                              lda #<txt
   643 A:095a  a0 0a                              ldy #>txt
-  644 A:095c  20 33 12                           jsr txtout
+  644 A:095c  20 39 12                           jsr txtout
 
   646 A:095f  a9 92                              lda #<itab
   647 A:0961  a0 09                              ldy #>itab
@@ -735,7 +754,7 @@ updemo.a65
   651 A:0968  a0 0a                              ldy #>itab2
   652 A:096a  20 5a 10                           jsr addirq
 
-  654 A:096d  4c 44 12                           jmp wait
+  654 A:096d  4c 4a 12                           jmp wait
 
   656 A:0970                           idemo5    
   657 A:0970  a2 25                              ldx #VCCY_SYNC
@@ -855,13 +874,13 @@ updemo.a65
   772 A:0a5d                           demohires 
   773 A:0a5d  a9 6f                              lda #<txt
   774 A:0a5f  a0 0a                              ldy #>txt
-  775 A:0a61  20 33 12                           jsr txtout
+  775 A:0a61  20 39 12                           jsr txtout
 
   777 A:0a64  a9 01                              lda #1
   778 A:0a66  8d b2 0a                           sta resmode
   779 A:0a69  8d b3 0a                           sta rescnt
 
-  781 A:0a6c  4c 44 12                           jmp wait
+  781 A:0a6c  4c 4a 12                           jmp wait
 
   783 A:0a6f  20 20 20 20 20 20 20 ... txt       .asc "           * HIRES (SINGLE COLOUR, ATTRIBUTE, FG/BG, MULTI) MODES"
   784 A:0ab0  0d 00                              .asc CR,0
@@ -885,7 +904,7 @@ updemo.a65
 
   803 A:0abe  a9 84                              lda #<txt
   804 A:0ac0  a0 0c                              ldy #>txt
-  805 A:0ac2  20 33 12                           jsr txtout
+  805 A:0ac2  20 39 12                           jsr txtout
 
   807 A:0ac5  a9 4f                              lda #<itab
   808 A:0ac7  a0 0c                              ldy #>itab
@@ -975,7 +994,7 @@ updemo.a65
   892 A:0b3f                                     .as 
   893 A:0b3f  28                                 plp 
 
-  895 A:0b40  4c 44 12                           jmp wait
+  895 A:0b40  4c 4a 12                           jmp wait
 
   897 A:0b43                                     .al 
   898 A:0b43                                     .xl 
@@ -1192,7 +1211,7 @@ updemo.a65
  1109 A:0cc9                           demosprites 
  1110 A:0cc9  a9 b8                              lda #<txt
  1111 A:0ccb  a0 0d                              ldy #>txt
- 1112 A:0ccd  20 33 12                           jsr txtout
+ 1112 A:0ccd  20 39 12                           jsr txtout
 
  1114 A:0cd0                                     .( 
  1115 A:0cd0  a2 3f                              ldx #63             ; sprite data
@@ -1289,7 +1308,7 @@ updemo.a65
  1206 A:0d68  a0 0d                              ldy #>itab
  1207 A:0d6a  20 5a 10                           jsr addirq
 
- 1209 A:0d6d  4c 44 12                           jmp wait
+ 1209 A:0d6d  4c 4a 12                           jmp wait
 
  1211 A:0d70                           idemo     
  1212 A:0d70  a5 09                              lda cnt2
@@ -1376,13 +1395,13 @@ updemo.a65
  1293 A:0e47                           demopalette 
  1294 A:0e47  a9 b3                              lda #<txt
  1295 A:0e49  a0 0e                              ldy #>txt
- 1296 A:0e4b  20 33 12                           jsr txtout
+ 1296 A:0e4b  20 39 12                           jsr txtout
 
  1298 A:0e4e  a9 e9                              lda #<itab
  1299 A:0e50  a0 0e                              ldy #>itab
  1300 A:0e52  20 5a 10                           jsr addirq
 
- 1302 A:0e55  4c 44 12                           jmp wait
+ 1302 A:0e55  4c 4a 12                           jmp wait
 
  1304 A:0e58                           idemo     
  1305 A:0e58  a5 09                              lda cnt2
@@ -1476,13 +1495,13 @@ updemo.a65
  1396 A:0f2f                           demodynpos 
  1397 A:0f2f  a9 bd                              lda #<txt
  1398 A:0f31  a0 0f                              ldy #>txt
- 1399 A:0f33  20 33 12                           jsr txtout
+ 1399 A:0f33  20 39 12                           jsr txtout
 
  1401 A:0f36  a9 e3                              lda #<itab
  1402 A:0f38  a0 0f                              ldy #>itab
  1403 A:0f3a  20 5a 10                           jsr addirq
 
- 1405 A:0f3d  4c 44 12                           jmp wait
+ 1405 A:0f3d  4c 4a 12                           jmp wait
 
  1407 A:0f40                           idemo     
  1408 A:0f40  a5 09                              lda cnt2
@@ -1833,13 +1852,13 @@ updemo.a65
  1754 A:117e                           setviccy  
  1755 A:117e  a9 03                              lda #SPEED
  1756 A:1180  8d 03 e8                           sta SCTRL                ; 12 MHz CPU
- 1757 A:1183  a9 00                              lda #0             ; 40 column, display enable
+ 1757 A:1183  a9 40                              lda #%01000000             ; 40 column, display enable, video win 4k
  1758 A:1185  8d 00 e8                           sta VCTRL
- 1759 A:1188  a2 20                              ldx #VCCY_CTRL               ; r39
- 1760 A:118a  a9 14                              lda #20
+ 1759 A:1188  a2 20                              ldx #VCCY_CTRL               ; r32
+ 1760 A:118a  a9 10                              lda #VCCY_CTRL_DISPEN
  1761 A:118c  20 43 11                           jsr sreg                ; disable uPET compat mode
  1762 A:118f  a2 08                              ldx #VCCY_MODE               ; r8
- 1763 A:1191  a9 80                              lda #128
+ 1763 A:1191  a9 80                              lda #VCCY_MODE_80COL
  1764 A:1193  20 43 11                           jsr sreg                ; 80 col mode via Viccy
  1765 A:1196  a2 28                              ldx #VCCY_ALT1               ; r46
  1766 A:1198  a9 00                              lda #0             ; disable any alt modes
@@ -1911,76 +1930,123 @@ updemo.a65
  1832 A:11ee                           clrscr    .( 
  1833 A:11ee  a9 00                              lda #<$8000
  1834 A:11f0  85 02                              sta p1
- 1835 A:11f2  a9 80                              lda #>$8000
- 1836 A:11f4  85 03                              sta p1+1
- 1837 A:11f6  a2 08                              ldx #8             ; number of pages
- 1838 A:11f8  a9 20                              lda #32             ; screen space
- 1839 A:11fa  a0 00                              ldy #0
- 1840 A:11fc  91 02                    l0        sta (p1),y
- 1841 A:11fe  c8                                 iny 
- 1842 A:11ff  d0 fb                              bne l0
- 1843 A:1201  e6 03                              inc p1+1
- 1844 A:1203  ca                                 dex 
- 1845 A:1204  d0 f6                              bne l0
- 1846 A:1206  a2 08                              ldx #8
- 1847 A:1208  a9 05                              lda #FGCOL               ; light green
- 1848 A:120a  91 02                    l1        sta (p1),y
- 1849 A:120c  c8                                 iny 
- 1850 A:120d  d0 fb                              bne l1
- 1851 A:120f  e6 03                              inc p1+1
- 1852 A:1211  ca                                 dex 
- 1853 A:1212  d0 f6                              bne l1
- 1854 A:1214  60                                 rts 
- 1855 A:1215                                     .) 
+ 1835 A:11f2  85 0a                              sta scrp
+ 1836 A:11f4  85 0c                              sta scrc
+ 1837 A:11f6  a9 80                              lda #>$8000
+ 1838 A:11f8  85 03                              sta p1+1
+ 1839 A:11fa  85 0b                              sta scrp+1
+ 1840 A:11fc  a2 08                              ldx #8             ; number of pages
+ 1841 A:11fe  a9 20                              lda #32             ; screen space
+ 1842 A:1200  a0 00                              ldy #0
+ 1843 A:1202  91 02                    l0        sta (p1),y
+ 1844 A:1204  c8                                 iny 
+ 1845 A:1205  d0 fb                              bne l0
+ 1846 A:1207  e6 03                              inc p1+1
+ 1847 A:1209  ca                                 dex 
+ 1848 A:120a  d0 f6                              bne l0
+ 1849 A:120c  a2 08                              ldx #8
+ 1850 A:120e  a9 05                              lda #FGCOL               ; light green
+ 1851 A:1210  91 02                    l1        sta (p1),y
+ 1852 A:1212  c8                                 iny 
+ 1853 A:1213  d0 fb                              bne l1
+ 1854 A:1215  e6 03                              inc p1+1
+ 1855 A:1217  ca                                 dex 
+ 1856 A:1218  d0 f6                              bne l1
+ 1857 A:121a  60                                 rts 
+ 1858 A:121b                                     .) 
 
- 1857 A:1215                           hexout    .( 
- 1858 A:1215  48                                 pha 
- 1859 A:1216  4a                                 lsr 
- 1860 A:1217  4a                                 lsr 
- 1861 A:1218  4a                                 lsr 
- 1862 A:1219  4a                                 lsr 
- 1863 A:121a  20 20 12                           jsr digout
- 1864 A:121d  68                                 pla 
- 1865 A:121e  29 0f                              and #$0f
- 1866 A:1220  c9 0a                    digout    cmp #10          ; http:
- 1867 A:1222  90 02                              bcc d1
- 1868 A:1224  69 66                              adc #$66
- 1869 A:1226  49 30                    d1        eor #$30
- 1870 A:1228  4c d2 ff                           jmp BSOUT
- 1871 A:122b                                     .) 
+ 1860 A:121b                           hexout    .( 
+ 1861 A:121b  48                                 pha 
+ 1862 A:121c  4a                                 lsr 
+ 1863 A:121d  4a                                 lsr 
+ 1864 A:121e  4a                                 lsr 
+ 1865 A:121f  4a                                 lsr 
+ 1866 A:1220  20 26 12                           jsr digout
+ 1867 A:1223  68                                 pla 
+ 1868 A:1224  29 0f                              and #$0f
+ 1869 A:1226  c9 0a                    digout    cmp #10          ; http:
+ 1870 A:1228  90 02                              bcc d1
+ 1871 A:122a  69 66                              adc #$66
+ 1872 A:122c  49 30                    d1        eor #$30
+ 1873 A:122e  4c 61 12                           jmp BSOUT
+ 1874 A:1231                                     .) 
 
- 1873 A:122b  a9 0d                    crout     lda #13
- 1874 A:122d  2c                                 .byt $2c
- 1875 A:122e  a9 20                    spout     lda #$20
- 1876 A:1230  4c d2 ff                           jmp BSOUT
+ 1876 A:1231  a9 0d                    crout     lda #13
+ 1877 A:1233  2c                                 .byt $2c
+ 1878 A:1234  a9 20                    spout     lda #$20
+ 1879 A:1236  4c 61 12                           jmp BSOUT
 
- 1878 A:1233                           txtout    .( 
- 1879 A:1233  85 02                              sta p1
- 1880 A:1235  84 03                              sty p1+1
- 1881 A:1237  a0 00                              ldy #0
- 1882 A:1239  b1 02                    l0        lda (p1),y
- 1883 A:123b  f0 06                              beq end
- 1884 A:123d  20 d2 ff                           jsr BSOUT
- 1885 A:1240  c8                                 iny 
- 1886 A:1241  d0 f6                              bne l0
- 1887 A:1243  60                       end       rts 
- 1888 A:1244                                     .) 
+ 1881 A:1239                           txtout    .( 
+ 1882 A:1239  85 02                              sta p1
+ 1883 A:123b  84 03                              sty p1+1
+ 1884 A:123d  a0 00                              ldy #0
+ 1885 A:123f  b1 02                    l0        lda (p1),y
+ 1886 A:1241  f0 06                              beq end
+ 1887 A:1243  20 61 12                           jsr BSOUT
+ 1888 A:1246  c8                                 iny 
+ 1889 A:1247  d0 f6                              bne l0
+ 1890 A:1249  60                       end       rts 
+ 1891 A:124a                                     .) 
 
- 1890 A:1244                           wait      .( 
- 1891 A:1244  a2 00                              ldx #0
- 1892 A:1246  a0 00                              ldy #0
- 1893 A:1248  ea                       l0        nop 
- 1894 A:1249  a9 32                              lda #50
- 1895 A:124b  38                       l1        sec 
- 1896 A:124c  e9 01                              sbc #1
- 1897 A:124e  d0 fb                              bne l1
- 1898 A:1250  ea                                 nop 
- 1899 A:1251  ea                                 nop 
- 1900 A:1252  ea                                 nop 
- 1901 A:1253  ea                                 nop 
- 1902 A:1254  88                                 dey 
- 1903 A:1255  d0 f1                              bne l0
- 1904 A:1257  ca                                 dex 
- 1905 A:1258  d0 ee                              bne l0
- 1906 A:125a  60                                 rts 
- 1907 A:125b                                     .) 
+ 1893 A:124a                           wait      .( 
+ 1894 A:124a  a2 00                              ldx #0
+ 1895 A:124c  a0 00                              ldy #0
+ 1896 A:124e  ea                       l0        nop 
+ 1897 A:124f  a9 32                              lda #50
+ 1898 A:1251  38                       l1        sec 
+ 1899 A:1252  e9 01                              sbc #1
+ 1900 A:1254  d0 fb                              bne l1
+ 1901 A:1256  ea                                 nop 
+ 1902 A:1257  ea                                 nop 
+ 1903 A:1258  ea                                 nop 
+ 1904 A:1259  ea                                 nop 
+ 1905 A:125a  88                                 dey 
+ 1906 A:125b  d0 f1                              bne l0
+ 1907 A:125d  ca                                 dex 
+ 1908 A:125e  d0 ee                              bne l0
+ 1909 A:1260  60                                 rts 
+ 1910 A:1261                                     .) 
+
+ 1912 A:1261                                    ; ------------------------------------------
+ 1913 A:1261                                    ; simple BSOUT routine to not use kernal, as
+ 1914 A:1261                                    ; kernal may still think it's 40 cols
+ 1915 A:1261                           BSOUT     .( 
+ 1916 A:1261  5a                                 phy 
+ 1917 A:1262  da                                 phx 
+ 1918 A:1263  c9 20                              cmp #32
+ 1919 A:1265  90 0b                              bcc ctrl
+ 1920 A:1267  a4 0c                              ldy scrc
+ 1921 A:1269  29 3f                              and #%00111111
+ 1922 A:126b  91 0a                              sta (scrp),y
+ 1923 A:126d  e6 0c                              inc scrc
+ 1924 A:126f  fa                       end       plx 
+ 1925 A:1270  7a                                 ply 
+ 1926 A:1271  60                                 rts 
+ 1927 A:1272  48                       ctrl      pha 
+ 1928 A:1273  c9 13                              cmp #HOME
+ 1929 A:1275  f0 0b                              beq chome
+ 1930 A:1277  c9 11                              cmp #CRSD
+ 1931 A:1279  f0 17                              beq ccrsd
+ 1932 A:127b  c9 0d                              cmp #CR
+ 1933 A:127d  f0 0f                              beq ccr
+ 1934 A:127f  68                       cend      pla 
+ 1935 A:1280  80 ed                              bra end
+
+ 1937 A:1282  a9 00                    chome     lda #<$8000
+ 1938 A:1284  85 0a                              sta scrp
+ 1939 A:1286  85 0c                              sta scrc
+ 1940 A:1288  a9 80                              lda #>$8000
+ 1941 A:128a  85 0b                              sta scrp+1
+ 1942 A:128c  80 f1                              bra cend
+
+ 1944 A:128e  a9 00                    ccr       lda #0
+ 1945 A:1290  85 0c                              sta scrc
+ 1946 A:1292                                    ; fall through
+ 1947 A:1292  a5 0a                    ccrsd     lda scrp
+ 1948 A:1294  18                                 clc 
+ 1949 A:1295  69 50                              adc #80
+ 1950 A:1297  85 0a                              sta scrp
+ 1951 A:1299  90 e4                              bcc cend
+ 1952 A:129b  e6 0b                              inc scrp+1
+ 1953 A:129d  d0 e0                              bne cend
+ 1954 A:129f                                     .) 

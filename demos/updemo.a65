@@ -27,9 +27,11 @@ p2	=$04
 tmp	=$06
 cnt	=$08
 cnt2	=$09
-tmp2	=$0a
 
-BSOUT	=$ffd2
+scrp	=$0a
+scrc	=$0c
+
+;BSOUT	=$ffd2
 
 OFFSET70=0	;22
 
@@ -60,6 +62,7 @@ loop
 	jsr demo1	; print header
 	jsr demoborders	; rasterline ints & borders
 	jsr demovdc
+;jmp endloop
 	jsr democpet
 	jsr demomcol
 	jsr demoilace
@@ -75,7 +78,7 @@ loop
 	jsr demosprites
 	jsr demopalette
 	;jsr demodynpos
-
+endloop
 	jsr wait
 	jsr wait
 	jsr wait
@@ -103,6 +106,41 @@ txt	.asc HOME, CRSD, CRSD
 ; --------------------
 
 	.(
+&demoborders
+	lda #<txt
+	ldy #>txt
+	jsr txtout
+
+	lda #<itab
+	ldy #>itab
+	jsr addirq
+
+	ldx #VCCY_BRDR_COL
+	lda #5
+	jsr sreg
+
+	inc vdctab+VCCY_BRDR_COL
+
+	jmp wait
+
+idemo5	
+	lda #VCCY_BRDR_COL
+	sta VDC
+	inc VDC+1
+	rts
+
+itab	.word idemo5-1
+	.word 140+OFFSET70
+	.word 0
+
+txt 	.asc CR
+	.asc "           * BORDERS AND RASTERLINE INTERRUPTS"
+	.asc CR,0
+	.)
+
+; --------------------
+
+	.(
 &demovdc
 	lda #<txt
 	ldy #>txt
@@ -123,11 +161,8 @@ l0	tya
 
 idemo2	
 	ldx #VCCY_CTRL
-	lda #16+1
+	lda #VCCY_CTRL_DISPEN+VCCY_CTRL_ATTR
 	jsr sreg	; disable ColourPet mode, enable attribute mode
-;	ldx #VCCY_HSCRL
-;	lda #64+16
-;	jsr sreg	; enable VDC attribute mode
 
 	lda #VCCY_BRDR_COL
 	sta VDC
@@ -391,41 +426,6 @@ itab	.word idemo5-1
 	.word 0
 
 txt 	.asc "           * HORIZONTAL SMOOTH SCROLL"
-	.asc CR,0
-	.)
-
-; --------------------
-
-	.(
-&demoborders
-	lda #<txt
-	ldy #>txt
-	jsr txtout
-
-	lda #<itab
-	ldy #>itab
-	jsr addirq
-
-	ldx #VCCY_BRDR_COL
-	lda #5
-	jsr sreg
-
-	inc vdctab+VCCY_BRDR_COL
-
-	jmp wait
-
-idemo5	
-	lda #VCCY_BRDR_COL
-	sta VDC
-	inc VDC+1
-	rts
-
-itab	.word idemo5-1
-	.word 140+OFFSET70
-	.word 0
-
-txt 	.asc CR
-	.asc "           * BORDERS AND RASTERLINE INTERRUPTS"
 	.asc CR,0
 	.)
 
@@ -1754,13 +1754,13 @@ clrviccy .(
 &setviccy 
 	lda #SPEED
 	sta SCTRL	; 12 MHz CPU
-	lda #0		; 40 column, display enable
+	lda #%01000000	; 40 column, display enable, video win 4k
 	sta VCTRL
-	ldx #VCCY_CTRL	; r39
-	lda #20
+	ldx #VCCY_CTRL	; r32
+	lda #VCCY_CTRL_DISPEN
 	jsr sreg	; disable uPET compat mode
 	ldx #VCCY_MODE	; r8
-	lda #128
+	lda #VCCY_MODE_80COL
 	jsr sreg	; 80 col mode via Viccy
 	ldx #VCCY_ALT1	; r46
 	lda #0		; disable any alt modes
@@ -1832,8 +1832,11 @@ dynhoff		.byt 0
 clrscr	.(
 	lda #<$8000
 	sta p1
+	sta scrp
+	sta scrc
 	lda #>$8000
 	sta p1+1
+	sta scrp+1
 	ldx #8		; number of pages
 	lda #32		; screen space
 	ldy #0
@@ -1905,3 +1908,48 @@ l1	sec
 	bne l0
 	rts
 	.)
+
+	; ------------------------------------------
+	; simple BSOUT routine to not use kernal, as
+	; kernal may still think it's 40 cols
+BSOUT	.(
+	phy
+	phx
+	cmp #32
+	bcc ctrl
+	ldy scrc
+	and #%00111111
+	sta (scrp),y
+	inc scrc
+end	plx
+	ply
+	rts
+ctrl	pha
+	cmp #HOME
+	beq chome
+	cmp #CRSD
+	beq ccrsd
+	cmp #CR
+	beq ccr
+cend	pla
+	bra end
+
+chome	lda #<$8000
+	sta scrp
+	sta scrc
+	lda #>$8000
+	sta scrp+1
+	bra cend
+
+ccr	lda #0
+	sta scrc
+	; fall through
+ccrsd	lda scrp
+	clc
+	adc #80
+	sta scrp
+	bcc cend
+	inc scrp+1
+	bne cend
+	.)
+
