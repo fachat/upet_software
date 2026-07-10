@@ -82,6 +82,8 @@ endloop
 	jsr wait
 	jsr wait
 	jsr wait
+	jsr wait
+	jsr wait
 ;x jmp x
 	jsr stopirq
 	sei
@@ -1114,10 +1116,13 @@ txt 	.asc "           * RESETABLE ADDRESS COUNTERS/PALETTE ON RASTERLINE MATCH"
 	.(
 	ldx #63		; sprite data
 l	lda s_balloon,x
-	sta $089000-64,x
+	sta $088000,x
 	dex
 	bpl l
 	.)
+
+	lda #0
+	sta $0880f8
 
 	; alternate palette for the sprite
 	.(
@@ -1171,9 +1176,6 @@ l2	lda sprite_pal,x
 	lda #0
 	jsr sreg
 	.)
-
-	lda #63
-	sta $8800-8	; sprite pointer
 
 	ldx #VCCY_SPRT_BASE_0 + SPRT_XPOS		; x-pos
 	lda #40
@@ -1780,7 +1782,7 @@ hoff	cpy #VCCY_HPOS
 	adc dynhoff
 nooff 	sta VDC+3	; register value w/ auto-inc of register number
 lx	iny
-	cpy #42
+	cpy #43
 	bcc l0
 	rts
 
@@ -1819,7 +1821,7 @@ lx	iny
 	.byt 79+OFFSET70; r39 (was r45): vertical position (rasterlines)
 	.byt 0		; r40 (was r46): alt match
 	.byt 0		; r41 (was r47): alt raster row
-
+	.byt $80	; r42 sprite base address
 	.)
 
 ;dynvoff	.word -15
